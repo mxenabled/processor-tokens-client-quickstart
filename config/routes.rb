@@ -6,5 +6,6 @@ Rails.application.routes.draw do
 
   root "login#index"
 
+  get "/register", to: "register#index"
   get "/dashboard", to: "dashboard#index"
 end
