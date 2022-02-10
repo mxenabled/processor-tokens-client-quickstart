@@ -1,17 +1,20 @@
-<h1>Register#index</h1>
-<p>Find me in app/views/register/index.html.erb</p>
-
-<h1>Welcome</h1>
+<h1>Enter your information</h1>
 
 <%= form_with model: @user do |form| %>
   <div>
     <%= form.label :name %><br>
     <%= form.text_field :name %>
+    <% @user.errors.full_messages_for(:name).each do |message| %>
+        <div><%= message %></div>
+    <% end %>
   </div>
 
   <div>
     <%= form.label :password %><br>
     <%= form.text_field :password %>
+    <% @user.errors.full_messages_for(:password).each do |message| %>
+        <div><%= message %></div>
+    <% end %>
   </div>
 
   <div>

@@ -6,6 +6,9 @@ Rails.application.routes.draw do
 
   root "login#index"
 
-  get "/register", to: "register#index"
+  resources :users
+
+  # View a user's information
   get "/dashboard", to: "dashboard#index"
+
 end
