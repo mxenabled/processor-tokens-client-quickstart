@@ -12,19 +12,15 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     # Attempt to get an external id from MX
-    external_response = @user.generate_external_id
+    # For this app, we're requiring a user to have
+    # an MX guid in order to create a user at all
+    external_id = @user.create_external_user
+    @user.external_id = external_id
 
-    if external_response.user.guid
-      @user.external_id = external_response.user.guid
-    end
-
-    if @user.save
-      if !@user.external_id
-        puts "Warning: external_id was NOT created for #{@user.id}"
-      end
-
+    if external_id && @user.save
       redirect_to @user
     else
+      puts "Error: creation of local user failed"
       render :new, status: :unprocessable_entity
     end
   end
