@@ -22,4 +22,19 @@ class MxApi
             puts "Error when calling MxPlatformApi->create_user: #{e}"
         end
     end
+
+    def request_connect_widget_aggregation(user_guid)
+        # {:mode => "aggregation"} >>> unsupported
+        connect_widget_request_body = ::MxPlatformRuby::ConnectWidgetRequestBody.new()
+
+        begin
+            response = @mx_platform_api.request_connect_widget_url(user_guid, connect_widget_request_body)
+            puts "====== Begin Connect URL ========"
+            puts response.user.connect_widget_url
+            puts "====== End Connect URL ========"
+            response
+        rescue ::MxPlatformRuby::ApiError => e
+            puts "Error when calling MxPlatformApi->request_connect_widget_url: #{e}"
+        end
+    end
 end

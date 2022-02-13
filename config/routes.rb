@@ -11,4 +11,6 @@ Rails.application.routes.draw do
   # View a user's information
   get "/dashboard", to: "dashboard#index"
 
+  # MX endpoints
+  get "/mx/aggregation/:user_guid", to: "mx#aggregation"
 end

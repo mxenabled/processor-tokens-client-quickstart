@@ -1,0 +1,2 @@
+module MxHelper
+end
