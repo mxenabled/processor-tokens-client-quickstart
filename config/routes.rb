@@ -13,4 +13,5 @@ Rails.application.routes.draw do
 
   # MX endpoints
   get "/mx/aggregation/:user_guid", to: "mx#aggregation"
+  get "/mx/verification/:user_guid", to: "mx#verification"
 end
