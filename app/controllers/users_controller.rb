@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   def index
+    # TODO: consider changing this to only get MX saved users?
     @users = User.all
   end
 
@@ -18,7 +19,7 @@ class UsersController < ApplicationController
     @user.external_id = external_id
 
     if external_id && @user.save
-      redirect_to @user
+      redirect_to :action => 'index'
     else
       puts "Error: creation of local user failed"
       render :new, status: :unprocessable_entity
@@ -33,7 +34,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.destroy
 
-    redirect_to "/users/index", status: :see_other
+    redirect_to :action => 'index', status: :see_other
   end
 
   private

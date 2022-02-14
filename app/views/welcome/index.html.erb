@@ -1,21 +1,13 @@
 <h1>Demo App</h1>
-<p>Welcome to the MX Rails demo</p>
 
-<button id="log-in">Log In</button>
-<a href="/users/new" id="register">Sign Up</a>
+<p>Welcome to the ruby on rails MX Processor Tokens demo.  Using this app will give you a general idea of what it takes to generate an Authorization code.</p>
 
-<button id="get-agg-url">Get Connect Widget</button>
+<p>The first step is to create a user, click the link below to create and view your MX users</p>
+
+<a href="/users" id="get-started">Get Started</a>
 
 <script>
-    document.getElementById('register').addEventListener('click', () => {
-        console.log("Sign Up")
-    })
-
-    document.getElementById('log-in').addEventListener('click', () => {
-        console.log("Log In")
-    })
-
-    document.getElementById('get-agg-url').addEventListener('click', () => {
-        console.log("Get agg url")
+    document.getElementById('get-started').addEventListener('click', () => {
+        console.log("Get Started Clicked")
     })
 </script>
