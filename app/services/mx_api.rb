@@ -23,50 +23,40 @@ class MxApi
         end
     end
 
-    def request_connect_widget_aggregation(user_guid)
-        # {:mode => "aggregation"} >>> unsupported
-        connect_widget_request_body = ::MxPlatformRuby::ConnectWidgetRequestBody.new()
+    # Request a Connect widget URL
+    # config: ConnectWidgetRequest which contains the widget options
+    def request_connect_widget_url(user_guid, config)
+        connect_widget_request_body = ::MxPlatformRuby::ConnectWidgetRequestBody.new(
+            config: config
+        )
 
         begin
             response = @mx_platform_api.request_connect_widget_url(user_guid, connect_widget_request_body)
-            puts "====== Begin Connect URL ========"
+            puts "\n====== Begin Connect URL ========"
             puts response.user.connect_widget_url
-            puts "====== End Connect URL ========"
-            response
+            puts "====== End Connect URL ========\n\n"
+
+            response.user.connect_widget_url
         rescue ::MxPlatformRuby::ApiError => e
             puts "Error when calling MxPlatformApi->request_connect_widget_url: #{e}"
         end
     end
 
-    def request_connect_widget_verification(user_guid)
-        uri = URI.parse("https://int-api.mx.com/users/#{user_guid}/widget_urls")
-        http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = true
-        post_req = Net::HTTP::Post.new(uri.request_uri)
-        post_req["Accept"] = "application/vnd.mx.api.v1+json"
-        post_req.content_type = "application/json"
-        post_req.basic_auth ENV['MX_CLIENT_ID'], ENV['MX_API_KEY']
-        post_req.body = '{
-            "widget_url": {
-                "widget_type": "connect_widget", 
-                "mode": "verification"
-            }
-        }'
-        res = http.request(post_req)
+    # Request a Connect widget with the given parameters for Aggregation
+    def request_connect_widget_aggregation(user_guid)
+        config = ::MxPlatformRuby::ConnectWidgetRequest.new(
+            mode: "aggregation"
+        )
         
-        mx_response = JSON.parse res.body
-        url = mx_response["widget_url"]["url"]
+        request_connect_widget_url(user_guid, config)
+    end
+    
+    # Request a Connect widget with the given parameters for Verification
+    def request_connect_widget_verification(user_guid)
+        config = ::MxPlatformRuby::ConnectWidgetRequest.new(
+            mode: "verification"
+        )
 
-        puts "\n====== Begin Connect Verification URL ========"
-        puts "url: #{url}"
-        puts "====== End Connect Verification URL ========\n\n"
-
-        case res
-        when Net::HTTPSuccess, Net::HTTPRedirection
-            # OK
-            url
-        else
-            res.value
-        end
+        request_connect_widget_url(user_guid, config)
     end
 end
