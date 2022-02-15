@@ -8,6 +8,10 @@ class MxController < ApplicationController
         unless response
             puts "Error: creation of Connect Aggregation URL failed"
         end
+
+        render json: {
+            url: @widget_url
+        }
     end
 
     def verification
@@ -18,6 +22,8 @@ class MxController < ApplicationController
             puts "Error: creation of Connect Verification URL failed"
         end
 
-        render "aggregation"
+        render json: {
+            url: @widget_url
+        }
     end
 end

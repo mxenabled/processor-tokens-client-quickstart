@@ -1,11 +1,90 @@
-<h1><%= @user.name %></h1>
+<script src="https://atrium.mx.com/connect.js"></script>
+
+<h1>User Dashboard for <%= @user.name %></h1>
 
 <p>
-    Hooray, your account is now active!
+    This is a simple dashboard where we'll be able to take a few actions for <%= @user.name %> in order to generate an Authorization Code.
 </p>
 
-<p>
-    Now you can log in and start connecting your accounts!
-</p>
+<h2>Required Actions</h2>
+<ol>
+    <li>Connect to an Institution using the Connect Widget (this creates an MX Member)</li>
+    <li>Verify the newly created Member's Accounts using the Connect Widget</li>
+</ol>
 
-<%= link_to "Return to login page", root_path %>
+<h2>Open MXConnect Widget</h2>
+
+<p>First open Connect in "aggregation" mode, to connect a user to an institution.</p>
+<button id="open-aggregation">Open Connect Widget (Aggregation)</button>
+
+<p>Second, open Connect in "verification" mode to verify the accounts</p>
+<button id="open-verification">Open Connect Widget (Verification)</button>
+
+<div id="connect-widget"></div>
+
+<%= link_to "Return To User List", users_path %>
+<%= link_to "Return To Beginning", root_path %>
+
+<script>
+    // This sets up the MX Widget Loader
+    var mxConnect = new window.MXConnect({
+        id: "connect-widget",
+        iframeTitle: "Connect",
+        /**
+        * Callback that for handling all events within Connect.
+        * Only called in  ui_message_version 4 or higher.
+        *
+        * The events called here are the same events that come through post
+        * messages.
+        */
+        onEvent: function (type, payload) {
+            console.log("onEvent", type, payload);
+        },
+        config: {
+            ui_message_version: 4
+        },
+        targetOrigin: "*",
+    })
+
+    document.getElementById('open-aggregation').addEventListener('click', () => {
+        console.log("Agg Widget clicked")
+
+        // This endpoint will get a fresh widget url for aggregation
+        fetch("/mx/aggregation/<%= @user.external_id %>")
+        .then(resp => resp.text())
+        .then(widgetResponse => {
+            console.log(widgetResponse)
+ 
+            let widgetURL = null
+            try {
+                widgetURL = JSON.parse(widgetResponse).url
+            } catch (error) {
+                console.log("Error getting widget URL to load")
+                return
+            }
+
+            mxConnect.load(widgetURL)
+        })
+    })
+
+    document.getElementById('open-verification').addEventListener('click', () => {
+        console.log("Agg Widget clicked")
+
+        // This endpoint will get a fresh widget url for verification
+        fetch("/mx/verification/<%= @user.external_id %>")
+        .then(resp => resp.text())
+        .then(widgetResponse => {
+            console.log(widgetResponse)
+ 
+            let widgetURL = null
+            try {
+                widgetURL = JSON.parse(widgetResponse).url
+            } catch (error) {
+                console.log("Error getting widget URL to load")
+                return
+            }
+
+            mxConnect.load(widgetURL)
+        })
+    })
+</script>
