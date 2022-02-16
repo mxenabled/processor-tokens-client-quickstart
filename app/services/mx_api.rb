@@ -23,6 +23,31 @@ class MxApi
         end
     end
 
+    # List users you've created with the MX API
+    def get_users
+        opts = {
+            page: 1,
+            records_per_page: 100
+        }
+        
+        begin
+            response = @mx_platform_api.list_users(opts)
+            p response
+        rescue ::MxPlatformRuby::ApiError => e
+            puts "Error when calling MxPlatformApi->list_users: #{e}"
+        end
+    end
+
+    # Delete an MX user
+    def delete_user(user_guid)
+        begin
+            @mx_platform_api.delete_user(user_guid)
+        rescue ::MxPlatformRuby::ApiError => e
+            puts "Error when calling MxPlatformApi->delete_user: #{e}"
+            raise StandardError.new "Error when calling MxPlatformApi->delete_user: #{e}"
+        end
+    end
+
     # Request a Connect widget URL
     # config: ConnectWidgetRequest which contains the widget options
     def request_connect_widget_url(user_guid, config)

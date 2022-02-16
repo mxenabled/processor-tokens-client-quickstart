@@ -3,9 +3,10 @@ class User < ApplicationRecord
     validates :password, presence: true, length: {minimum: 10}
 
     # Returns the guid
-    def create_external_user
+    def create_external_user(metadata_hash)
         mx_platform_api = ::MxApi.new
-        response = mx_platform_api.create_user("Create a test user!")
+
+        response = mx_platform_api.create_user(metadata_hash.to_json)
 
         unless response.user.guid
             puts "Error: creation of MX user failed"

@@ -2,6 +2,8 @@ class UsersController < ApplicationController
   def index
     # TODO: consider changing this to only get MX saved users?
     @users = User.all
+
+    p MxApi.new.get_users
   end
 
   def new
@@ -15,7 +17,7 @@ class UsersController < ApplicationController
     # Attempt to get an external id from MX
     # For this app, we're requiring a user to have
     # an MX guid in order to create a user at all
-    external_id = @user.create_external_user
+    external_id = @user.create_external_user({name: @user.name})
     @user.external_id = external_id
 
     if external_id && @user.save
@@ -32,7 +34,15 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
+
+    # Destroy the MX user before destroying our reference
+    begin
+      MxApi.new.delete_user(@user.external_id)
+      @user.destroy
+      puts "Destroyed user"
+    rescue
+      puts "Error deleting user"
+    end
 
     redirect_to :action => 'index', status: :see_other
   end
