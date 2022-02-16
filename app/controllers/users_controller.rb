@@ -1,9 +1,37 @@
 class UsersController < ApplicationController
   def index
-    # TODO: consider changing this to only get MX saved users?
+    # Get users from local database
     @users = User.all
+    
+    # TODO: consider changing this to only get MX saved users?
+    # api_users = MxApi.new.get_users
+    
+    # @users = []
+    # api_users.users.each do |user|
+    #   puts user
+    #     # See if user name was passed in
+    #     name = ""
+    #     begin
+    #       metadata = JSON.parse user.metadata
+    #       name = metadata.key?('name') ? metadata["name"] : "(no name provided)"
+    #     rescue
+    #       puts "Bad metadata"
+    #     end
 
-    p MxApi.new.get_users
+    #     report_user = User.new
+    #     report_user.name = name
+    #     report_user.external_id = user.guid
+
+    #     @users.push(report_user)
+    #     # @users.push({
+    #     #   name: "na",
+    #     #   external_id: user.guid
+    #     # })
+    # end
+      
+    # puts "===== single api response ====="
+    # puts @users
+
   end
 
   def new

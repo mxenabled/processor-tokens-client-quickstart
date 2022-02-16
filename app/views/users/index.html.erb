@@ -1,4 +1,4 @@
-<h1>Users</h1>
+<h1>MX Users</h1>
 
 <p>If you don't already have a user below, please create one, then as that user we can connect an Institution to their account using the MXConnect Widget</p>
 
@@ -7,9 +7,7 @@
 <table>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Password</th>
-      <th>ID</th>
+      <th>Name (metadata)</th>
       <th>MX GUID</th>
       <th colspan="2">Actions</th>
     </tr>
@@ -19,8 +17,6 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= user.name %></td>
-        <td><%= user.password %></td>
-        <td><%= user.id %></td>
         <td><%= user.external_id %></td>
         <td><%= link_to "Show", user %></td>
         <td><%= link_to "Destroy", user, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></td>
