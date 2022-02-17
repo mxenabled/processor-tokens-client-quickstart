@@ -48,7 +48,7 @@
         console.log("Agg Widget clicked")
 
         // This endpoint will get a fresh widget url for aggregation
-        fetch("/mx/aggregation/<%= @user.external_id %>")
+        fetch("/mx/aggregation/<%= @user.guid %>")
         .then(resp => resp.text())
         .then(widgetResponse => {
             let widgetURL = null
@@ -67,7 +67,7 @@
         console.log("Agg Widget clicked")
 
         // This endpoint will get a fresh widget url for verification
-        fetch("/mx/verification/<%= @user.external_id %>")
+        fetch("/mx/verification/<%= @user.guid %>")
         .then(resp => resp.text())
         .then(widgetResponse => {
             let widgetURL = null

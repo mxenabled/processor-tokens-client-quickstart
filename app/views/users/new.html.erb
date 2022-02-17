@@ -1,23 +1,12 @@
 <h1>Enter your information</h1>
 
-<%= form_with model: @user do |form| %>
-  <div>
-    <%= form.label :name %><br>
-    <%= form.text_field :name %>
-    <% @user.errors.full_messages_for(:name).each do |message| %>
-        <div><%= message %></div>
-    <% end %>
-  </div>
+<%= form_with url: "/users", method: :post do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %><br>
 
-  <div>
-    <%= form.label :password %><br>
-    <%= form.text_field :password %>
-    <% @user.errors.full_messages_for(:password).each do |message| %>
-        <div><%= message %></div>
-    <% end %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
+  <%= form.label :email %>
+  <%= form.text_field :email %><br>
+  
+  <br>
+  <%= form.submit "Save User"%>
 <% end %>

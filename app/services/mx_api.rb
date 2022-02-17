@@ -9,9 +9,12 @@ class MxApi
         @mx_platform_api
     end
 
-    def create_user(metadata)
+    def create_user(metadata, email = nil, id = nil, is_disabled = false)
         request_body = ::MxPlatformRuby::UserCreateRequestBody.new(
             user: ::MxPlatformRuby::UserCreateRequest.new(
+                email: email,
+                id: id,
+                is_disabled: is_disabled,
                 metadata: metadata
             )
         )
@@ -20,6 +23,15 @@ class MxApi
             response = @mx_platform_api.create_user(request_body)
         rescue ::MxPlatformRuby::ApiError => e
             puts "Error when calling MxPlatformApi->create_user: #{e}"
+        end
+    end
+
+    def get_user(user_guid)
+        begin
+            response = @mx_platform_api.read_user(user_guid)
+            p response
+        rescue ::MxPlatformRuby::ApiError => e
+            puts "Error when calling MxPlatformApi->read_user: #{e}"
         end
     end
 
