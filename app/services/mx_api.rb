@@ -44,7 +44,7 @@ class MxApi
             @mx_platform_api.delete_user(user_guid)
         rescue ::MxPlatformRuby::ApiError => e
             puts "Error when calling MxPlatformApi->delete_user: #{e}"
-            raise StandardError.new "Error when calling MxPlatformApi->delete_user: #{e}"
+            raise StandardError.new "Error when calling MxPlatformApi->delete_user"
         end
     end
 
@@ -70,7 +70,8 @@ class MxApi
     # Request a Connect widget with the given parameters for Aggregation
     def request_connect_widget_aggregation(user_guid)
         config = ::MxPlatformRuby::ConnectWidgetRequest.new(
-            mode: "aggregation"
+            mode: "aggregation",
+            wait_for_full_aggregation: true
         )
         
         request_connect_widget_url(user_guid, config)
@@ -83,5 +84,20 @@ class MxApi
         )
 
         request_connect_widget_url(user_guid, config)
+    end
+
+    # Request all accounts for a user
+    def request_accounts(user_guid)
+        opts = {
+            page: 1,
+            records_per_page: 100
+        }
+        
+        begin
+            @mx_platform_api.list_user_accounts(user_guid, opts)
+        rescue ::MxPlatformRuby::ApiError => e
+            puts "Error when calling MxPlatformApi->list_user_accounts: #{e}"
+            raise StandardError.new "Error when calling MxPlatformApi->list_user_accounts"
+        end
     end
 end

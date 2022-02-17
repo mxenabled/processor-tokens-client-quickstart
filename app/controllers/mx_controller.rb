@@ -26,4 +26,16 @@ class MxController < ApplicationController
             url: @widget_url
         }
     end
+
+    def accounts
+        mx_platform_api = ::MxApi.new
+        api_accounts = mx_platform_api.request_accounts(params[:user_guid])
+
+        @accounts = []
+        api_accounts.accounts.each do |account|
+            @accounts.push({
+                name: account.name,
+            })
+        end
+    end
 end
