@@ -9,6 +9,7 @@ class MxApi
         @mx_platform_api
     end
 
+    # Should return the guid on success
     def create_user(metadata, email = nil, id = nil, is_disabled = false)
         request_body = ::MxPlatformRuby::UserCreateRequestBody.new(
             user: ::MxPlatformRuby::UserCreateRequest.new(
@@ -26,16 +27,20 @@ class MxApi
         end
     end
 
+    # Should return the User model
     def get_user(user_guid)
         begin
             response = @mx_platform_api.read_user(user_guid)
             p response
+            # adapt to the applications expected model
+            MxHelper::UserAdapter.apiUserToModel(response.user)
         rescue ::MxPlatformRuby::ApiError => e
             puts "Error when calling MxPlatformApi->read_user: #{e}"
         end
     end
 
     # List users you've created with the MX API
+    # Should return a list of User models
     def get_users
         opts = {
             page: 1,
@@ -43,8 +48,16 @@ class MxApi
         }
         
         begin
-            response = @mx_platform_api.list_users(opts)
-            p response
+            api_users = @mx_platform_api.list_users(opts)
+            p api_users
+            
+            users = []
+            api_users.users.each do |user|
+                users.push(
+                    MxHelper::UserAdapter.apiUserToModel(user)
+                )
+            end
+            users
         rescue ::MxPlatformRuby::ApiError => e
             puts "Error when calling MxPlatformApi->list_users: #{e}"
         end

@@ -1,14 +1,6 @@
 class UsersController < ApplicationController
-  def index    
-    api_users = MxApi.new.get_users
-    puts api_users
-    
-    @users = []
-    api_users.users.each do |user|
-      @users.push(
-        MxHelper::UserAdapter.apiUserToModel(user)
-      )
-    end
+  def index   
+    @users = MxApi.new.get_users 
   end
 
   def new
@@ -17,10 +9,6 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-
-    # Attempt to get an external id from MX
-    # For this app, we're requiring a user to have
-    # an MX guid in order to create a user at all
     guid = @user.create_external_user()
 
     if guid
@@ -32,8 +20,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    api_user = User.get_user(params[:id])
-    @user = MxHelper::UserAdapter.apiUserToModel(api_user)
+    @user = User.get_user(params[:id])
   end
 
   def destroy

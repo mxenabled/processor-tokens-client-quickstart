@@ -36,6 +36,6 @@ class User
             puts "Could not find user"
         end
 
-        response.user
+        response
     end
 end
