@@ -33,9 +33,12 @@ class MxController < ApplicationController
 
         @accounts = []
         api_accounts.accounts.each do |account|
-            @accounts.push({
-                name: account.name,
-            })
+            @accounts.push(
+                Account.new({
+                    name: account.name,
+                    guid: account.guid
+                })
+            )
         end
     end
 end
