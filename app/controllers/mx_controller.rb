@@ -5,7 +5,7 @@ class MxController < ApplicationController
         mx_platform_api = ::MxApi.new
         @widget_url = mx_platform_api.request_connect_widget_aggregation(params[:user_guid])
         
-        unless response
+        unless @widget_url
             puts "Error: creation of Connect Aggregation URL failed"
         end
 
@@ -18,7 +18,7 @@ class MxController < ApplicationController
         mx_platform_api = ::MxApi.new
         @widget_url = mx_platform_api.request_connect_widget_verification(params[:user_guid])
         
-        unless response
+        unless @widget_url
             puts "Error: creation of Connect Verification URL failed"
         end
 
