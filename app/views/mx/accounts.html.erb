@@ -45,6 +45,7 @@
              try {
                parsedResponse = JSON.parse(resp)
                console.log(parsedResponse.authorization_code)
+               document.querySelector(`td[data-account-guid='${accountGUID}'`).innerText = parsedResponse.authorization_code
              } catch (error) {
                console.error("Invalid response was returned")
                console.error(error)
