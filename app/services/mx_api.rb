@@ -125,4 +125,72 @@ class MxApi
             raise StandardError.new "Error when calling MxPlatformApi->list_user_accounts"
         end
     end
+
+    # Generate an authorization code for the specified account
+    # TODO: This is currently NOT working, parameters are missing when called
+    def generate_auth_code_mx_hack_version(account_guid, member_guid, user_guid)
+        local_var_path = "/payment_processor_authorization_code"
+
+        # HTTP header 'Content-Type'
+        header_params = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.mx.api.v1+json'
+        }
+        # content_type = @mx_platform_api.api_client.select_header_content_type(['application/json'])
+        # if !content_type.nil?
+        #     header_params['Content-Type'] = content_type
+        # end
+
+        body_values = {
+            payment_processor_authorization_code: {
+                user_guid: user_guid,
+                member_guid: member_guid,
+                account_guid: account_guid
+            }
+        }
+
+        options = {
+            header_params: header_params,
+            body: @mx_platform_api.api_client.object_to_http_body(body_values)
+        }
+        data, status_code, headers = @mx_platform_api.api_client.call_api(:POST, local_var_path, options)
+        puts "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        puts "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        puts data
+        puts status_code
+        puts headers
+        puts "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        puts "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    end
+
+    # This works, but is outside of the gem.
+    def generate_auth_code(account_guid, member_guid, user_guid)
+        # TODO: This is an issue, we're hard coding to the current dev server.  Fragile
+        # FRAGILE!!!
+        uri = URI.parse("https://int-api.mx.com/payment_processor_authorization_code")
+
+        header = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.mx.api.v1+json'
+        }
+
+        request_body = {
+            payment_processor_authorization_code: {
+                account_guid: account_guid,
+                member_guid: member_guid,
+                user_guid: user_guid,
+            }
+        }
+
+        # Create the HTTP objects
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+        request = Net::HTTP::Post.new(uri.request_uri, header)
+        request.body = request_body.to_json
+        request.basic_auth ENV["MX_CLIENT_ID"], ENV["MX_API_KEY"]
+
+        # Send the request
+        response = http.request(request)
+        response.body
+    end
 end

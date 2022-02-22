@@ -36,9 +36,24 @@ class MxController < ApplicationController
             @accounts.push(
                 Account.new({
                     name: account.name,
-                    guid: account.guid
+                    guid: account.guid,
+                    member_guid: account.member_guid,
+                    user_guid: account.user_guid
                 })
             )
         end
+    end
+
+    def generate_auth_code
+        mx_platform_api = ::MxApi.new
+        authorization_code = mx_platform_api.generate_auth_code(params[:account_guid], params[:member_guid], params[:user_guid])
+
+        # A small shim to handle json
+        response = JSON.parse(authorization_code)
+        authorization_code = response["payment_processor_authorization_code"]["authorization_code"]
+
+        render json: {
+            authorization_code: authorization_code
+        }
     end
 end
