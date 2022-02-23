@@ -1,4 +1,17 @@
-# README
+# Processor Tokens Demo App
+
+This demo application is built in [ruby on rails](https://rubyonrails.org/).  It will demonstrate the required steps that enable Payment Processing via one of our partners.
+
+Here's an overview of the flow and concepts will be shown
+1. Create a User via the MX API.
+1. Connect the User to an Institution (like a bank) to create a Member (Connect Widget in _aggregation_ mode)
+1. Verify the new Member's Accounts (Connect Widget in _verification_ mode)
+1. Generate an _Authorization Code_ for a single verified Account
+1. (What's next?) Share this code with one of our Partners to allow them access to that account's information.
+
+Extra information about the above flow
+- Users are a essential resource.  We use their unique `guid` for nearly all of the API calls in this application.
+- This app uses the Connect Widget to connect a User to an Institution, and to verify their accounts.  While using the widget is not required, it handles a lot of complexity with connecting users to various Institutions.  To learn more about using Connect see [how to get a connect url](https://docs.mx.com/api#connect_request_a_url) and [how to load the connect widget](https://docs.mx.com/connect/guides/introduction)
 
 ## Setup
 
@@ -7,6 +20,7 @@
     ```
     gem install bundler -v 2.3.3
     ```
+1. run `bundle install`
 
 ## Configuration
 
