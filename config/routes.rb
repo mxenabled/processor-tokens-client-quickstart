@@ -17,9 +17,6 @@ Rails.application.routes.draw do
   # Viewing a specific user will allow you to Connect and Verify a Member as if you were them
   resources :users
 
-  # View a user's information
-  get "/dashboard", to: "dashboard#index"
-
   # MX endpoints
   get "/mx/aggregation/:user_guid", to: "mx#aggregation"
   get "/mx/verification/:user_guid", to: "mx#verification"
