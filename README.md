@@ -1,24 +1,30 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Setup
 
-Things you may want to cover:
+1. Install ruby v 3.1 [Ruby downloads page](https://www.ruby-lang.org/en/downloads/)
+1. Install bundler
+    ```
+    gem install bundler -v 2.3.3
+    ```
 
-* Ruby version
+## Configuration
 
-* System dependencies
+In order to run the app you'll need to provide the credentials given to you by MX.  To get credentials you can sign up for a free account at [dashboard.mx.com](https://dashboard.mx.com).
 
-* Configuration
+1. Copy `config/mx.yml.sample` to `config/mx.yml`
+1. From dashboard.mx.com, copy the values for _API Key_ and _Client ID_ into `config/mx.yml`
 
-* Database creation
+```yaml
+# config/mx.yml
+MX_API_KEY: 'Copy your MX API Key from dashboard.mx.com'
+MX_CLIENT_ID: 'Copy your MX Client ID from dashboard.mx.com'
+```
 
-* Database initialization
+## Running the app
 
-* How to run the test suite
+This command will get the server running
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+1. Open a terminal, and navigate to the root of the project
+1. `rails s` or `bin/rails s` will start the server
+1. (when you're done) `Ctrl C` to stop the server
