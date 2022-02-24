@@ -13,3 +13,27 @@
  *= require_tree .
  *= require_self
  */
+
+/*
+ * Styles for the HTTP Examples
+ */
+.http-box {
+    border: 1px solid black;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.http-box-section {
+    display: flex;
+    flex-direction: row;
+}
+
+.http-box-method {
+    padding: 8px;
+    color: white;
+    background-color: black;
+}
+
+.http-box-url {
+    padding: 8px;
+}

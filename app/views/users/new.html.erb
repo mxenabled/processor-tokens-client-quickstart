@@ -1,12 +1,21 @@
-<h1>Enter your information</h1>
+<h1>Create an MX User</h1>
+
+<div class="http-box">
+  <p>Creating a user is accomplished by sending a POST message to the MX API.</p> 
+
+  <div class="http-box-section">
+    <p class="http-box-method">POST</p>
+    <p class="http-box-url">/users</p>
+  </div>
+</div>
+
 
 <%= form_with url: "/users", method: :post do |form| %>
   <%= form.label :name %>
   <%= form.text_field :name %><br>
-
+  <br>
   <%= form.label :email %>
   <%= form.text_field :email %><br>
-  
   <br>
   <%= form.submit "Save User"%>
 <% end %>

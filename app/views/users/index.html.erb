@@ -1,8 +1,9 @@
 <h1>MX Users</h1>
+<h2>Step 1</h2>
 
-<p>If you don't already have a user below, please create one, then as that user we can connect an Institution to their account using the MXConnect Widget</p>
+<p>Let's create a user with the MX API.  Click "Create User" below.<p>
 
-<p>Click "Show" for one of the users below once you have one</p>
+<%= link_to "Create User", new_user_path %>
 
 <table>
   <thead>
@@ -20,7 +21,7 @@
         <td><%= user.name %></td>
         <td><%= user.email %></td>
         <td><%= user.guid %></td>
-        <td><%= link_to "Show", "/users/#{user.guid}" %></td>
+        <td><%= link_to "Show User Dashboard", "/users/#{user.guid}" %></td>
         <td><%= link_to "Destroy", "/users/#{user.guid}", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></td>
       </tr>
     <% end %>
@@ -29,4 +30,4 @@
 
 <br>
 
-<%= link_to "New User", new_user_path %>
+<p>Once you have a user, click "Show User Dashboard" to  continue the demo</p>
