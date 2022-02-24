@@ -1,14 +1,8 @@
 <h1>Create an MX User</h1>
 
-<div class="http-box">
-  <p>Creating a user is accomplished by sending a POST message to the MX API.</p> 
+<%= render "/http_example", description: "To create an MX user you send an http message to:", method: "POST", url: "/users" %>
 
-  <div class="http-box-section">
-    <p class="http-box-method">POST</p>
-    <p class="http-box-url">/users</p>
-  </div>
-</div>
-
+<p>Fill in a few small pieces of information to create a user<p>
 
 <%= form_with url: "/users", method: :post do |form| %>
   <%= form.label :name %>

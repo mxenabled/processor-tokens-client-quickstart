@@ -23,6 +23,10 @@
     margin-bottom: 16px;
 }
 
+.http-box-description {
+    margin-top: 0px;
+}
+
 .http-box-section {
     display: flex;
     flex-direction: row;
