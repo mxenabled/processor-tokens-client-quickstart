@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     guid = @user.create_external_user()
 
     if guid
-      redirect_to :action => 'index'
+      redirect_to :action => 'show', id: guid
     else
       puts "Error: creation of user failed"
       render :new, status: :unprocessable_entity
