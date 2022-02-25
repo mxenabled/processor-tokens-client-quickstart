@@ -25,14 +25,6 @@
     <p>Clicking the button below will both generate the url, and use it with the Widget Loader.  Go ahead and open the Connect Widget by clicking the button</p>
 
     <button id="open-aggregation">Open Connect Widget</button>
-
-    <ol>
-        <li>Search for "MX Bank"</li>
-        <li>user: mxuser</li>
-        <li>password: password</li>
-    </ol>
-
-    <div id="connected-status"></div>
 </section>
 
 <section>
@@ -43,7 +35,25 @@
     <button id="open-verification">Open Connect Widget (Verification)</button>
 </section>
 
-<div id="connect-widget" class="connect-widget-full" hidden></div>
+<div id="connect-widget-dialog" class="connect-widget-full" hidden>
+    <div id="aggregation-instructions">
+        <h2>Connect Widget (Aggregation Mode)</h2>
+        <div>Click "Continue"</div>
+        <div>Search for "MX Bank"</div>
+        <div>user: mxuser</div>
+        <div>password: password</div>
+        <br>
+    </div>
+    <div id="verification-instructions">
+        <h2>Connect Widget (Verification Mode)</h2>
+        <div>Click "Continue"</div>
+        <div>Select "MX Bank"</div>
+        <div>Once verification is done, close the widget</div>
+        <br>
+    </div>
+    <button id="widget-close">Close Widget</button>
+    <div id="connect-widget"></div>
+</div>
 
 
 <%= link_to "Return To User List", users_path %>
@@ -70,22 +80,35 @@
         })
     }
 
+    function showDialog(type) {
+        document.getElementById("connect-widget-dialog").hidden = false
+
+        // Show and Hide instructions
+        document.getElementById('verification-instructions').hidden = true
+        document.getElementById('aggregation-instructions').hidden = true
+
+        if (type == "aggregation") {
+            document.getElementById('aggregation-instructions').hidden = false
+        }
+
+        if (type == "verification") {
+            document.getElementById('verification-instructions').hidden = false
+        }
+    }
+
+    function dismissDialog() {
+        document.getElementById("connect-widget-dialog").hidden = true
+        // document.getElementById("connect-widget").innerHTML = ""
+        // Destroy any event listeners?
+    }
+
     document.getElementById('gen-url').addEventListener('click', () =>
         getWidgetURL((url) => alert(url))
     )
 
-    function openConnect() {
-        const connectWidget = document.getElementById("connect-widget")
-        connectWidget.hidden = false
-    }
-
-    function closeConnect() {
-        const connectWidget = document.getElementById("connect-widget")
-        connectWidget.innerHTML = ""
-        connectWidget.hidden = true
-        document.getElementById("connected-status").innerText = "\u2713 Successfully Connected (and aggregated)"
-        // Destroy any event listeners?
-    }
+     document.getElementById('widget-close').addEventListener('click', () => {
+         dismissDialog()
+     })
 
     // This sets up the MX Widget Loader
     var mxConnect = new window.MXConnect({
@@ -105,7 +128,7 @@
                 console.log("...close Connect after clicking continue")
 
                 // custom code for your app to close the widget
-                closeConnect()
+                dismissDialog()
             }
         },
         config: {
@@ -132,7 +155,7 @@
             mxConnect.load(widgetURL)
 
             // Custom code to unhide the div containing the widget
-            openConnect()
+            showDialog("aggregation")
         })
     })
 
@@ -152,7 +175,7 @@
             }
 
             mxConnect.load(widgetURL)
-            openConnect()
+            showDialog("verification")
         })
     })
 </script>
