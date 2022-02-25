@@ -1,30 +1,92 @@
 <h1>User Dashboard for <%= @user.name %></h1>
+<hr>
 
 <p>
-    This is a simple dashboard where we'll be able to take a few actions for <%= @user.name %> in order to generate an Authorization Code.
+    We just created an MX user with the API. The next step is to connect them to an institution so the user can view their accounts.
 </p>
 
-<h2>Required Actions</h2>
-<ol>
-    <li>Connect to an Institution using the Connect Widget (this creates an MX Member)</li>
-    <li>Verify the newly created Member's Accounts using the Connect Widget</li>
-</ol>
+<section>
+    <h2>Step 2 Connect an Institution</h2>
 
-<h2>Open MXConnect Widget</h2>
+    <p>
+        MX provides developers with the Connect Widget to simplify the process of connecting to various institutions.  In order to show the widget there are a few steps to follow.
+    </p>
 
-<p>First open Connect in "aggregation" mode, to connect a user to an institution.</p>
-<button id="open-aggregation">Open Connect Widget (Aggregation)</button>
+    <ol>
+        <li>Get a widget url from the API</li>
+        <li>Use the widget url in the Widget Loader to render it on the page</li>
+    </ol>
 
-<p>Second, open Connect in "verification" mode to verify the accounts</p>
-<button id="open-verification">Open Connect Widget (Verification)</button>
+    <%= render "/http_example", description: "To generate a widget URL, you send an http message to:", method: "POST", url: "/users/{user_guid}/widget_urls" %>
 
-<div id="connect-widget"></div>
+    <p>(optional) If you want to see what a URL looks like, click the button to call the endpoint above.</p>
+    <button id="gen-url">Generate a URL</button>
+
+    <p>Clicking the button below will both generate the url, and use it with the Widget Loader.  Go ahead and open the Connect Widget by clicking the button</p>
+
+    <button id="open-aggregation">Open Connect Widget</button>
+
+    <ol>
+        <li>Search for "MX Bank"</li>
+        <li>user: mxuser</li>
+        <li>password: password</li>
+    </ol>
+
+    <div id="connected-status"></div>
+</section>
+
+<section>
+    <h2>Step 3 Verify Member Accounts</h2>
+
+    <p>In order to share account information with an external partner an account must be verified first.  This action can also be done using the Connect Widget using "verification" mode</p>
+
+    <button id="open-verification">Open Connect Widget (Verification)</button>
+</section>
+
+<div id="connect-widget" class="connect-widget-full" hidden></div>
+
 
 <%= link_to "Return To User List", users_path %>
 <%= link_to "Return To Beginning", root_path %>
 <%= link_to "Go To Accounts", "/mx/accounts/#{@user.guid}" %>
 
 <script>
+    /** 
+      * @param callbackForUrl: (url) => {}
+      */
+    function getWidgetURL(callbackForUrl) {
+        fetch("/mx/aggregation/<%= @user.guid %>")
+        .then(resp => resp.text())
+        .then(widgetResponse => {
+            let widgetURL = null
+            try {
+                widgetURL = JSON.parse(widgetResponse).url
+            } catch (error) {
+                console.log("Error getting widget URL to load")
+                return
+            }
+
+            callbackForUrl(widgetURL)
+        })
+    }
+
+    document.getElementById('gen-url').addEventListener('click', () =>
+        getWidgetURL((url) => alert(url))
+    )
+
+    function openConnect() {
+        const connectWidget = document.getElementById("connect-widget")
+        connectWidget.hidden = false
+    }
+
+    function closeConnect() {
+        const connectWidget = document.getElementById("connect-widget")
+        connectWidget.innerHTML = ""
+        connectWidget.hidden = true
+        document.getElementById("connected-status").innerText = "\u2713 Successfully Connected (and aggregated)"
+        // Destroy any event listeners?
+    }
+
     // This sets up the MX Widget Loader
     var mxConnect = new window.MXConnect({
         id: "connect-widget",
@@ -38,6 +100,13 @@
         */
         onEvent: function (type, payload) {
             console.log("onEvent", type, payload);
+
+            if (type === "mx/connect/connected/primaryAction") {
+                console.log("...close Connect after clicking continue")
+
+                // custom code for your app to close the widget
+                closeConnect()
+            }
         },
         config: {
             ui_message_version: 4
@@ -61,11 +130,14 @@
             }
 
             mxConnect.load(widgetURL)
+
+            // Custom code to unhide the div containing the widget
+            openConnect()
         })
     })
 
     document.getElementById('open-verification').addEventListener('click', () => {
-        console.log("Agg Widget clicked")
+        console.log("Verification Widget clicked")
 
         // This endpoint will get a fresh widget url for verification
         fetch("/mx/verification/<%= @user.guid %>")
@@ -80,6 +152,7 @@
             }
 
             mxConnect.load(widgetURL)
+            openConnect()
         })
     })
 </script>

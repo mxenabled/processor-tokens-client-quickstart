@@ -15,6 +15,18 @@
  */
 
 /*
+ * General App
+ */
+body {
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+section {
+    margin: 32px 0;
+}
+
+/*
  * Styles for the HTTP Examples
  */
 .http-box {
@@ -40,4 +52,13 @@
 
 .http-box-url {
     padding: 8px;
+}
+
+.connect-widget-full {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.25);
 }
