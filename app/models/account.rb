@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# A simplified Account for this application
 class Account
   attr_accessor :name, :guid, :member_guid, :user_guid
 

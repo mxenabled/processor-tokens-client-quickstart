@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 module MxHelper
+  # Used to adapt user inputs to app-friendly models
   class UserAdapter
     # @param api_user [::MxPlatformRuby::UserResponse]
     # @return [User]
-    def self.apiUserToModel(api_user)
+    def self.api_to_user_model(api_user)
       # See if user name was passed in
       name = ''
       begin

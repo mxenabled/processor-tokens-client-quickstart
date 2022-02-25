@@ -1,0 +1,15 @@
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'bin/**/*'
+    - !ruby/regexp /old_and_unused\.rb$/
+
+# other configuration
+# ...
+Metrics/MethodLength:
+  Max: 25
+
+Metrics/ClassLength:
+  Max: 250

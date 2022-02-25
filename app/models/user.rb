@@ -2,6 +2,7 @@
 
 # Note - not a rails model, just a custom class
 
+# A simple model that describes a few User fields
 class User
   attr_accessor :name, :email, :guid
 

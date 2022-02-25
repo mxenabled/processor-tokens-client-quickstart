@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
+# Helps control the CRUD for Users
 class UsersController < ApplicationController
   def index
-    @users = MxApi.new.get_users
+    @users = MxApi.new.fetch_users
   end
 
   def new

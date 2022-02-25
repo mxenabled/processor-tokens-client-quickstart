@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Used for forwarding front end calls to MX
 class MxController < ApplicationController
   # Get the MX Connect widget URL
   # Return the HTML from mx
