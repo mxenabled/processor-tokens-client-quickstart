@@ -98,8 +98,8 @@
 
     function dismissDialog() {
         document.getElementById("connect-widget-dialog").hidden = true
-        // document.getElementById("connect-widget").innerHTML = ""
-        // Destroy any event listeners?
+        var connectIFrame = document.querySelector('iframe[title="Connect"]')
+        connectIFrame.remove()
     }
 
     document.getElementById('gen-url').addEventListener('click', () =>

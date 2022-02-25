@@ -94,7 +94,8 @@ class MxApi
   def request_connect_widget_aggregation(user_guid)
     config = ::MxPlatformRuby::ConnectWidgetRequest.new(
       mode: 'aggregation',
-      wait_for_full_aggregation: true
+      wait_for_full_aggregation: true,
+      ui_message_version: 4
     )
 
     request_connect_widget_url(user_guid, config)
@@ -103,7 +104,8 @@ class MxApi
   # Request a Connect widget with the given parameters for Verification
   def request_connect_widget_verification(user_guid)
     config = ::MxPlatformRuby::ConnectWidgetRequest.new(
-      mode: 'verification'
+      mode: 'verification',
+      ui_message_version: 4
     )
 
     request_connect_widget_url(user_guid, config)
