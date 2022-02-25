@@ -14,11 +14,11 @@ class MxHelperTest < ActiveSupport::TestCase
     api_user.metadata = '{"name":"testname"}'
     api_user.guid = 'testguid'
 
-    userInstance = ::MxHelper::UserAdapter.apiUserToModel(api_user)
+    user_instance = ::MxHelper::UserAdapter.apiUserToModel(api_user)
 
-    assert_equal userInstance.name, 'testname', 'User name came from api user metadata'
-    assert_equal userInstance.email, 'testemail', 'User email transferred from api'
-    assert_equal userInstance.guid, 'testguid', 'User guid transferred from api'
+    assert_equal user_instance.name, 'testname', 'User name came from api user metadata'
+    assert_equal user_instance.email, 'testemail', 'User email transferred from api'
+    assert_equal user_instance.guid, 'testguid', 'User guid transferred from api'
   end
 
   test 'name is blank when metadata has no name field' do
@@ -27,9 +27,9 @@ class MxHelperTest < ActiveSupport::TestCase
     api_user.metadata = '{}'
     api_user.guid = 'testguid'
 
-    userInstance = ::MxHelper::UserAdapter.apiUserToModel(api_user)
+    user_instance = ::MxHelper::UserAdapter.apiUserToModel(api_user)
 
-    assert_equal userInstance.name, '', "User name was not provided from api user's metadat"
+    assert_equal user_instance.name, '', "User name was not provided from api user's metadat"
   end
 
   test 'handles bad json gracefully' do
@@ -38,8 +38,8 @@ class MxHelperTest < ActiveSupport::TestCase
     api_user.metadata = 'testname'
     api_user.guid = 'testguid'
 
-    userInstance = ::MxHelper::UserAdapter.apiUserToModel(api_user)
+    user_instance = ::MxHelper::UserAdapter.apiUserToModel(api_user)
 
-    assert_equal userInstance.name, '', 'metadata needs to be json'
+    assert_equal user_instance.name, '', 'metadata needs to be json'
   end
 end
