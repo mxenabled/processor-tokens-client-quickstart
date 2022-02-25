@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
-  def index   
-    @users = MxApi.new.get_users 
+  def index
+    @users = MxApi.new.get_users
   end
 
   def new
@@ -9,12 +11,12 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    guid = @user.create_external_user()
+    guid = @user.create_external_user
 
     if guid
-      redirect_to :action => 'show', id: guid
+      redirect_to action: 'show', id: guid
     else
-      puts "Error: creation of user failed"
+      puts 'Error: creation of user failed'
       render :new, status: :unprocessable_entity
     end
   end
@@ -29,22 +31,23 @@ class UsersController < ApplicationController
     # Destroy the MX user before destroying our reference
     begin
       MxApi.new.delete_user(@user.guid)
-      puts "Destroyed user"
-    rescue
-      puts "Error deleting user"
+      puts 'Destroyed user'
+    rescue StandardError
+      puts 'Error deleting user'
     end
 
-    redirect_to :action => 'index', status: :see_other
+    redirect_to action: 'index', status: :see_other
   end
 
   private
-    def user_params
-      params.require(:name)
-      params.require(:email)
-      
-      {
-        name: params[:name],
-        email: params[:email]
-      }
-    end
+
+  def user_params
+    params.require(:name)
+    params.require(:email)
+
+    {
+      name: params[:name],
+      email: params[:email]
+    }
+  end
 end

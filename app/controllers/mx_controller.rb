@@ -1,59 +1,58 @@
+# frozen_string_literal: true
+
 class MxController < ApplicationController
-    # Get the MX Connect widget URL
-    # Return the HTML from mx
-    def aggregation
-        mx_platform_api = ::MxApi.new
-        @widget_url = mx_platform_api.request_connect_widget_aggregation(params[:user_guid])
-        
-        unless @widget_url
-            puts "Error: creation of Connect Aggregation URL failed"
-        end
+  # Get the MX Connect widget URL
+  # Return the HTML from mx
+  def aggregation
+    mx_platform_api = ::MxApi.new
+    @widget_url = mx_platform_api.request_connect_widget_aggregation(params[:user_guid])
 
-        render json: {
-            url: @widget_url
-        }
+    puts 'Error: creation of Connect Aggregation URL failed' unless @widget_url
+
+    render json: {
+      url: @widget_url
+    }
+  end
+
+  def verification
+    mx_platform_api = ::MxApi.new
+    @widget_url = mx_platform_api.request_connect_widget_verification(params[:user_guid])
+
+    puts 'Error: creation of Connect Verification URL failed' unless @widget_url
+
+    render json: {
+      url: @widget_url
+    }
+  end
+
+  def accounts
+    mx_platform_api = ::MxApi.new
+    api_accounts = mx_platform_api.request_accounts(params[:user_guid])
+
+    @accounts = []
+    api_accounts.accounts.each do |account|
+      @accounts.push(
+        Account.new({
+                      name: account.name,
+                      guid: account.guid,
+                      member_guid: account.member_guid,
+                      user_guid: account.user_guid
+                    })
+      )
     end
+  end
 
-    def verification
-        mx_platform_api = ::MxApi.new
-        @widget_url = mx_platform_api.request_connect_widget_verification(params[:user_guid])
-        
-        unless @widget_url
-            puts "Error: creation of Connect Verification URL failed"
-        end
+  def generate_auth_code
+    mx_platform_api = ::MxApi.new
+    authorization_code = mx_platform_api.generate_auth_code(params[:account_guid], params[:member_guid],
+                                                            params[:user_guid])
 
-        render json: {
-            url: @widget_url
-        }
-    end
+    # A small shim to handle json
+    response = JSON.parse(authorization_code)
+    authorization_code = response['payment_processor_authorization_code']['authorization_code']
 
-    def accounts
-        mx_platform_api = ::MxApi.new
-        api_accounts = mx_platform_api.request_accounts(params[:user_guid])
-
-        @accounts = []
-        api_accounts.accounts.each do |account|
-            @accounts.push(
-                Account.new({
-                    name: account.name,
-                    guid: account.guid,
-                    member_guid: account.member_guid,
-                    user_guid: account.user_guid
-                })
-            )
-        end
-    end
-
-    def generate_auth_code
-        mx_platform_api = ::MxApi.new
-        authorization_code = mx_platform_api.generate_auth_code(params[:account_guid], params[:member_guid], params[:user_guid])
-
-        # A small shim to handle json
-        response = JSON.parse(authorization_code)
-        authorization_code = response["payment_processor_authorization_code"]["authorization_code"]
-
-        render json: {
-            authorization_code: authorization_code
-        }
-    end
+    render json: {
+      authorization_code:
+    }
+  end
 end
