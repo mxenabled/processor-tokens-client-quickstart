@@ -23,5 +23,6 @@ Rails.application.routes.draw do
   get '/mx/aggregation/:user_guid', to: 'mx#aggregation'
   get '/mx/verification/:user_guid', to: 'mx#verification'
   get '/mx/accounts/:user_guid', to: 'mx#accounts'
+  get '/mx/verified_accounts/:user_guid', to: 'mx#verified_accounts'
   get '/mx/accounts/generate-auth-code/:account_guid/:member_guid/:user_guid', to: 'mx#generate_auth_code'
 end

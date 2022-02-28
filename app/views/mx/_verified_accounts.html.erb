@@ -1,0 +1,31 @@
+<h3>Verified MX Accounts</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>MX GUID</th>
+      <th>Get Auth Code</th>
+      <th>Auth Code</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% accounts.each do |account| %>
+      <tr>
+        <td><%= account.name %></td>
+        <td><%= account.guid %></td>
+        <td>
+            <button
+                data-account-guid="<%= account.guid %>"
+                data-member-guid="<%= account.member_guid %>"
+                data-user-guid="<%= account.user_guid %>"
+            >
+                Generate Auth Code
+            </button>
+        </td>
+        <td data-account-guid="<%= account.guid %>"></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

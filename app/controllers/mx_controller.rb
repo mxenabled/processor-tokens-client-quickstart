@@ -45,6 +45,25 @@ class MxController < ApplicationController
     render partial: 'accounts', locals: {accounts: @accounts}
   end
 
+  def verified_accounts
+    mx_platform_api = ::MxApi.new
+    api_accounts = mx_platform_api.request_verified_accounts(params[:user_guid])
+
+    @accounts = []
+    api_accounts.each do |account|
+      @accounts.push(
+        Account.new({
+                      name: account[:name],
+                      guid: account[:guid],
+                      member_guid: account[:member_guid],
+                      user_guid: account[:user_guid]
+                    })
+      )
+    end
+
+    render partial: 'verified_accounts', locals: {accounts: @accounts}
+  end
+
   def generate_auth_code
     mx_platform_api = ::MxApi.new
     authorization_code = mx_platform_api.generate_auth_code(params[:account_guid], params[:member_guid],

@@ -29,6 +29,12 @@
     <p>Clicking the button below will both generate the url, and use it with the Widget Loader.  Go ahead and open the Connect Widget by clicking the button</p>
 
     <button id="open-aggregation">Open Connect Widget</button>
+
+    <p>Click the button below to see what accounts have been connected to MX</p>
+
+    <button id="load-accounts">Load User Accounts</button>
+
+    <div id="user-accounts"></div>
 </section>
 
 <section>
@@ -44,9 +50,9 @@
 <section>
     <h2>Step 4 Display Accounts</h2>
 
-    <button id="load-accounts">Load User Accounts</button>
+    <button id="load-verified-accounts">Load User Accounts</button>
 
-    <div id="user-accounts"></div>
+    <div id="verified-accounts"></div>
 </section>
 
 <div id="connect-widget-dialog" class="connect-widget-full" hidden>
@@ -212,6 +218,15 @@
         .then(resp => resp.text())
         .then(accountsHTML => {
             document.getElementById("user-accounts").innerHTML = accountsHTML
+            setUpAccountButtons()
+        })
+    })
+
+    document.getElementById('load-verified-accounts').addEventListener('click', () => {
+        fetch("/mx/verified_accounts/<%= @user.guid %>")
+        .then(resp => resp.text())
+        .then(accountsHTML => {
+            document.getElementById("verified-accounts").innerHTML = accountsHTML
             setUpAccountButtons()
         })
     })
