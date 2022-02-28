@@ -26,6 +26,13 @@ section {
     margin: 48px 0;
 }
 
+table td {
+    padding: 4px;
+}
+table td + td {
+    border-left: 1px solid black;
+}
+
 /*
  * Styles for the HTTP Examples
  */
