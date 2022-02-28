@@ -42,7 +42,7 @@ class MxController < ApplicationController
       )
     end
 
-    render partial: 'accounts', locals: {accounts: @accounts}
+    render partial: 'accounts', locals: { accounts: @accounts }
   end
 
   def verified_accounts
@@ -61,7 +61,7 @@ class MxController < ApplicationController
       )
     end
 
-    render partial: 'verified_accounts', locals: {accounts: @accounts}
+    render partial: 'verified_accounts', locals: { accounts: @accounts }
   end
 
   def generate_auth_code

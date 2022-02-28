@@ -134,10 +134,10 @@ class MxApi
     }
 
     begin
-      members_response = @mx_platform_api.list_members(user_guid, opts)
-    rescue
-      puts "Error, could not list members from MX API"
-      raise StandardError, "Could not list members"
+      @mx_platform_api.list_members(user_guid, opts)
+    rescue StandardError
+      puts 'Error, could not list members from MX API'
+      raise StandardError, 'Could not list members'
     end
   end
 
@@ -152,18 +152,18 @@ class MxApi
       members_response.members.each do |member|
         # Looped http call
         member_accounts = @mx_platform_api.list_account_numbers_by_member(member.guid, user_guid)
-         member_accounts.account_numbers.each do |member_account|
-         verified_account_numbers.push member_account
+        member_accounts.account_numbers.each do |member_account|
+          verified_account_numbers.push member_account
         end
       end
     rescue ::MxPlatformRuby::ApiError => e
       puts "Error combining account information: #{e}"
       raise StandardError, 'Combining accounts and account_numbers failed'
     end
-  
+
     # Match Account Numbers to a the Account to get the Name
-    accounts = verified_account_numbers.map do |account_number|
-      account = accounts_response.accounts.detect {|account| account.guid == account_number.account_guid }
+    verified_account_numbers.map do |account_number|
+      account = accounts_response.accounts.detect { |acct| acct.guid == account_number.account_guid }
       {
         name: account.name,
         guid: account.guid,
@@ -172,7 +172,6 @@ class MxApi
       }
     end
   end
-  
 
   # Generate an authorization code for the specified account
   # TODO: This is currently NOT working, parameters are missing when called
