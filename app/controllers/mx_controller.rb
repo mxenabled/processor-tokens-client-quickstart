@@ -41,6 +41,8 @@ class MxController < ApplicationController
                     })
       )
     end
+
+    render partial: 'accounts', locals: {accounts: @accounts}
   end
 
   def generate_auth_code

@@ -1,3 +1,7 @@
+<%= link_to "Welcome", root_path %> /
+<%= link_to "Users", users_path %> /
+<%= @user.name %>
+
 <h1>User Dashboard for <%= @user.name %></h1>
 <hr>
 
@@ -37,6 +41,14 @@
     <button id="open-verification">Open Connect Widget (Verification)</button>
 </section>
 
+<section>
+    <h2>Step 4 Display Accounts</h2>
+
+    <button id="load-accounts">Load User Accounts</button>
+
+    <div id="user-accounts"></div>
+</section>
+
 <div id="connect-widget-dialog" class="connect-widget-full" hidden>
     <div id="aggregation-instructions">
         <h2>Connect Widget (Aggregation Mode)</h2>
@@ -57,11 +69,6 @@
     <div id="connect-widget"></div>
 </div>
 
-
-<%= link_to "Return To User List", users_path %>
-<%= link_to "Return To Beginning", root_path %>
-<%= link_to "Go To Accounts", "/mx/accounts/#{@user.guid}" %>
-
 <script>
     /** 
       * @param callbackForUrl: (url) => {}
@@ -74,7 +81,7 @@
             try {
                 widgetURL = JSON.parse(widgetResponse).url
             } catch (error) {
-                console.log("Error getting widget URL to load")
+                console.error("Error getting widget URL to load")
                 return
             }
 
@@ -127,8 +134,6 @@
             console.log("onEvent", type, payload);
 
             if (type === "mx/connect/connected/primaryAction") {
-                console.log("...close Connect after clicking continue")
-
                 // custom code for your app to close the widget
                 dismissDialog()
             }
@@ -140,8 +145,6 @@
     })
 
     document.getElementById('open-aggregation').addEventListener('click', () => {
-        console.log("Agg Widget clicked")
-
         // This endpoint will get a fresh widget url for aggregation
         fetch("/mx/aggregation/<%= @user.guid %>")
         .then(resp => resp.text())
@@ -150,7 +153,7 @@
             try {
                 widgetURL = JSON.parse(widgetResponse).url
             } catch (error) {
-                console.log("Error getting widget URL to load")
+                console.error("Error getting widget URL to load")
                 return
             }
 
@@ -162,8 +165,6 @@
     })
 
     document.getElementById('open-verification').addEventListener('click', () => {
-        console.log("Verification Widget clicked")
-
         // This endpoint will get a fresh widget url for verification
         fetch("/mx/verification/<%= @user.guid %>")
         .then(resp => resp.text())
@@ -172,12 +173,46 @@
             try {
                 widgetURL = JSON.parse(widgetResponse).url
             } catch (error) {
-                console.log("Error getting widget URL to load")
+                console.error("Error getting widget URL to load")
                 return
             }
 
             mxConnect.load(widgetURL)
             showDialog("verification")
+        })
+    })
+
+    // Accounts loading via fetch
+    // Load the HTML, and then set up the buttons
+    function setUpAccountButtons() {
+        document.querySelectorAll("button[data-account-guid]").forEach(element => {
+            element.addEventListener("click", () => {
+                const accountGUID = element.getAttribute("data-account-guid")
+                const memberGUID = element.getAttribute("data-member-guid")
+                const userGUID = element.getAttribute("data-user-guid")
+
+                // Ask Rails to fetch an auth code for the account
+                fetch(`/mx/accounts/generate-auth-code/${accountGUID}/${memberGUID}/${userGUID}`)
+                .then(resp => resp.text())
+                .then(resp => {
+                    try {
+                        parsedResponse = JSON.parse(resp)
+                        document.querySelector(`td[data-account-guid='${accountGUID}'`).innerText = parsedResponse.authorization_code
+                    } catch (error) {
+                        console.error(error)
+                    return
+                    }
+                })
+            })
+        })
+    }
+
+    document.getElementById('load-accounts').addEventListener('click', () => {
+        fetch("/mx/accounts/<%= @user.guid %>")
+        .then(resp => resp.text())
+        .then(accountsHTML => {
+            document.getElementById("user-accounts").innerHTML = accountsHTML
+            setUpAccountButtons()
         })
     })
 </script>
