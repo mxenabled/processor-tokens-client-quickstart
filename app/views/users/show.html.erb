@@ -32,9 +32,9 @@
 
     <p>Click the button below to see what accounts have been connected to MX</p>
 
-    <button id="load-accounts">Load User Accounts</button><br><br>
-
     <%= render "/http_example", description: "To list a user's accounts send an http message to:", method: "GET", url: "/users/{user_guid}/accounts" %>
+    
+    <button id="load-accounts">Load User Accounts</button>
 
     <div id="user-accounts"></div>
 </section>
