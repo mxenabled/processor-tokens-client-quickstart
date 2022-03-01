@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
-# Holds implemented API calls to MX
+# MX provides many features through the Platform API, documented at https://docs.mx.com.
+# This file (mx_api.rb) houses the implementations of a few of those endpoints
+#
+# There is also an initializer that configures the authentication for each call
+# see: config/initializers/mx_api_config.rb
+#
+# Functionality of each method should be restricted to the api call and returning the response
+
+# Holds implemented API calls to MX Platform API
 class MxApi
   def initialize
     api_client = ::MxPlatformRuby::ApiClient.new
@@ -12,7 +20,7 @@ class MxApi
     @mx_platform_api
   end
 
-  # Should return the guid on success
+  # @return UserResponseBody
   def create_user(metadata, email = nil, id = nil, is_disabled: false)
     request_body = ::MxPlatformRuby::UserCreateRequestBody.new(
       user: ::MxPlatformRuby::UserCreateRequest.new(
@@ -30,18 +38,18 @@ class MxApi
     end
   end
 
-  # Should return the User model
-  def get_user(user_guid)
+  # @return User
+  def read_user(user_guid)
     response = @mx_platform_api.read_user(user_guid)
     p response
-    # adapt to the applications expected model
+    # Adapt to the application's expected model
     MxHelper::UserAdapter.api_to_user_model(response.user)
   rescue ::MxPlatformRuby::ApiError => e
     puts "Error when calling MxPlatformApi->read_user: #{e}"
   end
 
-  # List users you've created with the MX API
-  # Should return a list of User models
+  # List users
+  # @return Array<User>
   def fetch_users
     opts = {
       page: 1,
@@ -50,8 +58,6 @@ class MxApi
 
     begin
       api_users = @mx_platform_api.list_users(opts)
-      p api_users
-
       users = []
       api_users.users.each do |user|
         users.push(
@@ -65,6 +71,7 @@ class MxApi
   end
 
   # Delete an MX user
+  # @return nil
   def delete_user(user_guid)
     @mx_platform_api.delete_user(user_guid)
   rescue ::MxPlatformRuby::ApiError => e
@@ -73,7 +80,8 @@ class MxApi
   end
 
   # Request a Connect widget URL
-  # config: ConnectWidgetRequest which contains the widget options
+  # @param config: Hash of options to add to the request
+  # @return url string
   def request_connect_widget_url(user_guid, config)
     opts = {
       accept_language: 'en-US'
@@ -89,7 +97,6 @@ class MxApi
 
     begin
       response = @mx_platform_api.request_widget_url(user_guid, request_body, opts)
-      p response
       response.widget_url.url
     rescue ::MxPlatformRuby::ApiError => e
       puts "Error when calling MxPlatformApi->request_widget_url: #{e}"
@@ -97,17 +104,20 @@ class MxApi
   end
 
   # Request a Connect widget with the given parameters for Aggregation
+  # @return url string
   def request_connect_widget_aggregation(user_guid)
     request_connect_widget_url(user_guid, { mode: 'aggregation' })
   end
-
+  
   # Request a Connect widget with the given parameters for Verification
+  # @return url string
   def request_connect_widget_verification(user_guid)
     request_connect_widget_url(user_guid, { mode: 'verification' })
   end
 
   # Request all accounts for a user
-  def request_accounts(user_guid)
+  # @return AccountsResponseBody
+  def list_user_accounts(user_guid)
     opts = {
       page: 1,
       records_per_page: 100
@@ -121,6 +131,8 @@ class MxApi
     end
   end
 
+  # Lists all the members a user owns
+  # @return MembersResponseBody
   def list_members(user_guid)
     opts = {
       page: 1,
@@ -135,12 +147,15 @@ class MxApi
     end
   end
 
+  # TODO: consider moving this to a controller instead, general refactor
   # Request all verified accounts for a user
+  # @return Account
   def request_verified_accounts(user_guid)
     members_response = list_members(user_guid)
-    accounts_response = request_accounts(user_guid)
+    accounts_response = list_user_accounts(user_guid)
 
-    # Verified accounts require a member_guid, and we need to call it for each member we've connected
+    # To retreive verified accounts you need a member_guid, 
+    # and we need to call it for each member we've connected to get all accounts
     verified_account_numbers = []
     begin
       members_response.members.each do |member|
@@ -167,45 +182,9 @@ class MxApi
     end
   end
 
-  # Generate an authorization code for the specified account
-  # TODO: This is currently NOT working, parameters are missing when called
-  def generate_auth_code_mx_hack_version(account_guid, member_guid, user_guid)
-    local_var_path = '/payment_processor_authorization_code'
-
-    # HTTP header 'Content-Type'
-    header_params = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/vnd.mx.api.v1+json'
-    }
-    # content_type = @mx_platform_api.api_client.select_header_content_type(['application/json'])
-    # if !content_type.nil?
-    #     header_params['Content-Type'] = content_type
-    # end
-
-    body_values = {
-      payment_processor_authorization_code: {
-        user_guid:,
-        member_guid:,
-        account_guid:
-      }
-    }
-
-    options = {
-      header_params:,
-      body: @mx_platform_api.api_client.object_to_http_body(body_values)
-    }
-    data, status_code, headers = @mx_platform_api.api_client.call_api(:POST, local_var_path, options)
-    puts 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-    puts 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-    puts data
-    puts status_code
-    puts headers
-    puts 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-    puts 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-  end
-
   # This works, but is outside of the gem.
-  def generate_auth_code(account_guid, member_guid, user_guid)
+  # @return PaymentProcessorAuthorizationCodeResponseBody
+  def request_payment_processor_authorization_code(account_guid, member_guid, user_guid)
     # TODO: This is an issue, we're hard coding to the current dev server.  Fragile
     # FRAGILE!!!
     uri = URI.parse('https://int-api.mx.com/payment_processor_authorization_code')

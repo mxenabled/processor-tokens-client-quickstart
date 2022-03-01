@@ -28,7 +28,7 @@ class MxController < ApplicationController
 
   def accounts
     mx_platform_api = ::MxApi.new
-    api_accounts = mx_platform_api.request_accounts(params[:user_guid])
+    api_accounts = mx_platform_api.list_user_accounts(params[:user_guid])
 
     @accounts = []
     api_accounts.accounts.each do |account|
@@ -66,7 +66,7 @@ class MxController < ApplicationController
 
   def generate_auth_code
     mx_platform_api = ::MxApi.new
-    authorization_code = mx_platform_api.generate_auth_code(params[:account_guid], params[:member_guid],
+    authorization_code = mx_platform_api.request_payment_processor_authorization_code(params[:account_guid], params[:member_guid],
                                                             params[:user_guid])
 
     # A small shim to handle json

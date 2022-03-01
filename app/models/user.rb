@@ -29,7 +29,7 @@ class User
   def self.get_user(user_guid)
     mx_platform_api = ::MxApi.new
 
-    response = mx_platform_api.get_user(user_guid)
+    response = mx_platform_api.read_user(user_guid)
 
     puts 'Could not find user' unless response
 
