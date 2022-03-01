@@ -66,12 +66,9 @@ class MxController < ApplicationController
 
   def generate_auth_code
     mx_platform_api = ::MxApi.new
-    authorization_code = mx_platform_api.request_payment_processor_authorization_code(params[:account_guid], params[:member_guid],
+    response_body = mx_platform_api.request_payment_processor_authorization_code(params[:account_guid], params[:member_guid],
                                                             params[:user_guid])
-
-    # A small shim to handle json
-    response = JSON.parse(authorization_code)
-    authorization_code = response['payment_processor_authorization_code']['authorization_code']
+    authorization_code = response_body.payment_processor_authorization_code.authorization_code
 
     render json: {
       authorization_code:

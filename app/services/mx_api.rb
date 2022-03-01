@@ -197,36 +197,22 @@ class MxApi
     end
   end
 
-  # This works, but is outside of the gem.
   # Mx Platform API: POST /payment_processor_authorization_code
   # @return PaymentProcessorAuthorizationCodeResponseBody
   def request_payment_processor_authorization_code(account_guid, member_guid, user_guid)
-    # TODO: This is an issue, we're hard coding to the current dev server.  Fragile
-    # FRAGILE!!!
-    uri = URI.parse('https://int-api.mx.com/payment_processor_authorization_code')
-
-    header = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/vnd.mx.api.v1+json'
-    }
-
-    request_body = {
+    request_body = ::MxPlatformRuby::PaymentProcessorAuthorizationCodeRequestBody.new(
       payment_processor_authorization_code: {
         account_guid:,
         member_guid:,
         user_guid:
       }
-    }
+    )
 
-    # Create the HTTP objects
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    request = Net::HTTP::Post.new(uri.request_uri, header)
-    request.body = request_body.to_json
-    request.basic_auth ENV['MX_CLIENT_ID'], ENV['MX_API_KEY']
-
-    # Send the request
-    response = http.request(request)
-    response.body
+    begin
+      @mx_platform_api.request_payment_processor_authorization_code(request_body, {})
+    rescue StandardError
+      puts 'Error, could not get auth code from MX API'
+      raise StandardError, 'Could not get auth code from MX'
+    end
   end
 end
