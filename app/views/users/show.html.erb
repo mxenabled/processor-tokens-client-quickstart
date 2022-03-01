@@ -76,9 +76,12 @@
 </div>
 
 <script>
+    const connectDialog = document.getElementById("connect-widget-dialog")
+
     /** 
-      * @param callbackForUrl: (url) => {}
-      */
+    *  This asks rails to call MX in order to obtain a Connect Widget url
+    *  @param callbackForUrl: (url) => {}: do something with the url
+    */
     function getWidgetURL(callbackForUrl) {
         fetch("/mx/aggregation/<%= @user.guid %>")
         .then(resp => resp.text())
@@ -95,37 +98,56 @@
         })
     }
 
+    /**
+    *  Used to show the Connect dialog
+    *  It also helps to show or hide the correct set of instructions depending on mode
+    */
     function showDialog(type) {
-        document.getElementById("connect-widget-dialog").hidden = false
+        connectDialog.hidden = false
+        const verificationInstructions = document.getElementById('verification-instructions')
+        const aggregationInstructions = document.getElementById('aggregation-instructions')
 
         // Show and Hide instructions
-        document.getElementById('verification-instructions').hidden = true
-        document.getElementById('aggregation-instructions').hidden = true
+        verificationInstructions.hidden = true
+        aggregationInstructions.hidden = true
 
         if (type == "aggregation") {
-            document.getElementById('aggregation-instructions').hidden = false
+            aggregationInstructions.hidden = false
         }
 
         if (type == "verification") {
-            document.getElementById('verification-instructions').hidden = false
+            verificationInstructions.hidden = false
         }
     }
 
+    /**
+    *  This is used to completely dismiss the app's Connect Dialog
+    *  by hiding the dialog, and completely removing the iframe
+    */
     function dismissDialog() {
-        document.getElementById("connect-widget-dialog").hidden = true
+        connectDialog.hidden = true
         var connectIFrame = document.querySelector('iframe[title="Connect"]')
         connectIFrame.remove()
     }
 
+    /**
+    *  Wire up the button to generate a url
+    */
     document.getElementById('gen-url').addEventListener('click', () =>
         getWidgetURL((url) => alert(url))
     )
 
+    /**
+    *  Wire up the button that closes the connect dialog
+    */
      document.getElementById('widget-close').addEventListener('click', () => {
          dismissDialog()
      })
 
-    // This sets up the MX Widget Loader
+    /**
+    *  Set up the Widget Loader so we can load the Connect Widget easily
+    *  For more information see the example docs here: https://docs.mx.com/connect/guides/web
+    */
     var mxConnect = new window.MXConnect({
         id: "connect-widget",
         iframeTitle: "Connect",
@@ -150,6 +172,10 @@
         targetOrigin: "*",
     })
 
+    /**
+    *  Wire up the button which opens the Connect Widget in "aggregation" mode
+    *  This calls the rails back-end to make the call directly to the MX API
+    */
     document.getElementById('open-aggregation').addEventListener('click', () => {
         // This endpoint will get a fresh widget url for aggregation
         fetch("/mx/aggregation/<%= @user.guid %>")
@@ -170,6 +196,10 @@
         })
     })
 
+    /**
+    *  Wire up the button that opens the Connect Widget in "verification" mode
+    *  This calls the rails back-end to make the call directly to the MX API
+    */
     document.getElementById('open-verification').addEventListener('click', () => {
         // This endpoint will get a fresh widget url for verification
         fetch("/mx/verification/<%= @user.guid %>")
@@ -188,8 +218,11 @@
         })
     })
 
-    // Accounts loading via fetch
-    // Load the HTML, and then set up the buttons
+    /**
+    *  After loading the HTML with verified Accounts and buttons...
+    *  This wires up the buttons to call the rails back-end
+    *  to ask MX for an authorization code, for that specific account
+    */
     function setUpAccountButtons() {
         document.querySelectorAll("button[data-account-guid]").forEach(element => {
             element.addEventListener("click", () => {
@@ -213,15 +246,22 @@
         })
     }
 
+    /**
+    *  Wire up the button that loads up all the accounts connected to a User
+    *  This calls rails, to directly ask MX API for the information
+    */
     document.getElementById('load-accounts').addEventListener('click', () => {
         fetch("/mx/accounts/<%= @user.guid %>")
         .then(resp => resp.text())
         .then(accountsHTML => {
             document.getElementById("user-accounts").innerHTML = accountsHTML
-            setUpAccountButtons()
         })
     })
 
+    /**
+    *  Wire up the button that loads up a list of verified accounts
+    *  This calls rails, which uses a mixture of API endpoints to gather the accounts
+    */
     document.getElementById('load-verified-accounts').addEventListener('click', () => {
         fetch("/mx/verified_accounts/<%= @user.guid %>")
         .then(resp => resp.text())
