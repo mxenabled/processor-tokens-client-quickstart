@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
-=begin
-MX provides many features through the Platform API, documented at https://docs.mx.com.
-
-This file (mx_api.rb) houses the implementations of a few of those endpoints using an
-open source gem built with the MX OpenAPI
-see: https://github.com/mxenabled/mx-platform-ruby and https://github.com/mxenabled/openapi
-
-For this app, there is also an initializer that configures the authentication for each call
-see: config/initializers/mx_api_config.rb
-=end
+# MX provides many features through the Platform API, documented at https://docs.mx.com.
+#
+# This file (mx_api.rb) houses the implementations of a few of those endpoints using an
+# open source gem built with the MX OpenAPI
+# see: https://github.com/mxenabled/mx-platform-ruby and https://github.com/mxenabled/openapi
+#
+# For this app, there is also an initializer that configures the authentication for each call
+# see: config/initializers/mx_api_config.rb
 
 # Holds implemented API calls to MX Platform API
 class MxApi
@@ -43,12 +41,10 @@ class MxApi
   end
 
   # Mx Platform API: GET /users/{user_guid}
-  # @return User
+  # @return UserResponseBody
   def read_user(user_guid)
     response = @mx_platform_api.read_user(user_guid)
     p response
-    # Adapt to the application's expected model
-    MxHelper::UserAdapter.api_to_user_model(response.user)
   rescue ::MxPlatformRuby::ApiError => e
     puts "Error when calling MxPlatformApi->read_user: #{e}"
   end
@@ -117,7 +113,7 @@ class MxApi
   def request_connect_widget_aggregation(user_guid)
     request_connect_widget_url(user_guid, { mode: 'aggregation' })
   end
-  
+
   # Request a Connect widget with the given parameters for Verification
   # Mx Platform API: POST /users/{user_guid}/widget_urls
   # @return url string
@@ -169,7 +165,7 @@ class MxApi
     members_response = list_members(user_guid)
     accounts_response = list_user_accounts(user_guid)
 
-    # To retreive verified accounts you need a member_guid, 
+    # To retreive verified accounts you need a member_guid,
     # and we need to call it for each member we've connected to get all accounts
     verified_account_numbers = []
     begin

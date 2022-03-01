@@ -31,8 +31,7 @@ class User
 
     response = mx_platform_api.read_user(user_guid)
 
-    puts 'Could not find user' unless response
-
-    response
+    # Adapt to the application's expected model
+    MxHelper::UserAdapter.api_to_user_model(response.user)
   end
 end
