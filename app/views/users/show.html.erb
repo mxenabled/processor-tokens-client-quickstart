@@ -32,7 +32,9 @@
 
     <p>Click the button below to see what accounts have been connected to MX</p>
 
-    <button id="load-accounts">Load User Accounts</button>
+    <button id="load-accounts">Load User Accounts</button><br><br>
+
+    <%= render "/http_example", description: "To list a user's accounts send an http message to:", method: "GET", url: "/users/{user_guid}/accounts" %>
 
     <div id="user-accounts"></div>
 </section>
@@ -49,6 +51,17 @@
 
 <section>
     <h2>Step 4 Display Accounts</h2>
+
+    <p>Here's a review up to this point</p>
+    <ol>
+        <li>A user has been created</li>
+        <li>The user has connected to an institution, which creates a Member resource</li>
+        <li>The Member has been verified</li>
+    </ol>
+
+    <p>Now the app needs display a list of verified accounts, so the user can generate an authorization code</p>
+
+    <%= render "/http_example", description: "To list account numbers that have been verified, send an http message to:", method: "GET", url: "/users/{user_guid}/members/{member_guid}/account_numbers" %>
 
     <button id="load-verified-accounts">Load User Accounts</button>
 
