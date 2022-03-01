@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
-# MX provides many features through the Platform API, documented at https://docs.mx.com.
-# This file (mx_api.rb) houses the implementations of a few of those endpoints
-#
-# There is also an initializer that configures the authentication for each call
-# see: config/initializers/mx_api_config.rb
-#
-# Functionality of each method should be restricted to the api call and returning the response
+=begin
+MX provides many features through the Platform API, documented at https://docs.mx.com.
+
+This file (mx_api.rb) houses the implementations of a few of those endpoints using an
+open source gem built with the MX OpenAPI
+see: https://github.com/mxenabled/mx-platform-ruby and https://github.com/mxenabled/openapi
+
+For this app, there is also an initializer that configures the authentication for each call
+see: config/initializers/mx_api_config.rb
+=end
 
 # Holds implemented API calls to MX Platform API
 class MxApi
@@ -20,6 +23,7 @@ class MxApi
     @mx_platform_api
   end
 
+  # Mx Platform API: POST /users
   # @return UserResponseBody
   def create_user(metadata, email = nil, id = nil, is_disabled: false)
     request_body = ::MxPlatformRuby::UserCreateRequestBody.new(
@@ -38,6 +42,7 @@ class MxApi
     end
   end
 
+  # Mx Platform API: GET /users/{user_guid}
   # @return User
   def read_user(user_guid)
     response = @mx_platform_api.read_user(user_guid)
@@ -49,6 +54,7 @@ class MxApi
   end
 
   # List users
+  # Mx Platform API: GET /users
   # @return Array<User>
   def fetch_users
     opts = {
@@ -71,6 +77,7 @@ class MxApi
   end
 
   # Delete an MX user
+  # Mx Platform API: DELETE /users/{user_guid}
   # @return nil
   def delete_user(user_guid)
     @mx_platform_api.delete_user(user_guid)
@@ -80,6 +87,7 @@ class MxApi
   end
 
   # Request a Connect widget URL
+  # Mx Platform API: POST /users/{user_guid}/widget_urls
   # @param config: Hash of options to add to the request
   # @return url string
   def request_connect_widget_url(user_guid, config)
@@ -104,18 +112,21 @@ class MxApi
   end
 
   # Request a Connect widget with the given parameters for Aggregation
+  # Mx Platform API: POST /users/{user_guid}/widget_urls
   # @return url string
   def request_connect_widget_aggregation(user_guid)
     request_connect_widget_url(user_guid, { mode: 'aggregation' })
   end
   
   # Request a Connect widget with the given parameters for Verification
+  # Mx Platform API: POST /users/{user_guid}/widget_urls
   # @return url string
   def request_connect_widget_verification(user_guid)
     request_connect_widget_url(user_guid, { mode: 'verification' })
   end
 
   # Request all accounts for a user
+  # Mx Platform API: GET /users/{user_guid}/accounts
   # @return AccountsResponseBody
   def list_user_accounts(user_guid)
     opts = {
@@ -132,6 +143,7 @@ class MxApi
   end
 
   # Lists all the members a user owns
+  # Mx Platform API: GET /users/{user_guid}/members
   # @return MembersResponseBody
   def list_members(user_guid)
     opts = {
@@ -149,6 +161,9 @@ class MxApi
 
   # TODO: consider moving this to a controller instead, general refactor
   # Request all verified accounts for a user
+  # Mx Platform API: GET /users/{user_guid}/members
+  # Mx Platform API: GET /users/{user_guid}/accounts
+  # Mx Platform API: GET /users/{user_guid}/members/{member_guid}/account_numbers
   # @return Account
   def request_verified_accounts(user_guid)
     members_response = list_members(user_guid)
@@ -183,6 +198,7 @@ class MxApi
   end
 
   # This works, but is outside of the gem.
+  # Mx Platform API: POST /payment_processor_authorization_code
   # @return PaymentProcessorAuthorizationCodeResponseBody
   def request_payment_processor_authorization_code(account_guid, member_guid, user_guid)
     # TODO: This is an issue, we're hard coding to the current dev server.  Fragile
