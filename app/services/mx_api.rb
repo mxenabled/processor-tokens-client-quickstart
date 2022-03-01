@@ -75,41 +75,35 @@ class MxApi
   # Request a Connect widget URL
   # config: ConnectWidgetRequest which contains the widget options
   def request_connect_widget_url(user_guid, config)
-    connect_widget_request_body = ::MxPlatformRuby::ConnectWidgetRequestBody.new(
-      config:
+    opts = {
+      accept_language: 'en-US'
+    }
+    request_body = ::MxPlatformRuby::WidgetRequestBody.new(
+      widget_url: ::MxPlatformRuby::WidgetRequest.new(
+        **config,
+        widget_type: 'connect_widget',
+        wait_for_full_aggregation: true,
+        ui_message_version: 4
+      )
     )
 
     begin
-      response = @mx_platform_api.request_connect_widget_url(user_guid, connect_widget_request_body)
-      puts "\n====== Begin Connect URL ========"
-      puts response.user.connect_widget_url
-      puts "====== End Connect URL ========\n\n"
-
-      response.user.connect_widget_url
+      response = @mx_platform_api.request_widget_url(user_guid, request_body, opts)
+      p response
+      response.widget_url.url
     rescue ::MxPlatformRuby::ApiError => e
-      puts "Error when calling MxPlatformApi->request_connect_widget_url: #{e}"
+      puts "Error when calling MxPlatformApi->request_widget_url: #{e}"
     end
   end
 
   # Request a Connect widget with the given parameters for Aggregation
   def request_connect_widget_aggregation(user_guid)
-    config = ::MxPlatformRuby::ConnectWidgetRequest.new(
-      mode: 'aggregation',
-      wait_for_full_aggregation: true,
-      ui_message_version: 4
-    )
-
-    request_connect_widget_url(user_guid, config)
+    request_connect_widget_url(user_guid, { mode: 'aggregation' })
   end
 
   # Request a Connect widget with the given parameters for Verification
   def request_connect_widget_verification(user_guid)
-    config = ::MxPlatformRuby::ConnectWidgetRequest.new(
-      mode: 'verification',
-      ui_message_version: 4
-    )
-
-    request_connect_widget_url(user_guid, config)
+    request_connect_widget_url(user_guid, { mode: 'verification' })
   end
 
   # Request all accounts for a user
