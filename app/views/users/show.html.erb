@@ -66,6 +66,17 @@
     <button id="load-verified-accounts">Load User Accounts</button>
 
     <div id="verified-accounts"></div>
+
+    <p>Once the list loads up, you can click the "Generate Auth Code" button to request a code for that account</p>
+
+    <%= render "/http_example", description: "To get an account authorization code, send an http message to:", method: "POST", url: "/payment_processor_authorization_code" %>
+
+</section>
+
+<section>
+    <h2>What's Next?</h2>
+
+    <p>At this point, you hava an authorization code which you can share with one of our payment processing partners! You will need to share it directly with them, and work with them to move the money for your user.</p>
 </section>
 
 <div id="connect-widget-dialog" class="connect-widget-full" hidden>
@@ -89,8 +100,6 @@
 </div>
 
 <script>
-    const connectDialog = document.getElementById("connect-widget-dialog")
-
     /** 
     *  This asks rails to call MX in order to obtain a Connect Widget url
     *  @param callbackForUrl: (url) => {}: do something with the url
@@ -116,7 +125,7 @@
     *  It also helps to show or hide the correct set of instructions depending on mode
     */
     function showDialog(type) {
-        connectDialog.hidden = false
+        document.getElementById("connect-widget-dialog").hidden = false
         const verificationInstructions = document.getElementById('verification-instructions')
         const aggregationInstructions = document.getElementById('aggregation-instructions')
 
@@ -138,7 +147,7 @@
     *  by hiding the dialog, and completely removing the iframe
     */
     function dismissDialog() {
-        connectDialog.hidden = true
+        document.getElementById("connect-widget-dialog").hidden = true
         var connectIFrame = document.querySelector('iframe[title="Connect"]')
         connectIFrame.remove()
     }
