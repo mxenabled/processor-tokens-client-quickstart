@@ -21,7 +21,12 @@
         <li>Use the widget url in the Widget Loader to render it on the page</li>
     </ol>
 
-    <%= render "/http_example", description: "To generate a widget URL, you send an http message to:", method: "POST", url: "/users/{user_guid}/widget_urls" %>
+    <%= render "/http_example", 
+      description: "To generate a widget URL, you send an http message to:", 
+      method: "POST", 
+      url: "/users/{user_guid}/widget_urls",
+      href: "https://docs.mx.com/api#connect_request_a_url"
+    %>
 
     <p>(optional) If you want to see what a URL looks like, click the button to call the endpoint above.</p>
     <button id="gen-url">Generate a URL</button>
@@ -32,7 +37,12 @@
 
     <p>Click the button below to see what accounts have been connected to MX</p>
 
-    <%= render "/http_example", description: "To list a user's accounts send an http message to:", method: "GET", url: "/users/{user_guid}/accounts" %>
+    <%= render "/http_example",
+      description: "To list a user's accounts send an http message to:", 
+      method: "GET", 
+      url: "/users/{user_guid}/accounts",
+      href: "https://docs.mx.com/api#core_resources_accounts_list_accounts"
+    %>
     
     <button id="load-accounts">Load User Accounts</button>
 
@@ -61,7 +71,12 @@
 
     <p>Now the app needs display a list of verified accounts, so the user can generate an authorization code</p>
 
-    <%= render "/http_example", description: "To list account numbers that have been verified, send an http message to:", method: "GET", url: "/users/{user_guid}/members/{member_guid}/account_numbers" %>
+    <%= render "/http_example",
+      description: "To list account numbers that have been verified, send an http message to:", 
+      method: "GET", 
+      url: "/users/{user_guid}/members/{member_guid}/account_numbers",
+      href: "https://docs.mx.com/api#verification_mx_widgets_list_account_numbers_by_member"
+    %>
 
     <button id="load-verified-accounts">Load User Accounts</button>
 
@@ -69,7 +84,11 @@
 
     <p>Once the list loads up, you can click the "Generate Auth Code" button to request a code for that account</p>
 
-    <%= render "/http_example", description: "To get an account authorization code, send an http message to:", method: "POST", url: "/payment_processor_authorization_code" %>
+    <%= render "/http_example",
+      description: "To get an account authorization code, send an http message to:", 
+      method: "POST", 
+      url: "/payment_processor_authorization_code"
+    %>
 
 </section>
 

@@ -5,4 +5,17 @@
     <span class="http-box-method"><%= method %></span>
     <span class="http-box-url"><%= url %></span>
   </div>
+
+  <%
+    active_link = 'https://docs.mx.com'
+    displayed_text = 'MX API reference docs'
+
+    if local_assigns.has_key? :href
+      active_link = href
+      displayed_text = 'Endpoint reference'
+    end
+  %>
+
+  <br>
+  <a href="<%= active_link %>" target="_blank"><%= displayed_text %></a>
 </div>
