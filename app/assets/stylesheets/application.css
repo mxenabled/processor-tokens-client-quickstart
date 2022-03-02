@@ -18,55 +18,55 @@
  * General App
  */
 body {
-    max-width: 750px;
-    margin: 0 auto;
+  max-width: 750px;
+  margin: 0 auto;
 }
 
 section {
-    margin: 48px 0;
+  margin: 48px 0;
 }
 
 table td {
-    padding: 4px;
+  padding: 4px;
 }
 table td + td {
-    border-left: 1px solid black;
+  border-left: 1px solid black;
 }
 
 /*
- * Styles for the HTTP Examples
- */
+* Styles for the HTTP Examples
+*/
 .http-box {
-    border: 1px solid black;
-    padding: 16px;
-    margin-bottom: 16px;
+  border: 1px solid black;
+  padding: 16px;
+  margin-bottom: 16px;
 }
 
 .http-box-description {
-    margin-top: 0px;
+  margin-top: 0px;
 }
 
 .http-box-section {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .http-box-method {
-    padding: 8px;
-    color: white;
-    background-color: black;
+  padding: 8px;
+  color: white;
+  background-color: black;
 }
 
 .http-box-url {
-    padding: 8px;
+  padding: 8px;
 }
 
 .connect-widget-full {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  text-align: center;
 }
