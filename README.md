@@ -58,3 +58,9 @@ This command will get the server running
   [dashboard]: https://dashboard.mx.com
   [request-a-url]: https://docs.mx.com/api#connect_request_a_url
   [guides-intro]: https://docs.mx.com/connect/guides/introduction
+
+## Easy setup
+
+Assuming you have docker installed just run:
+1. `docker build .`
+2. `docker run -p 3000:3000 «your-image-tag-or-hash»`
