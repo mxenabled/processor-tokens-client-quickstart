@@ -4,24 +4,25 @@ This demo application is built in [ruby on rails][RoR]. It will demonstrate the
 required steps that enable Payment Processing via one of our partners.
 
 Here's an overview of the flow and concepts will be shown
-1. Create an User via the MX API.
-2. Connect the User to an Institution (like a bank) to create a Member (Connect
-Widget in _aggregation_ mode)
-3. Verify the new Member's Accounts (Connect Widget in _verification_ mode)
-4. Generate an _Authorization Code_ for a single verified Account
-5. (What's next?) Share this code with one of our Partners to allow them access
-to that account's information.
+1. Create a user via the MX API
+2. Connect the user to an institution, like a bank, using the connect widget
+3. Verify the new member's accounts using the connect widget
+4. Generate an authorization code for a single verified account
+5. (What's next?) Share the authorization code with one of our partners to 
+allow them access to that account's information.
 
 Extra information about the above flow
 - Users are an essential resource. We use their unique `guid` for nearly all of
 the API calls in this application.
-- This app uses the Connect Widget to connect an User to an Institution, and to
+- This app uses the Connect Widget to connect a user to an institution, and to
 verify their accounts. While using the widget is not required, it handles a lot
 of complexity with connecting users to various Institutions. To learn more about
-using Connect see [how to get a connect url][request-a-url] and
+using the connect widget see [how to get a connect widget url][request-a-url] and
 [how to load the connect widget][guides-intro].
 
 ## Setup
+
+You can skip to _Configuration_ if you're going to run the app in Docker
 
 1. Install ruby v 3.1 [Ruby downloads page][Ruby]
 2. Install bundler
@@ -36,31 +37,35 @@ In order to run the app you'll need to provide the credentials given to you by
 MX. To get credentials you can sign up for a free account at
 [dashboard.mx.com][dashboard].
 
-1. Copy `config/mx.yml.sample` to `config/mx.yml`
+1. Copy `.env.sample` to `.env`
 2. From dashboard.mx.com, copy the values for _API Key_ and _Client ID_ into
-`config/mx.yml`
+`.env`
 ```yaml
-# config/mx.yml
-MX_API_KEY: 'Copy your MX API Key from dashboard.mx.com'
-MX_CLIENT_ID: 'Copy your MX Client ID from dashboard.mx.com'
+# .env example values
+MX_API_KEY=abcd1234
+MX_CLIENT_ID=abcd1234
 ```
 
 ## Running the app
 
-This command will get the server running
+### Without Docker
 
 1. Open a terminal, and navigate to the root of the project
 2. `rails s` or `bin/rails s` will start the server
 3. (when you're done) `Ctrl C` to stop the server
 
-  [RoR]: https://rubyonrails.org
-  [Ruby]: https://www.ruby-lang.org/en/downloads
-  [dashboard]: https://dashboard.mx.com
-  [request-a-url]: https://docs.mx.com/api#connect_request_a_url
-  [guides-intro]: https://docs.mx.com/connect/guides/introduction
+### Run in Docker
 
-## Easy setup
+Copy and Paste
+1. `docker build -t mx-token-demo .`
+2. `docker run -p 3000:3000 --env-file .env mx-token-demo`
 
-Assuming you have docker installed just run:
-1. `docker build .`
-2. `docker run -p 3000:3000 «your-image-tag-or-hash»`
+Or customize your image name
+1. `docker build -t <YOUR_IMAGE_NAME> .`
+2. `docker run -p 3000:3000 --env-file .env <YOUR_IMAGE_NAME>`
+
+[RoR]: https://rubyonrails.org
+[Ruby]: https://www.ruby-lang.org/en/downloads
+[dashboard]: https://dashboard.mx.com
+[request-a-url]: https://docs.mx.com/api#connect_request_a_url
+[guides-intro]: https://docs.mx.com/connect/guides/introduction

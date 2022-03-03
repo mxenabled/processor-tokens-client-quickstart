@@ -28,14 +28,13 @@
       href: "https://docs.mx.com/api#connect_request_a_url"
     %>
 
-    <p>(optional) If you want to see what a URL looks like, click the button to call the endpoint above.</p>
-    <button id="gen-url">Generate a URL</button>
-
     <p>Clicking the button below will both generate the url, and use it with the Widget Loader.  Go ahead and open the Connect Widget by clicking the button</p>
 
-    <button id="open-aggregation">Open Connect Widget</button>
+    <button id="open-aggregation">Open Connect Widget</button><br><br>
 
-    <p>Click the button below to see what accounts have been connected to MX</p>
+    <p>(optional) If you want to see what a URL looks like, click the button to call the endpoint above.</p>
+
+    <button id="gen-url">Generate a URL</button><br><br><br>
 
     <%= render "/http_example",
       description: "To list a user's accounts send an http message to:", 
@@ -43,6 +42,8 @@
       url: "/users/{user_guid}/accounts",
       href: "https://docs.mx.com/api#core_resources_accounts_list_accounts"
     %>
+
+    <p>Click the button below to see what accounts have been connected to MX</p>
     
     <button id="load-accounts">Load User Accounts</button>
 
@@ -78,9 +79,7 @@
       href: "https://docs.mx.com/api#verification_mx_widgets_list_account_numbers_by_member"
     %>
 
-    <button id="load-verified-accounts">Load User Accounts</button>
-
-    <div id="verified-accounts"></div>
+    <button id="load-verified-accounts">Load Verified Accounts</button><br><br>
 
     <p>Once the list loads up, you can click the "Generate Auth Code" button to request a code for that account</p>
 
@@ -90,6 +89,7 @@
       url: "/payment_processor_authorization_code"
     %>
 
+    <div id="verified-accounts"></div>
 </section>
 
 <section>
