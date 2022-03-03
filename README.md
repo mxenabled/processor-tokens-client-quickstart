@@ -56,8 +56,13 @@ MX_CLIENT_ID=abcd1234
 
 ### Run in Docker
 
-1. `docker build .`
-2. `docker run -p 3000:3000 --env-file .env «your-image-tag-or-hash»`
+Copy and Paste
+1. `docker build -t mx-token-demo .`
+2. `docker run -p 3000:3000 --env-file .env mx-token-demo`
+
+Or customize your image name
+1. `docker build -t <YOUR_IMAGE_NAME> .`
+2. `docker run -p 3000:3000 --env-file .env <YOUR_IMAGE_NAME>`
 
 [RoR]: https://rubyonrails.org
 [Ruby]: https://www.ruby-lang.org/en/downloads
