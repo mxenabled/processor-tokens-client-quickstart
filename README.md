@@ -20,7 +20,7 @@ of complexity with connecting users to various Institutions. To learn more about
 using the connect widget see [how to get a connect widget url][request-a-url] and
 [how to load the connect widget][guides-intro].
 
-## Setup
+## Installation
 
 You can skip to _Configuration_ if you're going to run the app in Docker
 
@@ -37,6 +37,7 @@ In order to run the app you'll need to provide the credentials given to you by
 MX. To get credentials you can sign up for a free account at
 [dashboard.mx.com][dashboard].
 
+To configure the app with your MX credentials
 1. Copy `.env.sample` to `.env`
 2. From dashboard.mx.com, copy the values for _API Key_ and _Client ID_ into
 `.env`
@@ -45,6 +46,10 @@ MX. To get credentials you can sign up for a free account at
 MX_API_KEY=abcd1234
 MX_CLIENT_ID=abcd1234
 ```
+
+In order to use processor tokens, your MX client must have these features enabled
+* Account Verification
+* Payment Processing
 
 ## Running the app
 
