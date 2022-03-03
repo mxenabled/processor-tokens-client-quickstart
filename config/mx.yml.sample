@@ -1,7 +1,0 @@
-# Adding contents to this file will override any Environment Variables
-# that were set elsewhere.
-#
-# The intended purpose of this file is to easily set up local development
-
-MX_API_KEY: 'Copy your MX API Key from dashboard.mx.com'
-MX_CLIENT_ID: 'Copy your MX Client ID from dashboard.mx.com'

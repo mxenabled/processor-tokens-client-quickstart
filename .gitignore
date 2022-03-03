@@ -24,5 +24,5 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-# Ignore mx configs
-/config/mx.yml
+# Ignore environment variable configs
+.env
