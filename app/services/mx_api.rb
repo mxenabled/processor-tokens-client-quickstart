@@ -90,7 +90,7 @@ class MxApi
   # Request a Connect widget URL
   # Mx Platform API: POST /users/{user_guid}/widget_urls
   # @param config: Hash of options to add to the request
-  # @return url string
+  # @return ApiResponse (with url string on success)
   def request_connect_widget_url(user_guid, config)
     opts = {
       accept_language: 'en-US'
@@ -106,9 +106,11 @@ class MxApi
 
     begin
       response = @mx_platform_api.request_widget_url(user_guid, request_body, opts)
-      response.widget_url.url
+      response.widget_url
+      ::ApiResponseHelper::Build.success_response(response.widget_url)
     rescue ::MxPlatformRuby::ApiError => e
       puts "Error when calling MxPlatformApi->request_widget_url: #{e}"
+      ::ApiResponseHelper::Build.error_response(e)
     end
   end
 

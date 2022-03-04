@@ -6,24 +6,20 @@ class MxController < ApplicationController
   # Return the HTML from mx
   def aggregation
     mx_platform_api = ::MxApi.new
-    @widget_url = mx_platform_api.request_connect_widget_aggregation(params[:user_guid])
+    api_response = mx_platform_api.request_connect_widget_aggregation(params[:user_guid])
 
-    puts 'Error: creation of Connect Aggregation URL failed' unless @widget_url
+    puts 'Error: creation of Connect Aggregation URL failed' unless api_response
 
-    render json: {
-      url: @widget_url
-    }
+    render json: api_response
   end
 
   def verification
     mx_platform_api = ::MxApi.new
-    @widget_url = mx_platform_api.request_connect_widget_verification(params[:user_guid])
+    api_response = mx_platform_api.request_connect_widget_verification(params[:user_guid])
 
-    puts 'Error: creation of Connect Verification URL failed' unless @widget_url
+    puts 'Error: creation of Connect Verification URL failed' unless api_response
 
-    render json: {
-      url: @widget_url
-    }
+    render json: api_response
   end
 
   def accounts
