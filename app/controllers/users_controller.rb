@@ -36,14 +36,15 @@ class UsersController < ApplicationController
 
   def show
     @user = User.get_user(params[:id])
+
+    if @user.nil?
+      render_404
+    end
   end
 
   def destroy
-    @user = User.get_user(params[:id])
-
-    # Destroy the MX user before destroying our reference
     begin
-      MxApi.new.delete_user(@user.guid)
+      MxApi.new.delete_user(params[:id])
       puts 'Destroyed user'
     rescue StandardError
       puts 'Error deleting user'
