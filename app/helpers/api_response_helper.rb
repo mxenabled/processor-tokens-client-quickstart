@@ -1,15 +1,19 @@
 # frozen_string_literal: true
 
-module UiMessageHelper
-  class UiMessage
+module ApiResponseHelper
+  class ApiResponse
     attr_accessor :status, :code, :response, :error_details
+
+    def success
+      return status == 'success'
+    end
   end
 
-  class MessageBuilder
+  class Build
     # This function builds the message that the UI can consume, specific to success
     # @param response: data from a successful api call
-    def build_success_message(api_response)
-      message = UiMessage.new
+    def self.success_response(api_response)
+      message = ApiResponse.new
       message.status = 'success'
       message.response = api_response
       message
@@ -17,8 +21,8 @@ module UiMessageHelper
 
     # This function builds the message that the UI can consume, specific to errors
     # @param error: MxPlatformRuby::ApiError
-    def build_error_message(api_error)
-      message = UiMessage.new
+    def self.error_response(api_error)
+      message = ApiResponse.new
       message.status = 'error'
       message.code = api_error.code
       message.response = api_error.response_body

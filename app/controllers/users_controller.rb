@@ -2,8 +2,20 @@
 
 # Helps control the CRUD for Users
 class UsersController < ApplicationController
+  USERS_ERROR = "The demo app could not get users from MX, please double check your Configuration"
+
   def index
-    @users = MxApi.new.fetch_users
+    # Set up the UI variables
+    @users = []
+    @error = nil
+
+    api_response = MxApi.new.fetch_users
+
+    if api_response.success
+      @users = api_response.response
+    else
+      @error = USERS_ERROR
+    end
   end
 
   def new

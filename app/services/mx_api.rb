@@ -67,8 +67,11 @@ class MxApi
         )
       end
       users
+
+      ::ApiResponseHelper::Build.success_response(users)
     rescue ::MxPlatformRuby::ApiError => e
       puts "Error when calling MxPlatformApi->list_users: #{e}"
+      ::ApiResponseHelper::Build.error_response(e)
     end
   end
 
