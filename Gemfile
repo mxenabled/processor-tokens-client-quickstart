@@ -42,6 +42,15 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
 
+  # An RB alternative and runtime developer console (via binding.pry)
+  gem "pry"
+
+  # brings back assigns to your controller tests as well as assert_template
+  gem 'rails-controller-testing'
+
+  # Test it with RSpec (BDD for Ruby)
+  gem 'rspec-rails'
+
   # Keep files consistent
   gem 'rubocop'
 end
