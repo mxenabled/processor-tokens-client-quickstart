@@ -138,10 +138,11 @@ class MxApi
     }
 
     begin
-      @mx_platform_api.list_user_accounts(user_guid, opts)
+      response = @mx_platform_api.list_user_accounts(user_guid, opts)
+      ::ApiResponseHelper::Build.success_response(response)
     rescue ::MxPlatformRuby::ApiError => e
       puts "Error when calling MxPlatformApi->list_user_accounts: #{e}"
-      raise StandardError, 'Error when calling MxPlatformApi->list_user_accounts'
+      ::ApiResponseHelper::Build.error_response(e)
     end
   end
 

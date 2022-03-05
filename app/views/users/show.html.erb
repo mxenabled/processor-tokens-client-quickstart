@@ -297,8 +297,12 @@
     document.getElementById('load-accounts').addEventListener('click', () => {
         fetch("/mx/accounts/<%= @user.guid %>")
         .then(resp => resp.text())
-        .then(accountsHTML => {
-            document.getElementById("user-accounts").innerHTML = accountsHTML
+        .then(accountsResponse => {
+            const htmlResponse = handleApiResponse(accountsResponse, "Error fetching user accounts")
+
+            if (htmlResponse) {
+                document.getElementById("user-accounts").innerHTML = htmlResponse.response.html
+            }
         })
     })
 

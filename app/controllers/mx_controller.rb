@@ -24,21 +24,36 @@ class MxController < ApplicationController
 
   def accounts
     mx_platform_api = ::MxApi.new
-    api_accounts = mx_platform_api.list_user_accounts(params[:user_guid])
+    api_response = mx_platform_api.list_user_accounts(params[:user_guid])
 
+    # UI variables
     @accounts = []
-    api_accounts.accounts.each do |account|
-      @accounts.push(
-        Account.new({
-                      name: account.name,
-                      guid: account.guid,
-                      member_guid: account.member_guid,
-                      user_guid: account.user_guid
-                    })
-      )
+
+    if api_response.success
+      api_response.response.accounts.each do |account|
+        @accounts.push(
+          Account.new({
+                        name: account.name,
+                        guid: account.guid,
+                        member_guid: account.member_guid,
+                        user_guid: account.user_guid
+                      })
+        )
+      end
+
+      response = {
+        html: (render_to_string partial: 'accounts', locals: { accounts: @accounts })
+      }
+    else
+      response = "Error getting accounts from MX"
     end
 
-    render partial: 'accounts', locals: { accounts: @accounts }
+    render json: {
+      status: api_response.status,
+      code: api_response.code,
+      response:,
+      error_details: api_response.error_details
+    }
   end
 
   def verified_accounts

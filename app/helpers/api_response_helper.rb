@@ -7,6 +7,15 @@ module ApiResponseHelper
     def success
       return status == 'success'
     end
+
+    def to_hash
+      return {
+        status:,
+        code:,
+        response:,
+        error_details:
+      }
+    end
   end
 
   class Build
