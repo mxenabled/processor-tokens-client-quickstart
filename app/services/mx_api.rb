@@ -212,10 +212,11 @@ class MxApi
     )
 
     begin
-      @mx_platform_api.request_payment_processor_authorization_code(request_body, {})
-    rescue StandardError
+      response = @mx_platform_api.request_payment_processor_authorization_code(request_body, {})
+      ::ApiResponseHelper::Build.success_response(response)
+    rescue ::MxPlatformRuby::ApiError => e
       puts 'Error, could not get auth code from MX API'
-      raise StandardError, 'Could not get auth code from MX'
+      ::ApiResponseHelper::Build.error_response(e)
     end
   end
 end

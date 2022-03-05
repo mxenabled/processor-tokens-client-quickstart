@@ -279,12 +279,11 @@
                 fetch(`/mx/accounts/generate-auth-code/${accountGUID}/${memberGUID}/${userGUID}`)
                 .then(resp => resp.text())
                 .then(resp => {
-                    try {
-                        parsedResponse = JSON.parse(resp)
-                        document.querySelector(`td[data-account-guid='${accountGUID}'`).innerText = parsedResponse.authorization_code
-                    } catch (error) {
-                        console.error(error)
-                    return
+                    codeResponse = handleApiResponse(resp, "Error getting authorization code from MX")
+
+                    if (codeResponse) {
+                        document.querySelector(`td[data-account-guid='${accountGUID}'`)
+                            .innerText = codeResponse.response.payment_processor_authorization_code.authorization_code
                     }
                 })
             })
