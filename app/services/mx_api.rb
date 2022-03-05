@@ -107,10 +107,8 @@ class MxApi
     begin
       response = @mx_platform_api.request_widget_url(user_guid, request_body, opts)
       response.widget_url
-      ::ApiResponseHelper::Build.success_response(response.widget_url)
     rescue ::MxPlatformRuby::ApiError => e
-      puts "Error when calling MxPlatformApi->request_widget_url: #{e}"
-      ::ApiResponseHelper::Build.error_response(e)
+      e
     end
   end
 

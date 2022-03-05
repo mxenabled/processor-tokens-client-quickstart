@@ -2,24 +2,29 @@
 
 # Used for forwarding front end calls to MX
 class MxController < ApplicationController
+  # @param mx_response should be data to return, or an ApiError
+  def build_response mx_response
+    if mx_response.is_a? ::MxPlatformRuby::ApiError
+      ::ApiResponseHelper::Build.error_response(mx_response)
+    else
+      ::ApiResponseHelper::Build.success_response(mx_response)
+    end
+  end
+
   # Get the MX Connect widget URL
   # Return the HTML from mx
   def aggregation
     mx_platform_api = ::MxApi.new
-    api_response = mx_platform_api.request_connect_widget_aggregation(params[:user_guid])
+    mx_response = mx_platform_api.request_connect_widget_aggregation(params[:user_guid])
 
-    puts 'Error: creation of Connect Aggregation URL failed' unless api_response
-
-    render json: api_response
+    render json: build_response(mx_response)
   end
 
   def verification
     mx_platform_api = ::MxApi.new
-    api_response = mx_platform_api.request_connect_widget_verification(params[:user_guid])
+    mx_response = mx_platform_api.request_connect_widget_verification(params[:user_guid])
 
-    puts 'Error: creation of Connect Verification URL failed' unless api_response
-
-    render json: api_response
+    render json: build_response(mx_response)
   end
 
   def accounts
