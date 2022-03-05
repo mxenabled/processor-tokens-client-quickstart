@@ -45,10 +45,8 @@ class MxApi
   def read_user(user_guid)
     response = @mx_platform_api.read_user(user_guid)
     p response
-    ::ApiResponseHelper::Build.success_response(response)
   rescue ::MxPlatformRuby::ApiError => e
     puts "Error when calling MxPlatformApi->read_user: #{e}"
-    ::ApiResponseHelper::Build.error_response(e)
   end
 
   # List users
