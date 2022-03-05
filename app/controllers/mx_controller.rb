@@ -58,21 +58,37 @@ class MxController < ApplicationController
 
   def verified_accounts
     mx_platform_api = ::MxApi.new
-    api_accounts = mx_platform_api.request_verified_accounts(params[:user_guid])
+    api_response = mx_platform_api.request_verified_accounts(params[:user_guid])
+
+    # Early return if there was an error response already
+    if !api_response.success
+      render json: api_response
+      return
+    end
+
+    api_accounts = api_response.response[:verified_accounts]
 
     @accounts = []
     api_accounts.each do |account|
       @accounts.push(
         Account.new({
-                      name: account[:name],
-                      guid: account[:guid],
-                      member_guid: account[:member_guid],
-                      user_guid: account[:user_guid]
-                    })
+          name: account[:name],
+          guid: account[:guid],
+          member_guid: account[:member_guid],
+          user_guid: account[:user_guid]
+        })
       )
     end
 
-    render partial: 'verified_accounts', locals: { accounts: @accounts }
+    render json: {
+      status: api_response.status,
+      code: api_response.code,
+      response: {
+        html: (render_to_string partial: 'verified_accounts', locals: 
+          { accounts: @accounts })
+      },
+      error_details: api_response.error_details
+    }
   end
 
   def generate_auth_code

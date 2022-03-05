@@ -313,9 +313,13 @@
     document.getElementById('load-verified-accounts').addEventListener('click', () => {
         fetch("/mx/verified_accounts/<%= @user.guid %>")
         .then(resp => resp.text())
-        .then(accountsHTML => {
-            document.getElementById("verified-accounts").innerHTML = accountsHTML
-            setUpAccountButtons()
+        .then(accountsResponse => {
+            const htmlResponse = handleApiResponse(accountsResponse, "Error fetching user accounts")
+
+            if (htmlResponse) {
+                document.getElementById("verified-accounts").innerHTML = htmlResponse.response.html
+                setUpAccountButtons()
+            }
         })
     })
 </script>

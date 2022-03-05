@@ -173,6 +173,10 @@ class MxApi
     members_response = list_members(user_guid)
     accounts_response = list_user_accounts(user_guid)
 
+    if !accounts_response.success
+      return accounts_response
+    end
+
     # To retreive verified accounts you need a member_guid,
     # and we need to call it for each member we've connected to get all accounts
     verified_account_numbers = []
@@ -190,8 +194,11 @@ class MxApi
     end
 
     # Match Account Numbers to a the Account to get the Name
-    verified_account_numbers.map do |account_number|
-      account = accounts_response.accounts.detect { |acct| acct.guid == account_number.account_guid }
+    account_list = verified_account_numbers.map do |account_number|
+      account = accounts_response.response.accounts.detect { 
+        |acct| acct.guid == account_number.account_guid 
+      }
+
       {
         name: account.name,
         guid: account.guid,
@@ -199,6 +206,8 @@ class MxApi
         user_guid: account.user_guid
       }
     end
+
+    ::ApiResponseHelper::Build.success_response({verified_accounts: account_list})
   end
 
   # Mx Platform API: POST /payment_processor_authorization_code
