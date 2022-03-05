@@ -2,15 +2,6 @@
 
 # Used for forwarding front end calls to MX
 class MxController < ApplicationController
-  # @param mx_response should be data to return, or an ApiError
-  def build_response mx_response
-    if mx_response.is_a? ::MxPlatformRuby::ApiError
-      ::ApiResponseHelper::Build.error_response(mx_response)
-    else
-      ::ApiResponseHelper::Build.success_response(mx_response)
-    end
-  end
-
   # Get the MX Connect widget URL
   # Return the HTML from mx
   def aggregation
