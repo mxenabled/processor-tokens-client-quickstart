@@ -13,6 +13,7 @@ class UsersController < ApplicationController
       mx_response = MxApi.new.fetch_users
       @users = mx_response
     rescue ::MxPlatformRuby::ApiError => e
+      puts "Error calling MxPlatformApi->list_users, #{e}"
       @error = USERS_ERROR
     end
   end
@@ -36,7 +37,7 @@ class UsersController < ApplicationController
   def show
     @user = User.get_user(params[:id])
 
-    render_404 if @user.nil?
+    render404 if @user.nil?
   end
 
   def destroy

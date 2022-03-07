@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+# The parent class that houses shared controller methods
 class ApplicationController < ActionController::Base
-  def render_404
+  def render404
     render file: "#{Rails.root}/public/404.html",
            layout: false,
            status: :not_found

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module ApiResponseHelper
+  # Standard structure for Api responses
   class ApiResponse
     attr_accessor :status, :code, :response, :error_details
 
@@ -18,6 +19,7 @@ module ApiResponseHelper
     end
   end
 
+  # A class with some static methods which render properly structures api responses
   class Build
     # This function builds the message that the UI can consume, specific to success
     # @param response: data from a successful api call
