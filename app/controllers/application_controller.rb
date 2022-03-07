@@ -9,10 +9,10 @@ class ApplicationController < ActionController::Base
   end
 
   def success_response(data)
-    ::ApiResponseHelper::Build.success_response(data)
+    ::ApiResponseHelper::Builder.success_response(data)
   end
 
   def mx_error_response(error)
-    ::ApiResponseHelper::Build.error_response(error)
+    ::ApiResponseHelper::Builder.error_response(error)
   end
 end

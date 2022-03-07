@@ -7,19 +7,15 @@ module MxHelper
     # @return [User]
     def self.api_to_user_model(api_user)
       # See if user name was passed in
-      name = ''
+      name = ""
       begin
         metadata = JSON.parse api_user.metadata
-        name = metadata.key?('name') ? metadata['name'] : ''
-      rescue StandardError
-        puts 'Bad metadata'
+        name = metadata.key?("name") ? metadata["name"] : ""
+      rescue StandardError => e
+        Rails.logger.errors e
       end
 
-      User.new({
-                 name:,
-                 email: api_user.email,
-                 guid: api_user.guid
-               })
+      User.new(name: name, email: api_user.email, guid: api_user.guid)
     end
   end
 end

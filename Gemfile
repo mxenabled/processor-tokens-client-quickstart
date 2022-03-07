@@ -53,6 +53,8 @@ group :development, :test do
 
   # Keep files consistent
   gem 'rubocop'
+
+  gem "rspec-rails"
 end
 
 group :development do
