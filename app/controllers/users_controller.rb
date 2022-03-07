@@ -9,11 +9,10 @@ class UsersController < ApplicationController
     @users = []
     @error = nil
 
-    mx_response = MxApi.new.fetch_users
-
-    unless mx_response.is_a? ::MxPlatformRuby::ApiError
+    begin
+      mx_response = MxApi.new.fetch_users
       @users = mx_response
-    else
+    rescue ::MxPlatformRuby::ApiError => e
       @error = USERS_ERROR
     end
   end

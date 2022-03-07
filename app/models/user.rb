@@ -15,14 +15,15 @@ class User
 
   # Returns the guid
   def create_external_user
-    mx_platform_api = ::MxApi.new
-
-    metadata_hash = { name: @name }
-    response = mx_platform_api.create_user(metadata_hash.to_json, @email)
-
-    puts 'Error: creation of MX user failed' unless response.user.guid
-
-    response.user.guid
+    begin
+      mx_platform_api = ::MxApi.new
+      metadata_hash = { name: @name }
+      response = mx_platform_api.create_user(metadata_hash.to_json, @email)
+      response.user.guid
+    rescue ::MxPlatformRuby::ApiError => e
+      puts "Error when calling MxPlatformApi->create_user: #{e}"
+      return nil
+    end
   end
 
   # Get a single user from the api

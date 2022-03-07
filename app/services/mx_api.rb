@@ -33,11 +33,7 @@ class MxApi
       )
     )
 
-    begin
-      @mx_platform_api.create_user(request_body)
-    rescue ::MxPlatformRuby::ApiError => e
-      puts "Error when calling MxPlatformApi->create_user: #{e}"
-    end
+    @mx_platform_api.create_user(request_body)
   end
 
   # Mx Platform API: GET /users/{user_guid}
@@ -58,19 +54,15 @@ class MxApi
       records_per_page: 100
     }
 
-    begin
-      api_users = @mx_platform_api.list_users(opts)
-      users = []
-      api_users.users.each do |user|
-        users.push(
-          MxHelper::UserAdapter.api_to_user_model(user)
-        )
-      end
-      users
-
-    rescue ::MxPlatformRuby::ApiError => e
-      puts "Error when calling MxPlatformApi->list_users: #{e}"
+    users = []
+    api_users = @mx_platform_api.list_users(opts)
+    api_users.users.each do |user|
+      users.push(
+        MxHelper::UserAdapter.api_to_user_model(user)
+      )
     end
+
+    users
   end
 
   # Delete an MX user
