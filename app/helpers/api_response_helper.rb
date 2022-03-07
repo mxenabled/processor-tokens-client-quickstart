@@ -5,11 +5,11 @@ module ApiResponseHelper
     attr_accessor :status, :code, :response, :error_details
 
     def success
-      return status == 'success'
+      status == 'success'
     end
 
     def to_hash
-      return {
+      {
         status:,
         code:,
         response:,

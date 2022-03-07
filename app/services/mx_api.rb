@@ -160,9 +160,9 @@ class MxApi
 
     # Match Account Numbers to a the Account to get the Name
     account_list = verified_account_numbers.map do |account_number|
-      account = accounts_response.accounts.detect { 
-        |acct| acct.guid == account_number.account_guid 
-      }
+      account = accounts_response.accounts.detect do |acct|
+        acct.guid == account_number.account_guid
+      end
 
       {
         name: account.name,

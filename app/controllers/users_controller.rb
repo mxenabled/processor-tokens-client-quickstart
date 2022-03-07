@@ -2,7 +2,7 @@
 
 # Helps control the CRUD for Users
 class UsersController < ApplicationController
-  USERS_ERROR = "The demo app could not get users from MX, please double check your Configuration"
+  USERS_ERROR = 'The demo app could not get users from MX, please double check your Configuration'
 
   def index
     # Set up the UI variables
@@ -36,9 +36,7 @@ class UsersController < ApplicationController
   def show
     @user = User.get_user(params[:id])
 
-    if @user.nil?
-      render_404
-    end
+    render_404 if @user.nil?
   end
 
   def destroy
