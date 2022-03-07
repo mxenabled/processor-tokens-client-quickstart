@@ -1,13 +1,15 @@
-require_relative "../config/environment"
-require "rspec/rails"
+# frozen_string_literal: true
 
-ENV["RAILS_ENV"] ||= "test"
+require_relative '../config/environment'
+require 'rspec/rails'
 
-abort("Rails is running in production mode!") if Rails.env.production?
+ENV['RAILS_ENV'] ||= 'test'
+
+abort('Rails is running in production mode!') if Rails.env.production?
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-::Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+::Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
