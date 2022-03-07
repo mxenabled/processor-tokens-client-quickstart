@@ -1,5 +1,7 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
-RSpec.describe MxController, type: :controller do
+require 'spec_helper'
 
+describe ::MxController, type: :controller do
+  it 'should be implemented' do; end
 end

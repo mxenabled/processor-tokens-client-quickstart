@@ -2,6 +2,6 @@
 
 require 'spec_helper'
 
-describe ::Account, type: :model do
+describe ::ApplicationController do
   it 'should be implemented' do; end
 end
