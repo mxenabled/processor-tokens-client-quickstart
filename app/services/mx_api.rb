@@ -39,10 +39,7 @@ class MxApi
   # Mx Platform API: GET /users/{user_guid}
   # @return UserResponseBody
   def read_user(user_guid)
-    response = @mx_platform_api.read_user(user_guid)
-    p response
-  rescue ::MxPlatformRuby::ApiError => e
-    puts "Error when calling MxPlatformApi->read_user: #{e}"
+    @mx_platform_api.read_user(user_guid)
   end
 
   # List users

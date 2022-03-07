@@ -29,15 +29,13 @@ class User
   # Get a single user from the api
   # @return nil | User
   def self.get_user(user_guid)
-    mx_platform_api = ::MxApi.new
-
-    api_response = mx_platform_api.read_user(user_guid)
-
-    if api_response.nil?
+    begin
+      mx_platform_api = ::MxApi.new
+      api_response = mx_platform_api.read_user(user_guid)
+      MxHelper::UserAdapter.api_to_user_model(api_response.user)
+    rescue ::MxPlatformRuby::ApiError => e
+      puts "Error when calling MxPlatformApi->read_user: #{e}"
       return nil
     end
-
-    # Adapt to the application's expected model
-    MxHelper::UserAdapter.api_to_user_model(api_response.user)
   end
 end
