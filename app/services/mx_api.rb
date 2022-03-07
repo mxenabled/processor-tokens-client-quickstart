@@ -86,7 +86,7 @@ class MxApi
   # Request a Connect widget URL
   # Mx Platform API: POST /users/{user_guid}/widget_urls
   # @param config: Hash of options to add to the request
-  # @return ApiResponse (with url string on success)
+  # @return widget_url portion of mx response
   def request_connect_widget_url(user_guid, config)
     opts = {
       accept_language: 'en-US'
@@ -100,12 +100,8 @@ class MxApi
       )
     )
 
-    begin
-      response = @mx_platform_api.request_widget_url(user_guid, request_body, opts)
-      response.widget_url
-    rescue ::MxPlatformRuby::ApiError => e
-      e
-    end
+    response = @mx_platform_api.request_widget_url(user_guid, request_body, opts)
+    response.widget_url
   end
 
   # Request a Connect widget with the given parameters for Aggregation
@@ -131,12 +127,7 @@ class MxApi
       records_per_page: 100
     }
 
-    begin
-      @mx_platform_api.list_user_accounts(user_guid, opts)
-    rescue ::MxPlatformRuby::ApiError => e
-      puts "Error when calling MxPlatformApi->list_user_accounts: #{e}"
-      e
-    end
+    @mx_platform_api.list_user_accounts(user_guid, opts)
   end
 
   # Lists all the members a user owns
@@ -161,32 +152,21 @@ class MxApi
   # Mx Platform API: GET /users/{user_guid}/members
   # Mx Platform API: GET /users/{user_guid}/accounts
   # Mx Platform API: GET /users/{user_guid}/members/{member_guid}/account_numbers
-  # @return Account
+  # @return Account[]
   def request_verified_accounts(user_guid)
     members_response = list_members(user_guid)
     accounts_response = list_user_accounts(user_guid)
 
-    # return early if errors happened
-    if accounts_response.is_a? ::MxPlatformRuby::ApiError
-      return accounts_response
-    elsif members_response.is_a? ::MxPlatformRuby::ApiError
-      return members_response
-    end
-
     # To retreive verified accounts you need a member_guid,
     # and we need to call it for each member we've connected to get all accounts
     verified_account_numbers = []
-    begin
-      members_response.members.each do |member|
-        # Looped http call
-        member_accounts = @mx_platform_api.list_account_numbers_by_member(member.guid, user_guid)
-        member_accounts.account_numbers.each do |member_account|
-          verified_account_numbers.push member_account
-        end
+
+    members_response.members.each do |member|
+      # Looped http call
+      member_accounts = @mx_platform_api.list_account_numbers_by_member(member.guid, user_guid)
+      member_accounts.account_numbers.each do |member_account|
+        verified_account_numbers.push member_account
       end
-    rescue ::MxPlatformRuby::ApiError => e
-      puts "Error combining account information: #{e}"
-      return e
     end
 
     # Match Account Numbers to a the Account to get the Name
@@ -215,11 +195,6 @@ class MxApi
       }
     )
 
-    begin
-      @mx_platform_api.request_payment_processor_authorization_code(request_body, {})
-    rescue ::MxPlatformRuby::ApiError => e
-      puts 'Error, could not get auth code from MX API'
-      e
-    end
+    @mx_platform_api.request_payment_processor_authorization_code(request_body, {})
   end
 end

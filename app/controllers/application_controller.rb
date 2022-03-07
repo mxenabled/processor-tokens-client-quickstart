@@ -7,12 +7,11 @@ class ApplicationController < ActionController::Base
       status: :not_found
   end
 
-  # @param mx_response should be data to return, or an ApiError
-  def build_response mx_response
-    if mx_response.is_a? ::MxPlatformRuby::ApiError
-      ::ApiResponseHelper::Build.error_response(mx_response)
-    else
-      ::ApiResponseHelper::Build.success_response(mx_response)
-    end
+  def success_response data
+    ::ApiResponseHelper::Build.success_response(data)
+  end
+
+  def mx_error_response error
+    ::ApiResponseHelper::Build.error_response(error)
   end
 end
