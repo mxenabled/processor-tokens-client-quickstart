@@ -119,6 +119,24 @@
 </div>
 
 <script>
+    /**
+    *  @returns ApiResponse {status: string, response: any} | null
+    *  On error status this returns nil and should be handled
+    */
+    function handleApiResponse(response, messagePrefix = "Error") {
+        try {
+            apiResponse = JSON.parse(response)
+
+            if (apiResponse.status == "error") {
+                throw apiResponse.response
+            }
+
+            return apiResponse
+        } catch (error) {
+            alert(`${messagePrefix}: ${error}`)
+        }
+    }
+
     /** 
     *  This asks rails to call MX in order to obtain a Connect Widget url
     *  @param callbackForUrl: (url) => {}: do something with the url
@@ -127,15 +145,11 @@
         fetch("/mx/aggregation/<%= @user.guid %>")
         .then(resp => resp.text())
         .then(widgetResponse => {
-            let widgetURL = null
-            try {
-                widgetURL = JSON.parse(widgetResponse).url
-            } catch (error) {
-                console.error("Error getting widget URL to load")
-                return
-            }
+            const widgetURL = handleApiResponse(widgetResponse, "Error getting connect URL from MX")
 
-            callbackForUrl(widgetURL)
+            if (widgetURL) {
+                callbackForUrl(widgetURL.response.url)
+            }
         })
     }
 
@@ -222,18 +236,12 @@
         fetch("/mx/aggregation/<%= @user.guid %>")
         .then(resp => resp.text())
         .then(widgetResponse => {
-            let widgetURL = null
-            try {
-                widgetURL = JSON.parse(widgetResponse).url
-            } catch (error) {
-                console.error("Error getting widget URL to load")
-                return
+            const widgetURL = handleApiResponse(widgetResponse, "Error getting connect URL from MX")
+
+            if ( widgetURL ) {
+                mxConnect.load(widgetURL.response.url)
+                showDialog("aggregation")
             }
-
-            mxConnect.load(widgetURL)
-
-            // Custom code to unhide the div containing the widget
-            showDialog("aggregation")
         })
     })
 
@@ -246,16 +254,12 @@
         fetch("/mx/verification/<%= @user.guid %>")
         .then(resp => resp.text())
         .then(widgetResponse => {
-            let widgetURL = null
-            try {
-                widgetURL = JSON.parse(widgetResponse).url
-            } catch (error) {
-                console.error("Error getting widget URL to load")
-                return
-            }
+            const widgetURL = handleApiResponse(widgetResponse, "Error getting a connect URL (verification mode) from MX")
 
-            mxConnect.load(widgetURL)
-            showDialog("verification")
+            if ( widgetURL ) {
+                mxConnect.load(widgetURL.response.url)
+                showDialog("verification")
+            }
         })
     })
 
@@ -275,12 +279,11 @@
                 fetch(`/mx/accounts/generate-auth-code/${accountGUID}/${memberGUID}/${userGUID}`)
                 .then(resp => resp.text())
                 .then(resp => {
-                    try {
-                        parsedResponse = JSON.parse(resp)
-                        document.querySelector(`td[data-account-guid='${accountGUID}'`).innerText = parsedResponse.authorization_code
-                    } catch (error) {
-                        console.error(error)
-                    return
+                    codeResponse = handleApiResponse(resp, "Error getting authorization code from MX")
+
+                    if (codeResponse) {
+                        document.querySelector(`td[data-account-guid='${accountGUID}'`)
+                            .innerText = codeResponse.response.payment_processor_authorization_code.authorization_code
                     }
                 })
             })
@@ -294,8 +297,12 @@
     document.getElementById('load-accounts').addEventListener('click', () => {
         fetch("/mx/accounts/<%= @user.guid %>")
         .then(resp => resp.text())
-        .then(accountsHTML => {
-            document.getElementById("user-accounts").innerHTML = accountsHTML
+        .then(accountsResponse => {
+            const htmlResponse = handleApiResponse(accountsResponse, "Error fetching user accounts")
+
+            if (htmlResponse) {
+                document.getElementById("user-accounts").innerHTML = htmlResponse.response.html
+            }
         })
     })
 
@@ -306,9 +313,13 @@
     document.getElementById('load-verified-accounts').addEventListener('click', () => {
         fetch("/mx/verified_accounts/<%= @user.guid %>")
         .then(resp => resp.text())
-        .then(accountsHTML => {
-            document.getElementById("verified-accounts").innerHTML = accountsHTML
-            setUpAccountButtons()
+        .then(accountsResponse => {
+            const htmlResponse = handleApiResponse(accountsResponse, "Error fetching user accounts")
+
+            if (htmlResponse) {
+                document.getElementById("verified-accounts").innerHTML = htmlResponse.response.html
+                setUpAccountButtons()
+            }
         })
     })
 </script>

@@ -32,4 +32,9 @@ Users
   </tbody>
 </table>
 
+<% if @error %>
+  <script>
+    alert("<%= @error %>")
+  </script>
+<% end %>
 <br>

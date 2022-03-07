@@ -2,8 +2,20 @@
 
 # Helps control the CRUD for Users
 class UsersController < ApplicationController
+  USERS_ERROR = 'The demo app could not get users from MX, please double check your Configuration'
+
   def index
-    @users = MxApi.new.fetch_users
+    # Set up the UI variables
+    @users = []
+    @error = nil
+
+    begin
+      mx_response = MxApi.new.fetch_users
+      @users = mx_response
+    rescue ::MxPlatformRuby::ApiError => e
+      puts "Error calling MxPlatformApi->list_users, #{e}"
+      @error = USERS_ERROR
+    end
   end
 
   def new
@@ -24,14 +36,13 @@ class UsersController < ApplicationController
 
   def show
     @user = User.get_user(params[:id])
+
+    render404 if @user.nil?
   end
 
   def destroy
-    @user = User.get_user(params[:id])
-
-    # Destroy the MX user before destroying our reference
     begin
-      MxApi.new.delete_user(@user.guid)
+      MxApi.new.delete_user(params[:id])
       puts 'Destroyed user'
     rescue StandardError
       puts 'Error deleting user'

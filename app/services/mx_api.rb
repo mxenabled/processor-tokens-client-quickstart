@@ -33,20 +33,13 @@ class MxApi
       )
     )
 
-    begin
-      @mx_platform_api.create_user(request_body)
-    rescue ::MxPlatformRuby::ApiError => e
-      puts "Error when calling MxPlatformApi->create_user: #{e}"
-    end
+    @mx_platform_api.create_user(request_body)
   end
 
   # Mx Platform API: GET /users/{user_guid}
   # @return UserResponseBody
   def read_user(user_guid)
-    response = @mx_platform_api.read_user(user_guid)
-    p response
-  rescue ::MxPlatformRuby::ApiError => e
-    puts "Error when calling MxPlatformApi->read_user: #{e}"
+    @mx_platform_api.read_user(user_guid)
   end
 
   # List users
@@ -58,18 +51,15 @@ class MxApi
       records_per_page: 100
     }
 
-    begin
-      api_users = @mx_platform_api.list_users(opts)
-      users = []
-      api_users.users.each do |user|
-        users.push(
-          MxHelper::UserAdapter.api_to_user_model(user)
-        )
-      end
-      users
-    rescue ::MxPlatformRuby::ApiError => e
-      puts "Error when calling MxPlatformApi->list_users: #{e}"
+    users = []
+    api_users = @mx_platform_api.list_users(opts)
+    api_users.users.each do |user|
+      users.push(
+        MxHelper::UserAdapter.api_to_user_model(user)
+      )
     end
+
+    users
   end
 
   # Delete an MX user
@@ -84,8 +74,9 @@ class MxApi
 
   # Request a Connect widget URL
   # Mx Platform API: POST /users/{user_guid}/widget_urls
+  # @param user_guid: string
   # @param config: Hash of options to add to the request
-  # @return url string
+  # @return widget_url portion of mx response
   def request_connect_widget_url(user_guid, config)
     opts = {
       accept_language: 'en-US'
@@ -99,24 +90,20 @@ class MxApi
       )
     )
 
-    begin
-      response = @mx_platform_api.request_widget_url(user_guid, request_body, opts)
-      response.widget_url.url
-    rescue ::MxPlatformRuby::ApiError => e
-      puts "Error when calling MxPlatformApi->request_widget_url: #{e}"
-    end
+    response = @mx_platform_api.request_widget_url(user_guid, request_body, opts)
+    response.widget_url
   end
 
   # Request a Connect widget with the given parameters for Aggregation
   # Mx Platform API: POST /users/{user_guid}/widget_urls
-  # @return url string
+  # @return widget_url portion of mx response
   def request_connect_widget_aggregation(user_guid)
     request_connect_widget_url(user_guid, { mode: 'aggregation' })
   end
 
   # Request a Connect widget with the given parameters for Verification
   # Mx Platform API: POST /users/{user_guid}/widget_urls
-  # @return url string
+  # @return widget_url portion of mx response
   def request_connect_widget_verification(user_guid)
     request_connect_widget_url(user_guid, { mode: 'verification' })
   end
@@ -130,12 +117,7 @@ class MxApi
       records_per_page: 100
     }
 
-    begin
-      @mx_platform_api.list_user_accounts(user_guid, opts)
-    rescue ::MxPlatformRuby::ApiError => e
-      puts "Error when calling MxPlatformApi->list_user_accounts: #{e}"
-      raise StandardError, 'Error when calling MxPlatformApi->list_user_accounts'
-    end
+    @mx_platform_api.list_user_accounts(user_guid, opts)
   end
 
   # Lists all the members a user owns
@@ -147,12 +129,7 @@ class MxApi
       records_per_page: 100
     }
 
-    begin
-      @mx_platform_api.list_members(user_guid, opts)
-    rescue StandardError
-      puts 'Error, could not list members from MX API'
-      raise StandardError, 'Could not list members'
-    end
+    @mx_platform_api.list_members(user_guid, opts)
   end
 
   # TODO: consider moving this to a controller instead, general refactor
@@ -160,7 +137,10 @@ class MxApi
   # Mx Platform API: GET /users/{user_guid}/members
   # Mx Platform API: GET /users/{user_guid}/accounts
   # Mx Platform API: GET /users/{user_guid}/members/{member_guid}/account_numbers
-  # @return Account
+  # @return Hash<{
+  #  verified_account_numbers: AccountNumbersResponseBody, 
+  #  accounts: AccountsResponseBody
+  # }>
   def request_verified_accounts(user_guid)
     members_response = list_members(user_guid)
     accounts_response = list_user_accounts(user_guid)
@@ -168,29 +148,19 @@ class MxApi
     # To retreive verified accounts you need a member_guid,
     # and we need to call it for each member we've connected to get all accounts
     verified_account_numbers = []
-    begin
-      members_response.members.each do |member|
-        # Looped http call
-        member_accounts = @mx_platform_api.list_account_numbers_by_member(member.guid, user_guid)
-        member_accounts.account_numbers.each do |member_account|
-          verified_account_numbers.push member_account
-        end
+
+    members_response.members.each do |member|
+      # Looped http call
+      member_accounts = @mx_platform_api.list_account_numbers_by_member(member.guid, user_guid)
+      member_accounts.account_numbers.each do |member_account|
+        verified_account_numbers.push member_account
       end
-    rescue ::MxPlatformRuby::ApiError => e
-      puts "Error combining account information: #{e}"
-      raise StandardError, 'Combining accounts and account_numbers failed'
     end
 
-    # Match Account Numbers to a the Account to get the Name
-    verified_account_numbers.map do |account_number|
-      account = accounts_response.accounts.detect { |acct| acct.guid == account_number.account_guid }
-      {
-        name: account.name,
-        guid: account.guid,
-        member_guid: account.member_guid,
-        user_guid: account.user_guid
-      }
-    end
+    {
+      verified_account_numbers:,
+      accounts: accounts_response
+    }
   end
 
   # Mx Platform API: POST /payment_processor_authorization_code
@@ -204,11 +174,6 @@ class MxApi
       }
     )
 
-    begin
-      @mx_platform_api.request_payment_processor_authorization_code(request_body, {})
-    rescue StandardError
-      puts 'Error, could not get auth code from MX API'
-      raise StandardError, 'Could not get auth code from MX'
-    end
+    @mx_platform_api.request_payment_processor_authorization_code(request_body, {})
   end
 end
