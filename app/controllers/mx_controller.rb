@@ -20,52 +20,45 @@ class MxController < ApplicationController
 
   def accounts
     mx_platform_api = ::MxApi.new
-    api_response = mx_platform_api.list_user_accounts(params[:user_guid])
+    mx_response = mx_platform_api.list_user_accounts(params[:user_guid])
+
+    # If there was an error return the error response now
+    if mx_response.is_a? ::MxPlatformRuby::ApiError
+      render json: ::ApiResponseHelper::Build.error_response(mx_response)
+      return
+    end
 
     # UI variables
     @accounts = []
 
-    if api_response.success
-      api_response.response.accounts.each do |account|
-        @accounts.push(
-          Account.new({
-                        name: account.name,
-                        guid: account.guid,
-                        member_guid: account.member_guid,
-                        user_guid: account.user_guid
-                      })
-        )
-      end
-
-      response = {
-        html: (render_to_string partial: 'accounts', locals: { accounts: @accounts })
-      }
-    else
-      response = "Error getting accounts from MX"
+    mx_response.accounts.each do |account|
+      @accounts.push(
+        Account.new({
+          name: account.name,
+          guid: account.guid,
+          member_guid: account.member_guid,
+          user_guid: account.user_guid
+        })
+      )
     end
 
-    render json: {
-      status: api_response.status,
-      code: api_response.code,
-      response:,
-      error_details: api_response.error_details
-    }
+    render json: build_response({
+      html: (render_to_string partial: 'accounts', locals: { accounts: @accounts })
+    })
   end
 
   def verified_accounts
     mx_platform_api = ::MxApi.new
-    api_response = mx_platform_api.request_verified_accounts(params[:user_guid])
+    verified_accounts = mx_platform_api.request_verified_accounts(params[:user_guid])
 
     # Early return if there was an error response already
-    if !api_response.success
-      render json: api_response
+    if verified_accounts.is_a? ::MxPlatformRuby::ApiError
+      render json: build_response(verified_accounts)
       return
     end
 
-    api_accounts = api_response.response[:verified_accounts]
-
     @accounts = []
-    api_accounts.each do |account|
+    verified_accounts.each do |account|
       @accounts.push(
         Account.new({
           name: account[:name],
@@ -76,15 +69,10 @@ class MxController < ApplicationController
       )
     end
 
-    render json: {
-      status: api_response.status,
-      code: api_response.code,
-      response: {
-        html: (render_to_string partial: 'verified_accounts', locals: 
-          { accounts: @accounts })
-      },
-      error_details: api_response.error_details
-    }
+    render json: build_response({
+      html: (render_to_string partial: 'verified_accounts', locals: 
+        { accounts: @accounts })
+    })
   end
 
   def generate_auth_code
@@ -96,6 +84,6 @@ class MxController < ApplicationController
       params[:user_guid]
     )
 
-    render json: api_response
+    render json: build_response(api_response)
   end
 end

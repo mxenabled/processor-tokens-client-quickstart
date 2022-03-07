@@ -132,11 +132,10 @@ class MxApi
     }
 
     begin
-      response = @mx_platform_api.list_user_accounts(user_guid, opts)
-      ::ApiResponseHelper::Build.success_response(response)
+      @mx_platform_api.list_user_accounts(user_guid, opts)
     rescue ::MxPlatformRuby::ApiError => e
       puts "Error when calling MxPlatformApi->list_user_accounts: #{e}"
-      ::ApiResponseHelper::Build.error_response(e)
+      e
     end
   end
 
@@ -167,8 +166,11 @@ class MxApi
     members_response = list_members(user_guid)
     accounts_response = list_user_accounts(user_guid)
 
-    if !accounts_response.success
+    # return early if errors happened
+    if accounts_response.is_a? ::MxPlatformRuby::ApiError
       return accounts_response
+    elsif members_response.is_a? ::MxPlatformRuby::ApiError
+      return members_response
     end
 
     # To retreive verified accounts you need a member_guid,
@@ -184,12 +186,12 @@ class MxApi
       end
     rescue ::MxPlatformRuby::ApiError => e
       puts "Error combining account information: #{e}"
-      raise StandardError, 'Combining accounts and account_numbers failed'
+      return e
     end
 
     # Match Account Numbers to a the Account to get the Name
     account_list = verified_account_numbers.map do |account_number|
-      account = accounts_response.response.accounts.detect { 
+      account = accounts_response.accounts.detect { 
         |acct| acct.guid == account_number.account_guid 
       }
 
@@ -200,8 +202,6 @@ class MxApi
         user_guid: account.user_guid
       }
     end
-
-    ::ApiResponseHelper::Build.success_response({verified_accounts: account_list})
   end
 
   # Mx Platform API: POST /payment_processor_authorization_code
@@ -216,11 +216,10 @@ class MxApi
     )
 
     begin
-      response = @mx_platform_api.request_payment_processor_authorization_code(request_body, {})
-      ::ApiResponseHelper::Build.success_response(response)
+      @mx_platform_api.request_payment_processor_authorization_code(request_body, {})
     rescue ::MxPlatformRuby::ApiError => e
       puts 'Error, could not get auth code from MX API'
-      ::ApiResponseHelper::Build.error_response(e)
+      e
     end
   end
 end
