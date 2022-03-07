@@ -74,6 +74,7 @@ class MxApi
 
   # Request a Connect widget URL
   # Mx Platform API: POST /users/{user_guid}/widget_urls
+  # @param user_guid: string
   # @param config: Hash of options to add to the request
   # @return widget_url portion of mx response
   def request_connect_widget_url(user_guid, config)
@@ -95,14 +96,14 @@ class MxApi
 
   # Request a Connect widget with the given parameters for Aggregation
   # Mx Platform API: POST /users/{user_guid}/widget_urls
-  # @return url string
+  # @return widget_url portion of mx response
   def request_connect_widget_aggregation(user_guid)
     request_connect_widget_url(user_guid, { mode: 'aggregation' })
   end
 
   # Request a Connect widget with the given parameters for Verification
   # Mx Platform API: POST /users/{user_guid}/widget_urls
-  # @return url string
+  # @return widget_url portion of mx response
   def request_connect_widget_verification(user_guid)
     request_connect_widget_url(user_guid, { mode: 'verification' })
   end
@@ -128,12 +129,7 @@ class MxApi
       records_per_page: 100
     }
 
-    begin
-      @mx_platform_api.list_members(user_guid, opts)
-    rescue StandardError
-      puts 'Error, could not list members from MX API'
-      raise StandardError, 'Could not list members'
-    end
+    @mx_platform_api.list_members(user_guid, opts)
   end
 
   # TODO: consider moving this to a controller instead, general refactor
@@ -141,7 +137,10 @@ class MxApi
   # Mx Platform API: GET /users/{user_guid}/members
   # Mx Platform API: GET /users/{user_guid}/accounts
   # Mx Platform API: GET /users/{user_guid}/members/{member_guid}/account_numbers
-  # @return Account[]
+  # @return Hash<{
+  #  verified_account_numbers: AccountNumbersResponseBody, 
+  #  accounts: AccountsResponseBody
+  # }>
   def request_verified_accounts(user_guid)
     members_response = list_members(user_guid)
     accounts_response = list_user_accounts(user_guid)
