@@ -1,8 +1,8 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe ::WelcomeController do
-  describe "GET index" do
-    it "renders index" do
+  describe 'GET index' do
+    it 'renders index' do
       get :index
 
       expect(response).to render_template(:index)

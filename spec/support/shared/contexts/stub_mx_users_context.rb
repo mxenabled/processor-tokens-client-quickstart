@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-shared_context "stub MX users" do
+shared_context 'stub MX users' do
   let(:api) { double }
-  let(:new_user_params) {
-    {:name => "Wolverine", :email => "xman@mx.com"}
-  }
-  let(:params) { {:id => "USR-123"} }
-  let(:response) { OpenStruct.new(:user => user) }
-  let(:user) {
-    User.new(:email => "man@mx.com", :guid => "USR-123", :name => "Spider")
-  }
+  let(:new_user_params) do
+    { name: 'Wolverine', email: 'xman@mx.com' }
+  end
+  let(:params) { { id: 'USR-123' } }
+  let(:response) { OpenStruct.new(user:) }
+  let(:user) do
+    User.new(email: 'man@mx.com', guid: 'USR-123', name: 'Spider')
+  end
   let(:users) { [user] }
 
   before do
