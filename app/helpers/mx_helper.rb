@@ -12,10 +12,12 @@ module MxHelper
         metadata = JSON.parse api_user.metadata
         name = metadata.key?("name") ? metadata["name"] : ""
       rescue StandardError => e
-        Rails.logger.errors e
+        Rails.logger.error e
       end
 
       User.new(name: name, email: api_user.email, guid: api_user.guid)
     end
   end
 end
+
+

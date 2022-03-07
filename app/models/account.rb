@@ -21,12 +21,10 @@ class Account
 
     mx_response.accounts.map do |account|
       Account.new(
-        {
-          name: account.name,
-          guid: account.guid,
-          member_guid: account.member_guid,
-          user_guid: account.user_guid
-        }
+        name: account.name,
+        guid: account.guid,
+        member_guid: account.member_guid,
+        user_guid: account.user_guid
       )
     end
   end
