@@ -138,7 +138,7 @@ class MxApi
   # Mx Platform API: GET /users/{user_guid}/accounts
   # Mx Platform API: GET /users/{user_guid}/members/{member_guid}/account_numbers
   # @return Hash<{
-  #  verified_account_numbers: AccountNumbersResponseBody, 
+  #  verified_account_numbers: AccountNumbersResponseBody,
   #  accounts: AccountsResponseBody
   # }>
   def request_verified_accounts(user_guid)

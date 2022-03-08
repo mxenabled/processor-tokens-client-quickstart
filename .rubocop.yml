@@ -1,15 +1,25 @@
 AllCops:
+  NewCops: enable
   Exclude:
     - 'db/**/*'
     - 'config/**/*'
     - 'script/**/*'
     - 'bin/**/*'
     - !ruby/regexp /old_and_unused\.rb$/
+  SuggestExtensions: false
 
-# other configuration
-# ...
+# Custom configuration
 Metrics/MethodLength:
   Max: 25
 
 Metrics/ClassLength:
   Max: 250
+
+Metrics/BlockLength:
+  Max: 50
+
+Lint/EmptyBlock:
+  Enabled: false
+
+Style/OpenStructUse:
+  Enabled: false
