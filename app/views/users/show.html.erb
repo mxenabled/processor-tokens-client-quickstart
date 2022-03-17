@@ -22,13 +22,13 @@
     </ol>
 
     <%= render "/http_example", 
-      description: "To generate a widget URL, you send an http message to:", 
+      description: "To generate a widget URL send an http message to:", 
       method: "POST", 
       url: "/users/{user_guid}/widget_urls",
       href: "https://docs.mx.com/api#connect_request_a_url"
     %>
 
-    <p>Clicking the button below will both generate the url, and use it with the Widget Loader.  Go ahead and open the Connect Widget by clicking the button</p>
+    <p>Clicking the button below will both generate the url and use it with the Widget Loader.  Go ahead and open the Connect Widget by clicking the button</p>
 
     <button id="open-aggregation">Open Connect Widget</button><br><br>
 
@@ -53,9 +53,9 @@
 <section>
     <h2>Step 3 Verify Member Accounts</h2>
 
-    <p>In order to share account information with an external partner an account must be verified first.  This action can also be done using the Connect Widget using "verification" mode</p>
+    <p>In order to share account information with a Processing Partner an account must be verified first.  This action can also be done using the Connect Widget using "verification" mode</p>
 
-    <p>Clicking the button below will generate a widget url, and render it using the Widget Loader.  The difference from this instance and before, is our request for the url specifies that we want to use "verification" mode</p>
+    <p>Clicking the button below will generate a widget url, and render it using the Widget Loader.  The difference from this widget url request and the previous one, is that this one specifies that we want to use "verification" mode</p>
 
     <button id="open-verification">Open Connect Widget (Verification)</button>
 </section>
@@ -95,7 +95,7 @@
 <section>
     <h2>What's Next?</h2>
 
-    <p>At this point, you hava an authorization code which you can share with one of our payment processing partners! You will need to share it directly with them, and work with them to move the money for your user.</p>
+    <p>At this point, you hava an authorization code which you can share with one of our Processing Partners! You will need to share it directly with them, and then they'll be able to request the account information.</p>
 </section>
 
 <div id="connect-widget-dialog" class="connect-widget-full" hidden>

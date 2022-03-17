@@ -1,7 +1,8 @@
 # Processor Tokens Demo App
 
-This demo application is built in [ruby on rails][RoR]. It will demonstrate the
-required steps that enable Payment Processing via one of our partners.
+This demo application is built in [ruby on rails][RoR]. It will demonstrate how 
+to generate an _authorization code_ which enables sharing 
+account data with one of our Processing Partners.
 
 Here's an overview of the flow and concepts will be shown
 1. Create a user via the MX API
