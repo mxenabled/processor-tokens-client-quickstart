@@ -1,7 +1,8 @@
 # Processor Tokens Demo App
 
-This demo application is built in [ruby on rails][RoR]. It will demonstrate the
-required steps that enable Payment Processing via one of our partners.
+This demo application is built in [ruby on rails][RoR]. It will demonstrate how 
+to generate an _authorization code_ which enables sharing 
+account data with one of our Processing Partners.
 
 Here's an overview of the flow and concepts will be shown
 1. Create a user via the MX API
@@ -17,7 +18,7 @@ the API calls in this application.
 - This app uses the Connect Widget to connect a user to an institution, and to
 verify their accounts. While using the widget is not required, it handles a lot
 of complexity with connecting users to various Institutions. To learn more about
-using the connect widget see [how to get a connect widget url][request-a-url] and
+using the connect widget see [how to get a connect widget URL][request-a-url] and
 [how to load the connect widget][guides-intro].
 
 ## Installation
