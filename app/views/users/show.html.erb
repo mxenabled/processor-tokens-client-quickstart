@@ -17,8 +17,8 @@
     </p>
 
     <ol>
-        <li>Get a widget url from the API</li>
-        <li>Use the widget url in the Widget Loader to render it on the page</li>
+        <li>Get a widget URL from the API</li>
+        <li>Use the widget URL in the Widget Loader to render it on the page</li>
     </ol>
 
     <%= render "/http_example", 
@@ -28,7 +28,7 @@
       href: "https://docs.mx.com/api#connect_request_a_url"
     %>
 
-    <p>Clicking the button below will both generate the url and use it with the Widget Loader.  Go ahead and open the Connect Widget by clicking the button</p>
+    <p>Clicking the button below will both generate the URL and use it with the Widget Loader.  Go ahead and open the Connect Widget by clicking the button</p>
 
     <button id="open-aggregation">Open Connect Widget</button><br><br>
 
@@ -55,7 +55,7 @@
 
     <p>In order to share account information with a Processing Partner an account must be verified first.  This action can also be done using the Connect Widget using "verification" mode</p>
 
-    <p>Clicking the button below will generate a widget url, and render it using the Widget Loader.  The difference from this widget url request and the previous one, is this one requests "verification" mode instead of "aggregation"</p>
+    <p>Clicking the button below will generate a widget URL, and render it using the Widget Loader.  The difference from this widget URL request and the previous one, is this one requests "verification" mode instead of "aggregation"</p>
 
     <button id="open-verification">Open Connect Widget (Verification)</button>
 </section>
@@ -138,8 +138,8 @@
     }
 
     /** 
-    *  This asks rails to call MX in order to obtain a Connect Widget url
-    *  @param callbackForUrl: (url) => {}: do something with the url
+    *  This asks rails to call MX in order to obtain a Connect Widget URL
+    *  @param callbackForUrl: (url) => {}: do something with the URL
     */
     function getWidgetURL(callbackForUrl) {
         fetch("/mx/aggregation/<%= @user.guid %>")
@@ -186,7 +186,7 @@
     }
 
     /**
-    *  Wire up the button to generate a url
+    *  Wire up the button to generate a URL
     */
     document.getElementById('gen-url').addEventListener('click', () =>
         getWidgetURL((url) => alert(url))
@@ -232,7 +232,7 @@
     *  This calls the rails back-end to make the call directly to the MX API
     */
     document.getElementById('open-aggregation').addEventListener('click', () => {
-        // This endpoint will get a fresh widget url for aggregation
+        // This endpoint will get a fresh widget URL for aggregation
         fetch("/mx/aggregation/<%= @user.guid %>")
         .then(resp => resp.text())
         .then(widgetResponse => {
@@ -250,7 +250,7 @@
     *  This calls the rails back-end to make the call directly to the MX API
     */
     document.getElementById('open-verification').addEventListener('click', () => {
-        // This endpoint will get a fresh widget url for verification
+        // This endpoint will get a fresh widget URL for verification
         fetch("/mx/verification/<%= @user.guid %>")
         .then(resp => resp.text())
         .then(widgetResponse => {

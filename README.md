@@ -18,7 +18,7 @@ the API calls in this application.
 - This app uses the Connect Widget to connect a user to an institution, and to
 verify their accounts. While using the widget is not required, it handles a lot
 of complexity with connecting users to various Institutions. To learn more about
-using the connect widget see [how to get a connect widget url][request-a-url] and
+using the connect widget see [how to get a connect widget URL][request-a-url] and
 [how to load the connect widget][guides-intro].
 
 ## Installation
