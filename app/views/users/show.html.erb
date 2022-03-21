@@ -10,7 +10,7 @@
 </p>
 
 <section>
-    <h2>Step 2 Connect an Institution</h2>
+    <h2>Step 2 Connect to an Institution</h2>
 
     <p>
         MX provides developers with MXconnect to simplify the process of connecting to various institutions.  In order to launch it there are a few steps to follow.
@@ -153,7 +153,7 @@
         fetch("/mx/aggregation/<%= @user.guid %>")
         .then(resp => resp.text())
         .then(widgetResponse => {
-            const widgetURL = handleApiResponse(widgetResponse, "Error getting Connect URL from MX")
+            const widgetURL = handleApiResponse(widgetResponse, "Error getting an MXconnect URL from MX")
 
             if (widgetURL) {
                 callbackForUrl(widgetURL.response.url)
@@ -162,7 +162,7 @@
     }
 
     /**
-    *  Used to show the Connect dialog
+    *  Used to show the custom MXconnect dialog
     *  It also helps to show or hide the correct set of instructions depending on mode
     */
     function showDialog(type) {
@@ -184,7 +184,7 @@
     }
 
     /**
-    *  This is used to completely dismiss the app's Connect Dialog
+    *  This is used to dismiss the app's custom dialog which show MXconnect
     *  by hiding the dialog, and completely removing the iframe
     */
     function dismissDialog() {
@@ -215,7 +215,7 @@
         id: "connect-widget",
         iframeTitle: "Connect",
         /**
-        * Callback that for handling all events within Connect.
+        * Callback that for handling all events within MXconnect.
         * Only called in  ui_message_version 4 or higher.
         *
         * The events called here are the same events that come through post
@@ -244,7 +244,7 @@
         fetch("/mx/aggregation/<%= @user.guid %>")
         .then(resp => resp.text())
         .then(widgetResponse => {
-            const widgetURL = handleApiResponse(widgetResponse, "Error getting Connect URL from MX")
+            const widgetURL = handleApiResponse(widgetResponse, "Error getting an MXconnect URL (aggregation mode) from MX")
 
             if ( widgetURL ) {
                 mxConnect.load(widgetURL.response.url)
@@ -262,7 +262,7 @@
         fetch("/mx/verification/<%= @user.guid %>")
         .then(resp => resp.text())
         .then(widgetResponse => {
-            const widgetURL = handleApiResponse(widgetResponse, "Error getting a Connect URL (verification mode) from MX")
+            const widgetURL = handleApiResponse(widgetResponse, "Error getting an MXconnect URL (verification mode) from MX")
 
             if ( widgetURL ) {
                 mxConnect.load(widgetURL.response.url)
