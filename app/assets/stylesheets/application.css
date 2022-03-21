@@ -18,6 +18,7 @@
  * Colors from MX
  */
 :root {
+  --mx-BackgroundColor_Body: #F8F9FB;
   --mx-BackgroundColor_Container: #FFFFFF;
   --mx-BackgroundColor_ButtonPrimary: #2F73DA;
   --mx-TextColor_ButtonPrimary: #FFFFFF;
@@ -135,4 +136,24 @@ table td + td {
   height: 100%;
   background-color: var(--mx-BackgroundColor_Container);
   text-align: center;
+  overflow: auto;
+}
+
+.instructions {
+ padding: 0px var(--mx-Spacing_Medium) var(--mx-Spacing_Medium) var(--mx-Spacing_Medium);
+ background-color: var(--mx-BackgroundColor_Body);
+}
+
+.instructions h2 {
+  display: inline-block;
+}
+
+.instructions ol {
+  display: inline-block;
+  padding: 0;
+  text-align: left;
+}
+
+.instructions ol li {
+  list-style-position: inside;
 }
