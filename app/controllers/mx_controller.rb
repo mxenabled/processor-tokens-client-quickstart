@@ -4,7 +4,7 @@
 # All of the controller actions return an ApiResponse object
 # see: app/helpers/api_response_helper.rb
 class MxController < ApplicationController
-  # Get the MX Connect widget URL
+  # Get an MXconnect URL
   # Return the HTML from mx
   def aggregation
     mx_platform_api = ::MxApi.new
