@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe ::User do
+describe ::User, type: :model do
   include_context 'stub MX users'
 
   subject { user }

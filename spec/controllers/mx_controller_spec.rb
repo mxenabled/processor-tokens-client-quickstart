@@ -2,6 +2,6 @@
 
 require 'spec_helper'
 
-describe ::MxController do
+describe ::MxController, type: :controller do
   it 'should be implemented' do; end
 end

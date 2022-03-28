@@ -3,7 +3,7 @@
 # Set up our app to use the Client ID and API Key from the MX Client Dashboard
 # https://dashboard.mx.com
 
-puts('... Loading MX Configuration ...')
+Rails.logger.info('... Loading MX Configuration ...')
 
 ::MxPlatformRuby.configure do |config|
   # Configure with your Client ID/API Key from https://dashboard.mx.com
@@ -19,4 +19,4 @@ end
 # api_client.default_headers['Accept'] = 'application/vnd.mx.api.v1+json'
 # mx_platform_api = ::MxPlatformRuby::MxPlatformApi.new(api_client)
 
-puts('... MX Configured! ...')
+Rails.logger.info('... MX Configured! ...')

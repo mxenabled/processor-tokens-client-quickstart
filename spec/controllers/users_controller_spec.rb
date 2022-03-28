@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe ::UsersController do
+describe ::UsersController, type: :controller do
   include_context 'stub MX users'
 
   describe 'GET index' do
