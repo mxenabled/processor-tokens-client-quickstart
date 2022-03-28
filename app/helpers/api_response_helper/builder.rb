@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApiResponseHelper
   class Builder
     # This function builds the message that the UI can consume, specific to success

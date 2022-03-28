@@ -37,8 +37,6 @@ class Account
     end
   end
 
-private
-
   def self.build_account(account)
     Account.new(
       name: account.name,

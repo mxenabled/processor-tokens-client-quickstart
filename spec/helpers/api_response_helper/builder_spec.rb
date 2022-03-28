@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 describe ::ApiResponseHelper::Builder do
-  describe ".success_response" do
-    let(:data) { OpenStruct.new(:status => 'error', :code => nil, :response => nil, :error_details => nil) }
+  describe '.success_response' do
+    let(:data) { OpenStruct.new(status: 'error', code: nil, response: nil, error_details: nil) }
 
     let(:response_message) { described_class.success_response(data) }
 
@@ -13,14 +13,16 @@ describe ::ApiResponseHelper::Builder do
     it { expect(response_message).to be_an_instance_of(::ApiResponseHelper::Response) }
   end
 
-  describe ".error_response" do
-    let(:error) { ::MxPlatformRuby::ApiError.new(code: 500, response_headers: {}, response_body: "Bad things happened") }
+  describe '.error_response' do
+    let(:error) do
+      ::MxPlatformRuby::ApiError.new(code: 500, response_headers: {}, response_body: 'Bad things happened')
+    end
     let(:error_message) do
       msg = <<~ERROR.chomp
-      Error message: the server returns an error
-      HTTP status code: 500
-      Response headers: {}
-      Response body: Bad things happened
+        Error message: the server returns an error
+        HTTP status code: 500
+        Response headers: {}
+        Response body: Bad things happened
       ERROR
     end
 
