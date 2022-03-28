@@ -10,27 +10,27 @@
 </p>
 
 <section>
-    <h2>Step 2 Connect an Institution</h2>
+    <h2>Step 2 Connect to an Institution</h2>
 
     <p>
-        MX provides developers with the Connect Widget to simplify the process of connecting to various institutions.  In order to show the widget there are a few steps to follow.
+        MX provides developers with MXconnect to simplify the process of connecting to various institutions.  In order to launch it there are a few steps to follow.
     </p>
 
     <ol>
-        <li>Get a widget url from the API</li>
-        <li>Use the widget url in the Widget Loader to render it on the page</li>
+        <li>Get a URL from the MX API</li>
+        <li>Use the returned URL with the Widget Loader to show it on the page</li>
     </ol>
 
     <%= render "/http_example", 
-      description: "To generate a widget URL, you send an http message to:", 
+      description: "To generate a widget URL send an http message to:", 
       method: "POST", 
       url: "/users/{user_guid}/widget_urls",
       href: "https://docs.mx.com/api#connect_request_a_url"
     %>
 
-    <p>Clicking the button below will both generate the url, and use it with the Widget Loader.  Go ahead and open the Connect Widget by clicking the button</p>
+    <p>Click the button below to generate a URL and also launch MXconnect.</p>
 
-    <button id="open-aggregation">Open Connect Widget</button><br><br>
+    <button id="open-aggregation">Open MXconnect</button><br><br>
 
     <p>(optional) If you want to see what a URL looks like, click the button to call the endpoint above.</p>
 
@@ -53,11 +53,11 @@
 <section>
     <h2>Step 3 Verify Member Accounts</h2>
 
-    <p>In order to share account information with an external partner an account must be verified first.  This action can also be done using the Connect Widget using "verification" mode</p>
+    <p>In order to share account information with a Processing Partner an account must be verified first.  This action can be done with MXconnect by using its "verification" mode</p>
 
-    <p>Clicking the button below will generate a widget url, and render it using the Widget Loader.  The difference from this instance and before, is our request for the url specifies that we want to use "verification" mode</p>
+    <p>Click the button below to generate a new URL (configured for verification) and launch MXconnect.</p>
 
-    <button id="open-verification">Open Connect Widget (Verification)</button>
+    <button id="open-verification">Open MXconnect (Verification)</button>
 </section>
 
 <section>
@@ -70,7 +70,7 @@
         <li>The Member has been verified</li>
     </ol>
 
-    <p>Now the app needs display a list of verified accounts, so the user can generate an authorization code</p>
+    <p>Now the app needs to display a list of verified accounts, so the user can generate an authorization code</p>
 
     <%= render "/http_example",
       description: "To list account numbers that have been verified, send an http message to:", 
@@ -95,26 +95,34 @@
 <section>
     <h2>What's Next?</h2>
 
-    <p>At this point, you hava an authorization code which you can share with one of our payment processing partners! You will need to share it directly with them, and work with them to move the money for your user.</p>
+    <p>At this point, you hava an authorization code which you can share with one of our Processing Partners! You will need to share it directly with them, and then they'll be able to request the account information.</p>
 </section>
 
 <div id="connect-widget-dialog" class="connect-widget-full" hidden>
-    <div id="aggregation-instructions">
-        <h2>Connect Widget (Aggregation Mode)</h2>
-        <div>Click "Continue"</div>
-        <div>Search for "MX Bank"</div>
-        <div>user: mxuser</div>
-        <div>password: password</div>
-        <br>
+    <div class="instructions">
+        <div id="aggregation-instructions">
+            <h2>MXconnect (Aggregation Mode)</h2>
+            <div>
+                <ol>
+                    <li>Click "Continue"</li>
+                    <li>Search for and select "MX Bank"</li>
+                    <li>user: mxuser</li>
+                    <li>password: password</li>
+                </ol>
+            </div>
+        </div>
+
+        <div id="verification-instructions">
+            <h2>MXconnect (Verification Mode)</h2>
+            <div>
+                <ol>
+                    <li>Click "Continue"</li>
+                    <li>Select "MX Bank"</li>
+                </ol>
+            </div>
+        </div>
+        <button id="widget-close">Close MXconnect</button>
     </div>
-    <div id="verification-instructions">
-        <h2>Connect Widget (Verification Mode)</h2>
-        <div>Click "Continue"</div>
-        <div>Select "MX Bank"</div>
-        <div>Once verification is done, close the widget</div>
-        <br>
-    </div>
-    <button id="widget-close">Close Widget</button>
     <div id="connect-widget"></div>
 </div>
 
@@ -138,14 +146,14 @@
     }
 
     /** 
-    *  This asks rails to call MX in order to obtain a Connect Widget url
-    *  @param callbackForUrl: (url) => {}: do something with the url
+    *  This asks rails to call MX in order to obtain an MXconnect URL
+    *  @param callbackForUrl: (url) => {}: do something with the URL
     */
     function getWidgetURL(callbackForUrl) {
         fetch("/mx/aggregation/<%= @user.guid %>")
         .then(resp => resp.text())
         .then(widgetResponse => {
-            const widgetURL = handleApiResponse(widgetResponse, "Error getting connect URL from MX")
+            const widgetURL = handleApiResponse(widgetResponse, "Error getting an MXconnect URL from MX")
 
             if (widgetURL) {
                 callbackForUrl(widgetURL.response.url)
@@ -154,7 +162,7 @@
     }
 
     /**
-    *  Used to show the Connect dialog
+    *  Used to show the custom MXconnect dialog
     *  It also helps to show or hide the correct set of instructions depending on mode
     */
     function showDialog(type) {
@@ -176,7 +184,7 @@
     }
 
     /**
-    *  This is used to completely dismiss the app's Connect Dialog
+    *  This is used to dismiss the app's custom dialog which show MXconnect
     *  by hiding the dialog, and completely removing the iframe
     */
     function dismissDialog() {
@@ -186,7 +194,7 @@
     }
 
     /**
-    *  Wire up the button to generate a url
+    *  Wire up the button to generate a URL
     */
     document.getElementById('gen-url').addEventListener('click', () =>
         getWidgetURL((url) => alert(url))
@@ -200,14 +208,14 @@
      })
 
     /**
-    *  Set up the Widget Loader so we can load the Connect Widget easily
+    *  Set up the Widget Loader so we can load MXconnect easily
     *  For more information see the example docs here: https://docs.mx.com/connect/guides/web
     */
     var mxConnect = new window.MXConnect({
         id: "connect-widget",
         iframeTitle: "Connect",
         /**
-        * Callback that for handling all events within Connect.
+        * Callback that for handling all events within MXconnect.
         * Only called in  ui_message_version 4 or higher.
         *
         * The events called here are the same events that come through post
@@ -228,15 +236,15 @@
     })
 
     /**
-    *  Wire up the button which opens the Connect Widget in "aggregation" mode
+    *  Wire up the button which opens MXconnect in "aggregation" mode
     *  This calls the rails back-end to make the call directly to the MX API
     */
     document.getElementById('open-aggregation').addEventListener('click', () => {
-        // This endpoint will get a fresh widget url for aggregation
+        // This endpoint will get a fresh widget URL for aggregation
         fetch("/mx/aggregation/<%= @user.guid %>")
         .then(resp => resp.text())
         .then(widgetResponse => {
-            const widgetURL = handleApiResponse(widgetResponse, "Error getting connect URL from MX")
+            const widgetURL = handleApiResponse(widgetResponse, "Error getting an MXconnect URL (aggregation mode) from MX")
 
             if ( widgetURL ) {
                 mxConnect.load(widgetURL.response.url)
@@ -246,15 +254,15 @@
     })
 
     /**
-    *  Wire up the button that opens the Connect Widget in "verification" mode
+    *  Wire up the button that opens MXconnect in "verification" mode
     *  This calls the rails back-end to make the call directly to the MX API
     */
     document.getElementById('open-verification').addEventListener('click', () => {
-        // This endpoint will get a fresh widget url for verification
+        // This endpoint will get a fresh widget URL for verification
         fetch("/mx/verification/<%= @user.guid %>")
         .then(resp => resp.text())
         .then(widgetResponse => {
-            const widgetURL = handleApiResponse(widgetResponse, "Error getting a connect URL (verification mode) from MX")
+            const widgetURL = handleApiResponse(widgetResponse, "Error getting an MXconnect URL (verification mode) from MX")
 
             if ( widgetURL ) {
                 mxConnect.load(widgetURL.response.url)
