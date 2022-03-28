@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module ApiResponseHelper
+  # Builder is used to "build" either the success or error messages returned from the API
   class Builder
     # This function builds the message that the UI can consume, specific to success
     # @param response: data from a successful api call

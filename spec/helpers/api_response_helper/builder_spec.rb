@@ -18,7 +18,8 @@ describe ::ApiResponseHelper::Builder do
       ::MxPlatformRuby::ApiError.new(code: 500, response_headers: {}, response_body: 'Bad things happened')
     end
     let(:error_message) do
-      msg = <<~ERROR.chomp
+      # msg =
+      <<~ERROR.chomp
         Error message: the server returns an error
         HTTP status code: 500
         Response headers: {}

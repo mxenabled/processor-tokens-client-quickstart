@@ -45,7 +45,7 @@ class UsersController < ApplicationController
       MxApi.new.delete_user(params[:id])
       logger.info 'Destroyed user'
     rescue StandardError => e
-      logger.error 'Error deleting user: e.message'
+      logger.error "Error deleting user: #{e.message}"
     end
 
     redirect_to action: 'index', status: :see_other
