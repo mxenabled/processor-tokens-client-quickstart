@@ -38,6 +38,7 @@
   --mx-Spacing_Tiny: 4px;
   --mx-Spacing_XSmall: 8px;
   --mx-Spacing_Medium: 16px;
+  --mx-Spacing_Large: 24px;
   --mx-Spacing_XXXLarge: 48px;
 }
 
@@ -171,4 +172,11 @@ form > .form-input {
 
 .instructions ol li {
   list-style-position: inside;
+}
+
+/**
+* Add consistent spaces between a section's parts
+*/
+.sub-section {
+  margin: var(--mx-Spacing_Large) 0;
 }
