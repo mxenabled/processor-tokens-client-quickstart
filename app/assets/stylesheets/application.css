@@ -98,6 +98,14 @@ table td {
 table td + td {
   border-left: 1px solid black;
 }
+#users-table > a {
+  display: inline-block;
+  margin-bottom: var(--mx-Spacing_Medium)
+}
+
+form > .form-input {
+  margin-bottom: var(--mx-Spacing_XSmall)
+}
 
 /*
 * Styles for the HTTP Examples
@@ -106,6 +114,10 @@ table td + td {
   border: 1px solid black;
   padding: var(--mx-Spacing_Medium);
   margin-bottom: var(--mx-Spacing_Medium);
+}
+
+.http-box > .http-box-section {
+  margin-bottom: var(--mx-Spacing_Medium)
 }
 
 .http-box-description {
@@ -128,6 +140,9 @@ table td + td {
   word-break: break-all;
 }
 
+/**
+* Styles for the widget and its instructions
+*/
 .connect-widget-full {
   position: fixed;
   top: 0;

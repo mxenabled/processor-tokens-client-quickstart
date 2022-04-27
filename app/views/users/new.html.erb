@@ -14,11 +14,13 @@ Create User
 <p>Fill in a few small pieces of information to create a user<p>
 
 <%= form_with url: "/users", method: :post do |form| %>
-  <%= form.label :name %>
-  <%= form.text_field :name %><br>
-  <br>
-  <%= form.label :email %>
-  <%= form.text_field :email %><br>
-  <br>
+  <div class="form-input">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+  <div class="form-input">
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
   <%= form.submit "Save User"%>
 <% end %>

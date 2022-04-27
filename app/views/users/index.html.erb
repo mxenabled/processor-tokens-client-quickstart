@@ -2,39 +2,42 @@
 Users
 
 <h1>MX Users</h1>
-<h2>Step 1</h2>
 
-<p>Let's create a user with the MX API.  Click "Create User" below.<p>
+<section>
+  <h2>Step 1</h2>
+  <p>Let's create a user with the MX API.  Click "Create User" below.<p>
+  <p>Alternatively, if you've already created a user they will be listed below and you can go to their dashboard directly.</p>
+</section>
 
-<p>Alternatively, if you've already created a user they will be listed below and you can go to their dashboard directly.</p><br>
-<%= link_to "Create User", new_user_path %><br><br>
+<div id='users-table'>
+  <%= link_to "Create User", new_user_path %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>MX GUID</th>
-      <th colspan="2">Actions</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @users.each do |user| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= user.name %></td>
-        <td><%= user.email %></td>
-        <td><%= user.guid %></td>
-        <td><%= link_to "Show User Dashboard", "/users/#{user.guid}" %></td>
-        <td><%= link_to "Destroy", "/users/#{user.guid}", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "link-destructive" %></td>
+        <th>Name</th>
+        <th>Email</th>
+        <th>MX GUID</th>
+        <th colspan="2">Actions</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.guid %></td>
+          <td><%= link_to "Show User Dashboard", "/users/#{user.guid}" %></td>
+          <td><%= link_to "Destroy", "/users/#{user.guid}", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "link-destructive" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <% if @error %>
   <script>
     alert("<%= @error %>")
   </script>
 <% end %>
-<br>
