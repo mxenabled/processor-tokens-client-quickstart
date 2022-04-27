@@ -21,6 +21,7 @@
   --mx-BackgroundColor_Body: #F8F9FB;
   --mx-BackgroundColor_Container: #FFFFFF;
   --mx-BackgroundColor_ButtonPrimary: #2F73DA;
+  --mx-BackgroundColor_ButtonPrimaryHover: #165ECC;
   --mx-TextColor_ButtonPrimary: #FFFFFF;
   --mx-BackgroundColor_ButtonNeutral: #FFFFFF;
   --mx-Spacing_ButtonPadding: 12px;
@@ -64,6 +65,10 @@ input[type="submit"] {
   padding: var(--mx-Spacing_ButtonPadding);
   border-radius: var(--mx-BorderRadius_Button);
   font-size: var(--mx-FontSize_Button)
+}
+input[type="submit"]:hover {
+  background-color: var(--mx-BackgroundColor_ButtonPrimaryHover);
+  cursor: pointer;
 }
 
 /* Neutral button styles */
