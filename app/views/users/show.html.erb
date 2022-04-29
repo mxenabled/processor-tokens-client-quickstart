@@ -12,42 +12,48 @@
 <section>
     <h2>Step 2 Connect to an Institution</h2>
 
-    <p>
-        MX provides developers with MXconnect to simplify the process of connecting to various institutions.  In order to launch it there are a few steps to follow.
-    </p>
+    <div class="sub-section">
+        <p>
+            MX provides developers with MXconnect to simplify the process of connecting to various institutions.  In order to launch it there are a few steps to follow.
+        </p>
 
-    <ol>
-        <li>Get a URL from the MX API</li>
-        <li>Use the returned URL with the Widget Loader to show it on the page</li>
-    </ol>
+        <ol>
+            <li>Get a URL from the MX API</li>
+            <li>Use the returned URL with the Widget Loader to show it on the page</li>
+        </ol>
 
-    <%= render "/http_example", 
-      description: "To generate a widget URL send an http message to:", 
-      method: "POST", 
-      url: "/users/{user_guid}/widget_urls",
-      href: "https://docs.mx.com/api#connect_request_a_url"
-    %>
+        <%= render "/http_example",
+            description: "To generate a widget URL send an http message to:",
+            method: "POST",
+            url: "/users/{user_guid}/widget_urls",
+            href: "https://docs.mx.com/api#connect_request_a_url"
+        %>
 
-    <p>Click the button below to generate a URL and also launch MXconnect.</p>
+        <p>Click the button below to generate a URL and also launch MXconnect.</p>
 
-    <button id="open-aggregation">Open MXconnect</button><br><br>
+        <button id="open-aggregation">Open MXconnect</button>
+    </div>
 
-    <p>(optional) If you want to see what a URL looks like, click the button to call the endpoint above.</p>
+    <div class="sub-section">
+        <p>(optional) If you want to see what a URL looks like, click the button to call the endpoint above.</p>
 
-    <button id="gen-url">Generate a URL</button><br><br><br>
+        <button id="gen-url">Generate a URL</button>
+    </div>
 
-    <%= render "/http_example",
-      description: "To list a user's accounts send an http message to:", 
-      method: "GET", 
-      url: "/users/{user_guid}/accounts",
-      href: "https://docs.mx.com/api#core_resources_accounts_list_accounts"
-    %>
+    <div class="sub-section">
+        <%= render "/http_example",
+            description: "To list a user's accounts send an http message to:",
+            method: "GET",
+            url: "/users/{user_guid}/accounts",
+            href: "https://docs.mx.com/api#core_resources_accounts_list_accounts"
+        %>
 
-    <p>Click the button below to see what accounts have been connected to MX</p>
-    
-    <button id="load-accounts">Load User Accounts</button>
+        <p>Click the button below to see what accounts have been connected to MX</p>
 
-    <div id="user-accounts"></div>
+        <button id="load-accounts">Load User Accounts</button>
+
+        <div id="user-accounts"></div>
+    </div>
 </section>
 
 <section>
@@ -79,17 +85,20 @@
       href: "https://docs.mx.com/api#verification_mx_widgets_list_account_numbers_by_member"
     %>
 
-    <button id="load-verified-accounts">Load Verified Accounts</button><br><br>
+    <button id="load-verified-accounts">Load Verified Accounts</button>
 
     <p>Once the list loads up, you can click the "Generate Auth Code" button to request a code for that account</p>
 
-    <%= render "/http_example",
-      description: "To get an account authorization code, send an http message to:", 
-      method: "POST", 
-      url: "/payment_processor_authorization_code"
-    %>
-
     <div id="verified-accounts"></div>
+
+    <div class="sub-section">
+        <%= render "/http_example",
+            description: "To get an account authorization code, send an http message to:",
+            method: "POST",
+            url: "/payment_processor_authorization_code"
+        %>
+    </div>
+
 </section>
 
 <section>

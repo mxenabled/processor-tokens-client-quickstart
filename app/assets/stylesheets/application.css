@@ -21,6 +21,7 @@
   --mx-BackgroundColor_Body: #F8F9FB;
   --mx-BackgroundColor_Container: #FFFFFF;
   --mx-BackgroundColor_ButtonPrimary: #2F73DA;
+  --mx-BackgroundColor_ButtonPrimaryHover: #165ECC;
   --mx-TextColor_ButtonPrimary: #FFFFFF;
   --mx-BackgroundColor_ButtonNeutral: #FFFFFF;
   --mx-Spacing_ButtonPadding: 12px;
@@ -38,6 +39,7 @@
   --mx-Spacing_Tiny: 4px;
   --mx-Spacing_XSmall: 8px;
   --mx-Spacing_Medium: 16px;
+  --mx-Spacing_Large: 24px;
   --mx-Spacing_XXXLarge: 48px;
 }
 
@@ -63,6 +65,10 @@ input[type="submit"] {
   padding: var(--mx-Spacing_ButtonPadding);
   border-radius: var(--mx-BorderRadius_Button);
   font-size: var(--mx-FontSize_Button)
+}
+input[type="submit"]:hover {
+  background-color: var(--mx-BackgroundColor_ButtonPrimaryHover);
+  cursor: pointer;
 }
 
 /* Neutral button styles */
@@ -98,6 +104,14 @@ table td {
 table td + td {
   border-left: 1px solid black;
 }
+#users-table > a {
+  display: inline-block;
+  margin-bottom: var(--mx-Spacing_Medium)
+}
+
+form > .form-input {
+  margin-bottom: var(--mx-Spacing_XSmall)
+}
 
 /*
 * Styles for the HTTP Examples
@@ -106,6 +120,10 @@ table td + td {
   border: 1px solid black;
   padding: var(--mx-Spacing_Medium);
   margin-bottom: var(--mx-Spacing_Medium);
+}
+
+.http-box > .http-box-section {
+  margin-bottom: var(--mx-Spacing_Medium)
 }
 
 .http-box-description {
@@ -128,6 +146,9 @@ table td + td {
   word-break: break-all;
 }
 
+/**
+* Styles for the widget and its instructions
+*/
 .connect-widget-full {
   position: fixed;
   top: 0;
@@ -156,4 +177,11 @@ table td + td {
 
 .instructions ol li {
   list-style-position: inside;
+}
+
+/**
+* Add consistent spaces between a section's parts
+*/
+.sub-section {
+  margin: var(--mx-Spacing_Large) 0;
 }
