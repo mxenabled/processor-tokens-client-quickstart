@@ -28,7 +28,7 @@ You can skip to _Configuration_ if you're going to run the app in Docker
 1. Install ruby v 3.1 [Ruby downloads page][Ruby]
 2. Install bundler
 ```bash
-$ gem install bundler -v 2.3.3
+$ gem install bundler -v 2.3.6
 ```
 3. run `bundle install`
 
@@ -59,6 +59,7 @@ In order to use processor tokens, your MX client must have these features enable
 1. Open a terminal, and navigate to the root of the project
 2. `rails s` or `bin/rails s` will start the server
 3. (when you're done) `Ctrl C` to stop the server
+4. Open the app in [your browser][localhost] to begin
 
 ### Run in Docker
 
@@ -70,8 +71,11 @@ Or customize your image name
 1. `docker build -t <YOUR_IMAGE_NAME> .`
 2. `docker run -p 3000:3000 --env-file .env <YOUR_IMAGE_NAME>`
 
+Open the app in [your browser][localhost] to begin
+
 [RoR]: https://rubyonrails.org
 [Ruby]: https://www.ruby-lang.org/en/downloads
 [dashboard]: https://dashboard.mx.com
 [request-a-url]: https://docs.mx.com/api#connect_request_a_url
 [guides-intro]: https://docs.mx.com/connect/guides/introduction
+[localhost]: http://localhost:3000
