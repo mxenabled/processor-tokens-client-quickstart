@@ -50,6 +50,7 @@ body {
   max-width: 750px;
   margin: 0 auto;
   font-family: ProximaNovaSemibold, Helvetica, Arial, sans-serif;
+  line-height: 24px;
   padding: 24px;
 }
 
@@ -98,12 +99,22 @@ a {
   color: var(--mx-TextColor_ButtonLinkDestructive);
 }
 
-table td {
-  padding: var(--mx-Spacing_Tiny);
+table {
+  border-spacing: 0;
 }
-table td + td {
-  border-left: 1px solid black;
+
+thead th {
+  border-bottom: 1px solid #CDD3DD;
+  font-weight: 700;
+  padding: var(--mx-Spacing_Medium);
 }
+
+tbody td { 
+  border-bottom: 1px solid #EEF1F6;
+  font-weight: 400;
+  padding: var(--mx-Spacing_Medium);
+}
+
 #users-table > a {
   display: inline-block;
   margin-bottom: var(--mx-Spacing_Medium)
@@ -117,7 +128,7 @@ form > .form-input {
 * Styles for the HTTP Examples
 */
 .http-box {
-  border: 1px solid black;
+  border: 1px solid #CDD3DD;
   padding: var(--mx-Spacing_Medium);
   margin-bottom: var(--mx-Spacing_Medium);
 }
