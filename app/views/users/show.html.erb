@@ -23,7 +23,8 @@
         </ol>
 
         <%= render "/http_example",
-            description: "To generate a widget URL send an http message to:",
+            title: "MXconnect URL",
+            description: "This endpoint returns a widget URL. With an MXconnect URL you will be able to render MXconnect directly in your app, which allow your users to easily connect to institutions.",
             method: "POST",
             url: "/users/{user_guid}/widget_urls",
             href: "https://docs.mx.com/api#connect_request_a_url"
@@ -42,7 +43,8 @@
 
     <div class="sub-section">
         <%= render "/http_example",
-            description: "To list a user's accounts send an http message to:",
+            title: "User Accounts",
+            description: "This endpoint lists of all the accounts associated with the specified user.",
             method: "GET",
             url: "/users/{user_guid}/accounts",
             href: "https://docs.mx.com/api#core_resources_accounts_list_accounts"
@@ -79,7 +81,8 @@
     <p>Now the app needs to display a list of verified accounts, so the user can generate an authorization code</p>
 
     <%= render "/http_example",
-      description: "To list account numbers that have been verified, send an http message to:", 
+      title: "Verified Accounts",
+      description: "This endpoint returns a list of accounts that have been verified for the specified user and member.", 
       method: "GET", 
       url: "/users/{user_guid}/members/{member_guid}/account_numbers",
       href: "https://docs.mx.com/api#verification_mx_widgets_list_account_numbers_by_member"
@@ -93,7 +96,8 @@
 
     <div class="sub-section">
         <%= render "/http_example",
-            description: "To get an account authorization code, send an http message to:",
+            title: "Authorization Code",
+            description: "This endpoint will generate an authorization code for one specific account.",
             method: "POST",
             url: "/payment_processor_authorization_code"
         %>

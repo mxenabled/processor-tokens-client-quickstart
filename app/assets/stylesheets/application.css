@@ -129,8 +129,13 @@ form > .form-input {
 */
 .http-box {
   border: 1px solid #CDD3DD;
+  border-radius: 4px;
   padding: var(--mx-Spacing_Medium);
   margin-bottom: var(--mx-Spacing_Medium);
+}
+
+.http-box > h3 {
+  margin: 0;
 }
 
 .http-box > .http-box-section {
@@ -138,18 +143,39 @@ form > .form-input {
 }
 
 .http-box-description {
-  margin-top: 0px;
+  margin: 0;
+}
+
+.http-box-description, .http-box-description > a {
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .http-box-section {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .http-box-method {
   padding: var(--mx-Spacing_XSmall);
   color: white;
   background-color: black;
+  border-radius: 16px;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: 0.48px;
+  height: fit-content;
+}
+
+.http-box-method_post {
+  color: #165ECC;
+  background-color: #EAF1FB;
+}
+
+.http-box-method_get {
+  color: #027357;
+  background-color: #DDFDED;
 }
 
 .http-box-url {
