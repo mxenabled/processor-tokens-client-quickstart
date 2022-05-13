@@ -23,6 +23,8 @@
         </ol>
 
         <%= render "/http_example",
+            action_id: "gen-url",
+            action_text: "Generate MXconnect URL",
             title: "MXconnect URL",
             description: "This endpoint returns a widget URL. With an MXconnect URL you will be able to render MXconnect directly in your app, which allow your users to easily connect to institutions.",
             method: "POST",
@@ -30,19 +32,19 @@
             href: "https://docs.mx.com/api#connect_request_a_url"
         %>
 
+        <div class="http-result-section result_paragraph">
+            <p id="widget-url"></p>
+        </div>
+
         <p>Click the button below to generate a URL and also launch MXconnect.</p>
 
         <button id="open-aggregation">Open MXconnect</button>
     </div>
 
     <div class="sub-section">
-        <p>(optional) If you want to see what a URL looks like, click the button to call the endpoint above.</p>
-
-        <button id="gen-url">Generate a URL</button>
-    </div>
-
-    <div class="sub-section">
         <%= render "/http_example",
+            action_id: "load-accounts",
+            action_text: "Load User Accounts",
             title: "User Accounts",
             description: "This endpoint lists of all the accounts associated with the specified user.",
             method: "GET",
@@ -50,11 +52,7 @@
             href: "https://docs.mx.com/api#core_resources_accounts_list_accounts"
         %>
 
-        <p>Click the button below to see what accounts have been connected to MX</p>
-
-        <button id="load-accounts">Load User Accounts</button>
-
-        <div id="user-accounts"></div>
+        <div class="http-result-section" id="user-accounts"></div>
     </div>
 </section>
 
@@ -81,6 +79,8 @@
     <p>Now the app needs to display a list of verified accounts, so the user can generate an authorization code</p>
 
     <%= render "/http_example",
+      action_id: "load-verified-accounts",
+      action_text: "Load Verified Accounts",
       title: "Verified Accounts",
       description: "This endpoint returns a list of accounts that have been verified for the specified user and member.", 
       method: "GET", 
@@ -88,16 +88,15 @@
       href: "https://docs.mx.com/api#verification_mx_widgets_list_account_numbers_by_member"
     %>
 
-    <button id="load-verified-accounts">Load Verified Accounts</button>
+    <div class="http-result-section" id="verified-accounts"></div>
 
     <p>Once the list loads up, you can click the "Generate Auth Code" button to request a code for that account</p>
 
-    <div id="verified-accounts"></div>
 
     <div class="sub-section">
         <%= render "/http_example",
             title: "Authorization Code",
-            description: "This endpoint will generate an authorization code for one specific account.",
+            description: "This endpoint will generate an authorization code for one specific account.  This is the endpoint called by the Generate Auth Code button in the above table",
             method: "POST",
             url: "/payment_processor_authorization_code"
         %>
@@ -210,7 +209,9 @@
     *  Wire up the button to generate a URL
     */
     document.getElementById('gen-url').addEventListener('click', () =>
-        getWidgetURL((url) => alert(url))
+        getWidgetURL((url) => {
+            document.getElementById('widget-url').innerText = url
+        })
     )
 
     /**

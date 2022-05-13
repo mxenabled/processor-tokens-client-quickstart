@@ -17,4 +17,8 @@
   <p class="http-box-description"><%= description %>
     <a href="<%= active_link %>" target="_blank">Visit the docs to learn more.</a>
   </p> 
+
+  <% if (local_assigns.has_key? :action_id) && (local_assigns.has_key? :action_text) %>
+    <button id="<%= action_id %>"><%= action_text %></button>
+  <% end %>
 </div>

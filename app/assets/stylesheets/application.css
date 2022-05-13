@@ -131,7 +131,6 @@ form > .form-input {
   border: 1px solid #CDD3DD;
   border-radius: 4px;
   padding: var(--mx-Spacing_Medium);
-  margin-bottom: var(--mx-Spacing_Medium);
 }
 
 .http-box > h3 {
@@ -142,8 +141,19 @@ form > .form-input {
   margin-bottom: var(--mx-Spacing_Medium)
 }
 
-.http-box-description {
-  margin: 0;
+.http-result-section {
+  border: 1px solid #CDD3DD;
+  position: relative;
+  top: -1px;
+}
+
+.result_paragraph {
+  word-break: break-all;
+  padding: 0 var(--mx-Spacing_Medium);
+}
+
+.http-result-section table {
+  width: 100%;
 }
 
 .http-box-description, .http-box-description > a {
