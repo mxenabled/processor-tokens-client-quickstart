@@ -122,6 +122,10 @@ tbody td {
   word-break: break-all;
 }
 
+#verified-accounts > table > thead > tr > th:nth-child(4) {
+  white-space: nowrap;
+}
+
 #users-table > a {
   display: inline-block;
   margin-bottom: var(--mx-Spacing_Medium)
@@ -157,6 +161,7 @@ form > .form-input {
   border-radius: 0 0 4px 4px;
   position: relative;
   top: -1px;
+  overflow: auto;
 }
 
 .result_paragraph {
