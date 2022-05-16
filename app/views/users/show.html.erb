@@ -2,11 +2,13 @@
 <%= link_to "Users", users_path %> /
 <%= @user.name %>
 
-<h1>User Dashboard for <%= @user.name %></h1>
+<h1>Client Demo for <%= @user.name %></h1>
 <hr>
 
 <p>
-    We just created an MX user with the API. The next step is to connect them to an institution so the user can view their accounts.
+    An MX user was just created with the API, or a pre-existing one was selected.
+    The next step to generate an authorization code is to connect them to an 
+    institution so the user can view and verify their accounts.
 </p>
 
 <section>
@@ -25,7 +27,7 @@
         <%= render "/http_example",
             action_id: "gen-url",
             action_text: "Generate MXconnect URL",
-            title: "MXconnect URL",
+            title: "Get an MXconnect URL",
             description: "This endpoint returns a widget URL. With an MXconnect URL you will be able to render MXconnect directly in your app, which allow your users to easily connect to institutions.",
             method: "POST",
             url: "/users/{user_guid}/widget_urls",
@@ -36,7 +38,7 @@
             <p class="no-padding-margin" id="widget-url"></p>
         </div>
 
-        <p>Click the button below to generate a URL and also launch MXconnect.</p>
+        <p>Click the button below to generate a URL and also launch MXconnect.  Once it has launched, if you'd like to use our test bank, follow the provided instructions above the MXconnect widget.</p>
 
         <button id="open-aggregation">Open MXconnect</button>
     </div>
@@ -45,7 +47,7 @@
         <%= render "/http_example",
             action_id: "load-accounts",
             action_text: "Load User Accounts",
-            title: "User Accounts",
+            title: "List All User Accounts",
             description: "This endpoint lists of all the accounts associated with the specified user.",
             method: "GET",
             url: "/users/{user_guid}/accounts",
@@ -61,7 +63,11 @@
 
     <p>In order to share account information with a Processing Partner an account must be verified first.  This action can be done with MXconnect by using its "verification" mode</p>
 
-    <p>Click the button below to generate a new URL (configured for verification) and launch MXconnect.</p>
+    <p>
+        Click the button below to generate a new URL (configured for verification) and launch MXconnect.
+        You can verify accounts for institutions that have already been connected (if you followed step 2), 
+        or search and connect to a new institution and verify one of its accounts.
+    </p>
 
     <button id="open-verification">Open MXconnect (Verification)</button>
 </section>
@@ -72,16 +78,19 @@
     <p>Here's a review up to this point</p>
     <ol>
         <li>A user has been created</li>
-        <li>The user has connected to an institution, which creates a Member resource</li>
-        <li>The Member has been verified</li>
+        <li>This user has connected to an institution, which created a Member resource</li>
+        <li>Using MXconnect, an account has been verified</li>
     </ol>
 
-    <p>Now the app needs to display a list of verified accounts, so the user can generate an authorization code</p>
+    <p>
+        Now the app needs to display a list of verified accounts, 
+        so the user can generate an authorization code for one or more of them.
+    </p>
 
     <%= render "/http_example",
       action_id: "load-verified-accounts",
       action_text: "Load Verified Accounts",
-      title: "Verified Accounts",
+      title: "List Verified Accounts",
       description: "This endpoint returns a list of accounts that have been verified for the specified user and member.", 
       method: "GET", 
       url: "/users/{user_guid}/members/{member_guid}/account_numbers",
@@ -95,7 +104,7 @@
 
     <div class="sub-section">
         <%= render "/http_example",
-            title: "Authorization Code",
+            title: "Generate an Authorization Code",
             description: "This endpoint will generate an authorization code for one specific account.  This is the endpoint called by the Generate Auth Code button in the above table",
             method: "POST",
             url: "/payment_processor_authorization_code"
@@ -107,7 +116,7 @@
 <section>
     <h2>What's Next?</h2>
 
-    <p>At this point, you hava an authorization code which you can share with one of our Processing Partners! You will need to share it directly with them, and then they'll be able to request the account information.</p>
+    <p>At this point, your client application has an authorization code which you can share with one of our Processing Partners! You will need to share it directly with them, and then they'll be able to request the account information securely from MX.</p>
 </section>
 
 <div id="connect-widget-dialog" class="connect-widget-full" hidden>
@@ -126,10 +135,13 @@
 
         <div id="verification-instructions">
             <h2>MXconnect (Verification Mode)</h2>
+
+            <p>If you followed step 2 and connected to our test bank...</p>
             <div>
                 <ol>
                     <li>Click "Continue"</li>
                     <li>Select "MX Bank"</li>
+                    <li>If prompted, select the account you'd like to verify</li>
                 </ol>
             </div>
         </div>
