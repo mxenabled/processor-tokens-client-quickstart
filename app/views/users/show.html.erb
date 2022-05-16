@@ -32,8 +32,8 @@
             href: "https://docs.mx.com/api#connect_request_a_url"
         %>
 
-        <div class="http-result-section result_paragraph">
-            <p id="widget-url"></p>
+        <div class="http-result-section result_paragraph hidden">
+            <p class="no-padding-margin" id="widget-url"></p>
         </div>
 
         <p>Click the button below to generate a URL and also launch MXconnect.</p>
@@ -52,7 +52,7 @@
             href: "https://docs.mx.com/api#core_resources_accounts_list_accounts"
         %>
 
-        <div class="http-result-section" id="user-accounts"></div>
+        <div class="http-result-section hidden" id="user-accounts"></div>
     </div>
 </section>
 
@@ -88,7 +88,7 @@
       href: "https://docs.mx.com/api#verification_mx_widgets_list_account_numbers_by_member"
     %>
 
-    <div class="http-result-section" id="verified-accounts"></div>
+    <div class="http-result-section hidden" id="verified-accounts"></div>
 
     <p>Once the list loads up, you can click the "Generate Auth Code" button to request a code for that account</p>
 
@@ -139,6 +139,13 @@
 </div>
 
 <script>
+    /**
+     * Use to reveal an DOM element
+     */
+    function showElement(element) {
+        element.classList.remove('hidden')
+    }
+
     /**
     *  @returns ApiResponse {status: string, response: any} | null
     *  On error status this returns nil and should be handled
@@ -210,7 +217,9 @@
     */
     document.getElementById('gen-url').addEventListener('click', () =>
         getWidgetURL((url) => {
-            document.getElementById('widget-url').innerText = url
+            const urlParagraph = document.getElementById('widget-url')
+            urlParagraph.innerText = url
+            showElement(urlParagraph.parentElement)
         })
     )
 
@@ -323,7 +332,9 @@
             const htmlResponse = handleApiResponse(accountsResponse, "Error fetching user accounts")
 
             if (htmlResponse) {
-                document.getElementById("user-accounts").innerHTML = htmlResponse.response.html
+                const userResultsElement = document.getElementById("user-accounts")
+                userResultsElement.innerHTML = htmlResponse.response.html
+                showElement(userResultsElement)
             }
         })
     })
@@ -339,8 +350,10 @@
             const htmlResponse = handleApiResponse(accountsResponse, "Error fetching user accounts")
 
             if (htmlResponse) {
-                document.getElementById("verified-accounts").innerHTML = htmlResponse.response.html
+                const verifiedAccountsElement = document.getElementById("verified-accounts")
+                verifiedAccountsElement.innerHTML = htmlResponse.response.html
                 setUpAccountButtons()
+                showElement(verifiedAccountsElement)
             }
         })
     })
