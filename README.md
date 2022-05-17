@@ -1,6 +1,6 @@
 # Processor Tokens Demo App
 
-This demo application is built in [ruby on rails][RoR]. It will demonstrate how 
+This demo application is built in [ruby on rails][RoR] and uses the integration environment. It will demonstrate how 
 to generate an _authorization code_ which enables sharing 
 account data with one of our Processing Partners.
 
@@ -39,8 +39,9 @@ MX. To get credentials you can sign up for a free account at
 [dashboard.mx.com][dashboard].
 
 To configure the app with your MX credentials
-1. Copy `.env.sample` to `.env`
-2. From dashboard.mx.com, copy the values for _API Key_ and _Client ID_ into
+1. Create a `.env` file at the root of the demo
+2. Copy the contents of `.env.sample` to your new `.env`
+3. From [dashboard.mx.com][dashboard], copy the values for _API Key_ and _Client ID_ into
 `.env`
 ```yaml
 # .env example values
