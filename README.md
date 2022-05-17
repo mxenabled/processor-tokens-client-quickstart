@@ -1,6 +1,6 @@
 # Processor Tokens Demo App
 
-This demo application is built in [ruby on rails][RoR]. It will demonstrate how 
+This demo application is built in [ruby on rails][RoR] and uses the integration environment. It will demonstrate how 
 to generate an _authorization code_ which enables sharing 
 account data with one of our Processing Partners.
 
