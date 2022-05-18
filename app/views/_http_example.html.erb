@@ -1,20 +1,24 @@
 <div class="http-box">
-  <p class="http-box-description"><%= description %></p> 
+  <h3><%= title %></h3>
 
   <div class="http-box-section">
-    <span class="http-box-method"><%= method %></span>
+    <span class="http-box-method http-box-method_<%= method.downcase %>"><%= method.upcase %></span>
     <span class="http-box-url"><%= url %></span>
   </div>
 
   <%
     active_link = 'https://docs.mx.com'
-    displayed_text = 'MX API reference docs'
 
     if local_assigns.has_key? :href
       active_link = href
-      displayed_text = 'Endpoint reference'
     end
   %>
 
-  <a href="<%= active_link %>" target="_blank"><%= displayed_text %></a>
+  <p class="http-box-description"><%= description %>
+    <a href="<%= active_link %>" target="_blank">Visit the docs to learn more.</a>
+  </p> 
+
+  <% if (local_assigns.has_key? :action_id) && (local_assigns.has_key? :action_text) %>
+    <button id="<%= action_id %>"><%= action_text %></button>
+  <% end %>
 </div>

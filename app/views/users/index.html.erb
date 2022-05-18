@@ -6,7 +6,7 @@ Users
 <section>
   <h2>Step 1</h2>
   <p>Let's create a user with the MX API.  Click "Create User" below.<p>
-  <p>Alternatively, if you've already created a user they will be listed below and you can go to their dashboard directly.</p>
+  <p>Alternatively, if you've already created a user they will be listed below and you can click "View Client Demo" for that user directly.</p>
 </section>
 
 <div id='users-table'>
@@ -28,7 +28,7 @@ Users
           <td><%= user.name %></td>
           <td><%= user.email %></td>
           <td><%= user.guid %></td>
-          <td><%= link_to "Show User Dashboard", "/users/#{user.guid}" %></td>
+          <td><%= link_to "View Client Demo", "/users/#{user.guid}" %></td>
           <td><%= link_to "Destroy", "/users/#{user.guid}", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "link-destructive" %></td>
         </tr>
       <% end %>

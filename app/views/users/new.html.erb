@@ -4,8 +4,15 @@ Create User
 
 <h1>Create an MX User</h1>
 
+<p>
+  Creating an MX user is the first step to enabling the rest of the API. 
+  Once created you can use their GUID to connect to institutions,
+  list that user's accounts, and more.
+</p>
+
 <%= render "/http_example", 
-  description: "To create an MX user you send an http message to:", 
+  title: "Create User",
+  description: "This endpoint creates a new user.", 
   method: "POST", 
   url: "/users", 
   href: "https://docs.mx.com/api#core_resources_users_create_user" 
