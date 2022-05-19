@@ -35,34 +35,46 @@
 
 </section>
 
+<section>
+    <h2>Using MXconnect</h2>
+
+    <p>
+        MX provides developers with MXconnect, an embeddable widget, to simplify the 
+        process of connecting to various institutions. It can be configured to run in
+        aggregation or verification mode depending on your needs. In order to launch 
+        it there are a few steps to follow.
+    </p>
+
+    <ol>
+        <li>Get a URL from the MX API</li>
+        <li>Use the returned URL with the Widget Loader to show it on the page</li>
+    </ol>
+
+    <%= render "/http_example",
+        action_id: "gen-url",
+        action_text: "Generate MXconnect URL",
+        title: "Get an MXconnect URL",
+        description: "This endpoint returns a widget URL. With an MXconnect URL you will be able to render MXconnect directly in your app. Click the button to see what a URL looks like.",
+        method: "POST",
+        url: "/users/{user_guid}/widget_urls",
+        href: "https://docs.mx.com/api#connect_request_a_url"
+    %>
+
+    <div class="http-result-section result_paragraph hidden">
+        <p class="no-padding-margin" id="widget-url"></p>
+    </div>
+
+    <p>Now that we've clarified how to get an MXconnect URL, let's move on to actually using one.</p>
+</section>
+
 <section id="aggregation-section">
-    <h2>Step 2 Connect to an Institution</h2>
+    <h2>Step 2 - Optional Aggregation</h2>
 
     <div class="sub-section">
         <p>
-            MX provides developers with MXconnect, an embeddable widget, to simplify the process of connecting to various institutions. In order to launch it there are a few steps to follow.
+            Click the button below to generate a new URL configured for "aggregation", and also launch MXconnect.
+            Once it has launched, if you'd like to use our test bank, follow the provided instructions above the MXconnect widget.
         </p>
-
-        <ol>
-            <li>Get a URL from the MX API</li>
-            <li>Use the returned URL with the Widget Loader to show it on the page</li>
-        </ol>
-
-        <%= render "/http_example",
-            action_id: "gen-url",
-            action_text: "Generate MXconnect URL",
-            title: "Get an MXconnect URL",
-            description: "This endpoint returns a widget URL. With an MXconnect URL you will be able to render MXconnect directly in your app. Click the button to see what a URL looks like.",
-            method: "POST",
-            url: "/users/{user_guid}/widget_urls",
-            href: "https://docs.mx.com/api#connect_request_a_url"
-        %>
-
-        <div class="http-result-section result_paragraph hidden">
-            <p class="no-padding-margin" id="widget-url"></p>
-        </div>
-
-        <p>Click the button below to generate a URL and also launch MXconnect.  Once it has launched, if you'd like to use our test bank, follow the provided instructions above the MXconnect widget.</p>
 
         <button id="open-aggregation">Open MXconnect</button>
     </div>
@@ -83,7 +95,7 @@
 </section>
 
 <section>
-    <h2>Step 3 Verify Member Accounts</h2>
+    <h2>Step 2 and 3 - Verify Member Accounts</h2>
 
     <p>
         In order to share an account's number and routing number with a Processing Partner an account must be verified first. 
@@ -106,7 +118,7 @@
 </section>
 
 <section>
-    <h2>Step 4 Display Accounts</h2>
+    <h2>Step 4 - Display Accounts</h2>
 
     <p>Here's a review up to this point</p>
     <ol>
@@ -168,7 +180,7 @@
         <div id="verification-instructions">
             <h2>MXconnect (Verification Mode)</h2>
 
-            <p>If you followed step 2 and connected to our test bank...</p>
+            <p>If you completed the aggregation step to our test bank...</p>
             <div>
                 <ol>
                     <li>Click "Continue"</li>
