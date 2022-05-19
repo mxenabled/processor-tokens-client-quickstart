@@ -12,6 +12,30 @@
 </p>
 
 <section>
+    <h2>Workflow Selection</h2>
+    <p>
+        We recognize that every client will have unique workflows. 
+        Some aggregate accounts for their users, and some do not. 
+        Please select the workflow that best matches your needs.
+    </p>
+
+    <input
+        id="use-aggregation-radio"
+        name="workflow-selection"
+        checked
+        type="radio"
+    />
+    <label for="use-aggregation-radio">Use aggregation and verification</label><br>
+    <input
+        id="use-verification-radio"
+        name="workflow-selection"
+        type="radio"
+    />
+    <label for="use-verification-radio">Use verification only</label>
+
+</section>
+
+<section id="aggregation-section">
     <h2>Step 2 Connect to an Institution</h2>
 
     <div class="sub-section">
@@ -160,10 +184,17 @@
 
 <script>
     /**
-     * Use to reveal an DOM element
+     * Use to reveal a DOM element
      */
     function showElement(element) {
         element.classList.remove('hidden')
+    }
+
+    /**
+     * Use to hide a DOM element
+     */
+    function hideElement(element) {
+        element.classList.add('hidden')
     }
 
     /**
@@ -376,5 +407,21 @@
                 showElement(verifiedAccountsElement)
             }
         })
+    })
+
+    /**
+     * Wire up the button to reveal the aggregation section
+     */
+    document.getElementById('use-aggregation-radio').addEventListener('click', () => {
+        const aggregationSection = document.getElementById('aggregation-section')
+        showElement(aggregationSection)
+    })
+
+    /**
+     * Wire up the button to hide the aggregation section
+     */
+    document.getElementById('use-verification-radio').addEventListener('click', () => {
+        const aggregationSection = document.getElementById('aggregation-section')
+        hideElement(aggregationSection)
     })
 </script>
