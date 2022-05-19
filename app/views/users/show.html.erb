@@ -78,20 +78,6 @@
 
         <button id="open-aggregation">Open MXconnect</button>
     </div>
-
-    <div class="sub-section">
-        <%= render "/http_example",
-            action_id: "load-accounts",
-            action_text: "Load User Accounts",
-            title: "List All User Accounts",
-            description: "This endpoint lists of all the accounts associated with the specified user.",
-            method: "GET",
-            url: "/users/{user_guid}/accounts",
-            href: "https://docs.mx.com/api#core_resources_accounts_list_accounts"
-        %>
-
-        <div class="http-result-section hidden" id="user-accounts"></div>
-    </div>
 </section>
 
 <section>
@@ -383,24 +369,6 @@
             })
         })
     }
-
-    /**
-    *  Wire up the button that loads up all the accounts connected to a User
-    *  This calls rails, to directly ask MX API for the information
-    */
-    document.getElementById('load-accounts').addEventListener('click', () => {
-        fetch("/mx/accounts/<%= @user.guid %>")
-        .then(resp => resp.text())
-        .then(accountsResponse => {
-            const htmlResponse = handleApiResponse(accountsResponse, "Error fetching user accounts")
-
-            if (htmlResponse) {
-                const userResultsElement = document.getElementById("user-accounts")
-                userResultsElement.innerHTML = htmlResponse.response.html
-                showElement(userResultsElement)
-            }
-        })
-    })
 
     /**
     *  Wire up the button that loads up a list of verified accounts
