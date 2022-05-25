@@ -239,8 +239,20 @@ form > .form-input {
   text-align: left;
 }
 
+.instructions > p {
+  margin-bottom: 0;
+}
+
 .instructions ol li {
   list-style-position: inside;
+}
+
+#verification-instructions {
+  margin-bottom: 1.3em;
+}
+
+#verification-instructions p {
+  margin-top: 0;
 }
 
 /**
