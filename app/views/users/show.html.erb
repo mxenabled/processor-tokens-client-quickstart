@@ -52,8 +52,8 @@
 
     <p>In order to launch MXconnect there are a few steps to follow.</p>
     <ol>
-        <li>Get a URL from the MX API</li>
-        <li>Use the returned URL with the Widget Loader to show it on the page</li>
+        <li>Get a URL from the MX API.</li>
+        <li>Use the returned URL with the Widget Loader to show it on the page.</li>
     </ol>
 
     <%= render "/http_example",
@@ -71,19 +71,6 @@
     </div>
 
     <p>Now that we've clarified how to get an MXconnect URL, let's move on to actually using one.</p>
-</section>
-
-<section id="aggregation-section">
-    <h2>Step 2 - Optional Aggregation</h2>
-
-    <div class="sub-section">
-        <p>
-            Click the button below to generate a new URL configured for "aggregation", and also launch MXconnect.
-            Once it has launched, if you'd like to use our test bank, follow the provided instructions above the MXconnect widget.
-        </p>
-
-        <button id="open-aggregation">Open MXconnect</button>
-    </div>
 </section>
 
 <section>
@@ -109,8 +96,37 @@
 
 </section>
 
+<section id="aggregation-section">
+    <h2>Optional Aggregation</h2>
+
+    <div class="sub-section">
+        <p>
+            Aggregation is not required in order to generate <em>authorization tokens</em>.
+        </p>
+
+        <p>
+            If aggregation is completed before launching MXconnect in verification mode, 
+            existing connections may be listed as a selectable options if the institution also 
+            supports verification.  This makes it easy for users to verify accounts if 
+            they've already connected.
+        </p>
+
+        <p>
+            Verification typically completes much faster than aggregation.  If timing is an 
+            issue, it's recommened to do verification before aggregation.
+        </p>
+
+        <p>
+            Click the button below to generate a new URL configured for "aggregation", and also launch MXconnect.
+            Once it has launched, if you'd like to use our test bank, follow the provided instructions above the MXconnect widget.
+        </p>
+
+        <button id="open-aggregation">Open MXconnect</button>
+    </div>
+</section>
+
 <section>
-    <h2>Step 4 - Display Accounts</h2>
+    <h2>Step 4 - Generate Authorizaton Codes</h2>
 
     <p>Here's a review up to this point</p>
     <ol>
@@ -120,8 +136,7 @@
     </ol>
 
     <p>
-        Now the app needs to display a list of verified accounts, 
-        so the user can generate an authorization code for one or more of them.
+        Once a user has verified some accounts, everything is in place to generate authorization codes. The next step is to get a list of the verified accounts, and then generate codes. For demonstration we'll use a simple custom UI.
     </p>
 
     <%= render "/http_example",
@@ -136,7 +151,9 @@
 
     <div class="http-result-section hidden" id="verified-accounts"></div>
 
-    <p>Once the list loads up, you can click the "Generate Auth Code" button to request a code for that account</p>
+    <p>
+        Once the list loads up you can click "Generate Auth Code" button to request a code for that account.
+    </p>
 
     <div class="sub-section">
         <%= render "/http_example",

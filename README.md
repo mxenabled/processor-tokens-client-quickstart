@@ -5,12 +5,11 @@ to generate an _authorization code_ which enables sharing
 account data with one of our Processing Partners.
 
 Here's an overview of the flow and concepts will be shown
-1. Create a user via the MX API
-2. Connect the user to an institution, like a bank, using MXconnect
-3. Verify the new member's accounts using MXconnect
-4. Generate an authorization code for a single verified account
-5. (What's next?) Share the authorization code with one of our partners to 
-allow them access to that account's information.
+1. Create a user via the MX API.
+2. Connect the user to an institution, like a bank, using MXconnect.
+3. Verify the new member's accounts using MXconnect.
+4. Generate an authorization code for a single verified account.
+5. (What's next?) Share the authorization code with one of our partners to allow them access to that account's information.
 
 Extra information about the above flow
 - Users are an essential resource. We use their unique `guid` for nearly all of
