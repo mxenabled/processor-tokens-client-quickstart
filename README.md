@@ -50,7 +50,7 @@ MX_CLIENT_ID=abcd1234
 
 In order to use processor tokens, your MX client must have these features enabled
 * Account Verification
-* Payment Processing
+* Processor API
 
 ## Running the app
 
