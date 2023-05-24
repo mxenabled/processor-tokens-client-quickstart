@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM ruby:3.1.0
+FROM ruby:3.1.3
 RUN apt-get update -qq && \
   apt-get install -y --no-install-recommends build-essential
 WORKDIR /myapp
