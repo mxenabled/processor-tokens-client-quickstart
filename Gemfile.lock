@@ -161,6 +161,8 @@ GEM
     nio4r (2.5.9)
     nokogiri (1.15.4-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.15.4-x86_64-linux)
+      racc (~> 1.4)
     parallel (1.21.0)
     parser (3.1.1.0)
       ast (~> 2.4.1)
@@ -168,7 +170,7 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (4.0.6)
-    puma (5.6.2)
+    puma (5.6.7)
       nio4r (~> 2.0)
     racc (1.7.1)
     rack (2.2.8)
@@ -283,6 +285,7 @@ GEM
 PLATFORMS
   x86_64-darwin-20
   x86_64-darwin-21
+  x86_64-linux
 
 DEPENDENCIES
   bootsnap
@@ -293,7 +296,7 @@ DEPENDENCIES
   jbuilder
   mx-platform-ruby
   pry
-  puma (~> 5.0)
+  puma (~> 5.6)
   rails (~> 7.0.2, >= 7.0.2.2)
   rails-controller-testing
   rspec-rails
